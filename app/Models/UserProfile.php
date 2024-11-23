@@ -18,8 +18,15 @@ class UserProfile extends Model
     ];
 
     
-    public function user()
-    {
+    public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function favoriteRecipes(){
+        return $this->belongsToMany(Recipe::class, 'user_favorite_recipes');
+    }
+    
+    public function mealPlans(){
+        return $this->belongsToMany(MealPlan::class); 
     }
 }

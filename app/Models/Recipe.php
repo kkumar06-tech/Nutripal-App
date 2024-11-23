@@ -19,7 +19,16 @@ class Recipe extends Model
     public function ingredients(){
         return $this->hasMany(Ingredient::class);
     }
+
     public function filters(){
-    return $this->belongsToMany(Filter::class);
+        return $this->belongsToMany(Filter::class);
+    }
+
+    public function likedByUsers(){
+    return $this->belongsToMany(User::class, 'user_favorite_recipes');
+    }
+
+    public function mealPlans(){
+        return $this->belongsToMany(MealPlan::class);
     }
 }
