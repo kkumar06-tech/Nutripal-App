@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nutritionist_profiles', function (Blueprint $table) {
+        Schema::create('conversation', function (Blueprint $table) {
             $table->id();
             $table->foreignId(column: 'user_id')->constrained()->onDelete('cascade');
-
-            
-            $table->text('credentials');
-            $table->string('certificate_image');
-            
+            $table->foreignId(column: 'sender_id')->constrained()->onDelete('cascade');
+            $table->foreignId(column: 'receiver_id')->constrained()->onDelete('cascade');
+            $table->string('content');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nutritionist_profiles');
+        Schema::dropIfExists('conversation');
     }
 };

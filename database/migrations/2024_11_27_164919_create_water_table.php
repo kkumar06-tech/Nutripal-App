@@ -11,14 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nutritionist_profiles', function (Blueprint $table) {
+        Schema::create('water', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(column: 'user_id')->constrained()->onDelete('cascade');
-
-            
-            $table->text('credentials');
-            $table->string('certificate_image');
-            
             $table->timestamps();
         });
     }
@@ -28,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nutritionist_profiles');
+        Schema::dropIfExists('water');
     }
 };
