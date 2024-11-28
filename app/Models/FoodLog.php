@@ -14,6 +14,12 @@ class FoodLog extends Model
         'calories'
     ];
 
+    public function updateTotalAmount(){
+        $totalCalories = $this->foods->sum('calories');
+
+        $this->update(['total_calories' => $totalCalories]);
+    }
+
     public function foods()
     {
     return $this->belongsToMany(Food::class);

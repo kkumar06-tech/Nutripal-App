@@ -17,8 +17,8 @@ class Water extends Model
     ];
 
 
-    public function waterlogs()
-{
-    return $this->belongsToMany(WaterLog::class);
-}
+    public function logs()
+    {
+        return $this->hasMany(LiquidLog::class);
+    }
 }

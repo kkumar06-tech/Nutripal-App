@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sender', function (Blueprint $table) {
+        Schema::create('liquids', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(column: 'user_id')->constrained()->onDelete('cascade');
-            $table->string('content');
+            $table->string('name');
+            $table->integer('calories_per_100ml')->nullable();   //we might not count calories for drinks
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sender');
+        Schema::dropIfExists('liquid');
     }
 };

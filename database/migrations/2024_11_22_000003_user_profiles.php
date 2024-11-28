@@ -29,6 +29,8 @@ return new class extends Migration
                 '5-6 days',
                 '7 days'
             ]);
+            $table->integer('daily_goal_ml')->default(2000); 
+            $table->integer('daily_goal_calories')->default(2000);
 
             $table->timestamps();
         });

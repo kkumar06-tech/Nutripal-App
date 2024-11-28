@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('protein');  
             $table->integer('carbs');  
             $table->integer('fat');
+            $table->integer('portion'); 
             $table->timestamps();
         });
     }

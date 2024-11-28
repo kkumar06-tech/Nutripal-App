@@ -16,8 +16,7 @@ return new class extends Migration
             $table->foreignId('user_profile_id')->constrained('user_profiles')->onDelete('cascade');
             $table->foreignId('food_id')->constrained('foods')->onDelete('cascade');
             $table->date('date');
-            $table->integer('portion'); 
-            $table->integer('calories'); 
+            $table->integer('total_calories'); 
             $table->timestamps();
         });
     }

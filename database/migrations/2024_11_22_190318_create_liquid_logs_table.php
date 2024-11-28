@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('water', function (Blueprint $table) {
+        Schema::create('liquid_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->float('calories');  
-            $table->float('protein');  
-            $table->float('carbs');  
-            $table->float('fat');
+            $table->foreignId('user_profile_id')->constrained('user_profiles')->onDelete('cascade');
+            $table->foreignId('liquid_id')->constrained()->onDelete('cascade');
+            $table->date('date');
+            $table->integer('total_amount_ml');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('water');
+        Schema::dropIfExists('water_logs');
     }
 };
