@@ -17,13 +17,5 @@ class conversation extends Model
         return $this->belongsTo(Nutritionist::class);
     }
 
-    public function markAsRead()
-    {
-        $this->update(['is_read' => true]);
-    }
 
-    public function markAsUnread()
-    {
-        $this->update(['is_read' => false]);
-    }
 }

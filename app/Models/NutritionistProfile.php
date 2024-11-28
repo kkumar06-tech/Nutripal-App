@@ -24,4 +24,9 @@ class NutritionistProfile extends Model
     {
         return $this->hasMany(Appointments::class, 'nutritionists_id');
     }
+
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class);
+    }
 }

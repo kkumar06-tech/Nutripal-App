@@ -29,9 +29,14 @@ class UserProfile extends Model
     public function mealPlans(){
         return $this->belongsToMany(MealPlan::class); 
     }
-    
+
     public function liquidLogs()
     {
         return $this->hasMany(LiquidLog::class);
+    }
+
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class);
     }
 }

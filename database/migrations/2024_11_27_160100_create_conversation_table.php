@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('conversation', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_profile_id')->constrained('nutritionists')->onDelete('cascade');
-            $table->foreignId('nutritionist_id')->constrained('user_profiles')->onDelete('cascade');
-            $table->string('content');
-            $table->boolean('is_read')->default(false);
+            $table->foreignId('user_profile_id')->constrained('user_profiles')->onDelete('cascade'); 
+            $table->foreignId('nutritionist_id')->constrained('nutritionists')->onDelete('cascade');
             $table->timestamps();
         });
     }
