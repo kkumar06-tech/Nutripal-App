@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class NutritionistController extends Controller
+class NutritionistProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Nutritionist::all();
+        return NutritionistProfile::all();
     }
 
     /**
@@ -28,7 +28,7 @@ class NutritionistController extends Controller
         if($request->hasFile('certificate_image')){
             $certificatePath = $request->file('certificate_image')->store('certificates','public');
 
-            $nutri = Nutritionist::create($incomingFields);
+            $nutri = NutritionistProfile::create($incomingFields);
 
             return response()->json($nutri, 201);
         }
@@ -41,7 +41,7 @@ class NutritionistController extends Controller
      */
     public function show(string $id)
     {
-        $nutri = Nutritionist::findOrFail($id);
+        $nutri = NutritionistProfile::findOrFail($id);
 
         return $nutri;
     }
@@ -55,7 +55,7 @@ class NutritionistController extends Controller
             'profile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
             'bio_description' => ['nullable', 'string']
         ]);
-        $nutri = Nutritionist::findOrFail($id);
+        $nutri = NutritionistProfile::findOrFail($id);
 
         if ($request->hasFile('profile_image')) {
             $profileImagePath = $request->file('profile_image')->store('profile_images', 'public');
@@ -72,7 +72,7 @@ class NutritionistController extends Controller
      */
     public function destroy(string $id)
     {
-        $nutri = Nutritionist::findOrFail($id);
+        $nutri = NutritionistProfile::findOrFail($id);
 
         $nutri->delete();
 

@@ -18,7 +18,8 @@ class FoodTableSeeder extends Seeder
             'calories' => 95,
             'protein' => 0,
             'carbs' => 25,
-            'fat' => 0
+            'fat' => 0,
+            'portion' => 100
         ]);
 
         Food::create([
@@ -26,7 +27,8 @@ class FoodTableSeeder extends Seeder
             'calories' => 105,
             'protein' => 1,
             'carbs' => 27,
-            'fat' => 0
+            'fat' => 0,
+            'portion' => 100
         ]);
 
         Food::create([
@@ -34,7 +36,8 @@ class FoodTableSeeder extends Seeder
             'calories' => 165,
             'protein' => 31,
             'carbs' => 0,
-            'fat' => 3
+            'fat' => 3,
+            'portion' => 100
         ]);
 
     }

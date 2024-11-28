@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('liquids', function (Blueprint $table) {
+        Schema::create('conversations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('calories_per_100ml')->nullable();   //we might not count calories for drinks
+            $table->foreignId('user_profile_id')->constrained('user_profiles')->onDelete('cascade'); 
+            $table->foreignId('nutritionist_id')->constrained('nutritionist_profiles')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('liquid');
+        Schema::dropIfExists('conversations');
     }
 };
