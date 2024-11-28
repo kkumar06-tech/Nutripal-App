@@ -17,7 +17,7 @@ class Water extends Model
     ];
 
 
-    public function foodlogs()
+    public function waterlogs()
 {
     return $this->belongsToMany(WaterLog::class);
 }
