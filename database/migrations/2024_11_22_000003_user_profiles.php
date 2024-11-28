@@ -31,6 +31,7 @@ return new class extends Migration
             ]);
             $table->integer('daily_goal_ml')->default(2000); 
             $table->integer('daily_goal_calories')->default(2000);
+            $table->string('profile_image')->nullable();
 
             $table->timestamps();
         });

@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId(column: 'user_id')->constrained()->onDelete('cascade');
 
-            
             $table->text('credentials');
             $table->string('certificate_image');
+            $table->string('profile_image')->nullable();
+            $table->text('bio_description')->nullable();
             
             $table->timestamps();
         });

@@ -14,7 +14,10 @@ class UserProfile extends Model
         'height',
         'gender',
         'fitness_goal',
-        'weekly_exercise_frequency'
+        'weekly_exercise_frequency',
+        'daily_goal_ml',
+        'daily_goal_calories',
+        'profile_image'
     ];
 
     
