@@ -58,7 +58,7 @@ class FoodLogController extends Controller
             'user_profile_id' => ['required', 'exists:user_profiles,id'],
             'food_id' => ['required', 'exists:foods,id'],
             'date' => ['required', 'date'],
-            'total_calories' => ['required', 'integer'],
+            'total_calories' => ['nullable', 'integer'],
         ]);
 
         // Find the food log by ID or fail
