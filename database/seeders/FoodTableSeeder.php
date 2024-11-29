@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Food;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
+use App\Models\Food;
 class FoodTableSeeder extends Seeder
 {
     /**
