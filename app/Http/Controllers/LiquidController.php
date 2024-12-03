@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Liquid;
 use Illuminate\Http\Request;
 
 class LiquidController extends Controller
@@ -11,15 +12,9 @@ class LiquidController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $liquid = Liquid::all();
+        return response()->json($liquid);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -27,7 +22,15 @@ class LiquidController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $validated = $request->validate([
+            "name"=> "reqired",'required|string|max:255',
+            'calories' => 'required|integer'
+        ]);
+        $liquid = Liquid::create($validated);
+        return response()->json($liquid);
+    }
+
     }
 
     /**
@@ -35,15 +38,9 @@ class LiquidController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
+        $liquid = Liquid::find($id);
+        return response()->json($liquid);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -51,7 +48,14 @@ class LiquidController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $liquid = Liquid::find($id);
+        $validated = $request->validate([
+            "name"=> "reqired",'required|string|max:255',
+            'calories' => 'required|integer'
+        ]);
+        $liquid->update($validated);
+        return response()->json($liquid,200);
+
     }
 
     /**
@@ -59,6 +63,9 @@ class LiquidController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $liquid = Liquid::find($id);
+        $liquid->delete();
+        return response()->json(['message' => 'Liquid deleted successfully']);
+
     }
 }

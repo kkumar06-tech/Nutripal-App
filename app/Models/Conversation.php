@@ -14,7 +14,7 @@ class conversation extends Model
 
     public function nutritionist()
     {
-        return $this->belongsTo(Nutritionist::class);
+        return $this->belongsTo(NutritionistProfile::class);
     }
 
 

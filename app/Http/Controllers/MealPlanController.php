@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MealPlan;
 use Illuminate\Http\Request;
 
 class MealPlanController extends Controller
@@ -12,17 +11,9 @@ class MealPlanController extends Controller
      */
     public function index()
     {
-        //Display the list of meal plan of user
         $plans = auth()->user()->userProfile->mealPlans()->get();
         return response()->json($plans);
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -37,6 +28,7 @@ class MealPlanController extends Controller
         ]);
         $plans = MealPlan::create($validated);
         return response()->json($plans);
+
     }
 
     /**
@@ -47,14 +39,7 @@ class MealPlanController extends Controller
         // to show a specific mealplan with specific id plan for specific user
         $plan = auth()->user()->userProfile->mealPlans()->findOrFail($id);
         return response()->json($plan);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        
     }
 
     /**
@@ -71,15 +56,17 @@ class MealPlanController extends Controller
         ]);
         $plan->update($validated);
         return response()->json($plan,200);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {   
+    {
         $plan = auth()->user()->userProfile->mealPlans()->findOrFail($id);
         $plan->delete();
         return response()->json(['message' => 'MealPlan of this user deleted successfully']);
+
     }
 }

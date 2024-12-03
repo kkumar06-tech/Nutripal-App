@@ -46,4 +46,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function userProfile(){
+        return $this->hasOne(UserProfileProfile::class);
+    }
+    public function nutriotionistProfile(){
+        return $this->hasOne(NutriotionistProfile::class);
+    }
 }
