@@ -29,7 +29,6 @@ class LiquidController extends Controller
         ]);
         $liquid = Liquid::create($validated);
         return response()->json($liquid);
-    }
 
     }
 
