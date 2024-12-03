@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MealPlan;
 use Illuminate\Http\Request;
 
 class MealPlanController extends Controller
