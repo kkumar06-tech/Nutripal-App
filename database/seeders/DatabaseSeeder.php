@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             $this->call(UserStatTableSeeder::class);
             $this->call(LiquidTableSeeder::class);
             $this->call(MealPlanTableSeeder::class);
+            $this->call(NutritionistProfileTableSeeder::class);
+            $this->call(AppointmentTableSeeder::class);
 
 
            

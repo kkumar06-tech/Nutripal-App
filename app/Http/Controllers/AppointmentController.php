@@ -7,12 +7,101 @@ use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $user = auth()->user(); 
+        // Fetch all appointments
+        $appointments = Appointment::all();
+
+        return response()->json($appointments, 200);
+    }
+
+    /**
+     * Store a newly created appointment.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'user_profile_id' => ['required', 'exists:user_profiles,id'],
+            'nutritionist_profile_id' => ['required', 'exists:nutritionist_profiles,id'],
+            'date' => ['required', 'date', 'after_or_equal:today'],
+            'time' => ['required', 'date_format:H:i'],
+        ]);
+
+        $appointment = Appointment::create($validated);
+
+        return response()->json($appointment, 201);
+    }
+
+    /**
+     * Display the specified appointment.
+     */
+    public function show(string $id)
+    {
+        $appointment = Appointment::find($id);
+
+        if (!$appointment) {
+            return response()->json(['message' => 'Appointment not found'], 404);
+        }
+
+        return response()->json($appointment, 200);
+    }
+
+    /**
+     * Update the specified appointment.
+     */
+    public function update(Request $request, string $id)
+    {
+        $validated = $request->validate([
+            'user_profile_id' => ['required', 'exists:user_profiles,id'],
+            'nutritionist_profile_id' => ['required', 'exists:nutritionist_profiles,id'],
+            'date' => ['required', 'date', 'after_or_equal:today'],
+            'time' => ['required', 'date_format:H:i'],
+        ]);
+
+        $appointment = Appointment::find($id);
+
+        if (!$appointment) {
+            return response()->json(['message' => 'Appointment not found'], 404);
+        }
+
+        $appointment->update($validated);
+
+        return response()->json($appointment, 200);
+    }
+
+    /**
+     * Remove the specified appointment.
+     */
+    public function destroy(string $id)
+    {
+        $appointment = Appointment::find($id);
+
+        if (!$appointment) {
+            return response()->json(['message' => 'Appointment not found'], 404);
+        }
+
+        $appointment->delete();
+
+        return response()->json(['message' => 'Appointment deleted successfully'], 200);
+    }
+}
+   
+   
+   
+   
+    /*
+   
+   
+   //   Display a listing of the resource.
+     
+    public function index()
+    {
+
+        // Fetch all user stats
+        $userStats = Appointment::all();
+        return response()->json($userStats, 200);
+
+       /* $user = auth()->user(); 
 
         // display the list of appointment of user or nutritionist
 
@@ -26,9 +115,9 @@ class AppointmentController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    
+     // Store a newly created resource in storage.
+     
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -41,9 +130,9 @@ class AppointmentController extends Controller
         return response()->json($appointment,201) ;
     }
 
-    /**
-     * Display the specified resource.
-     */
+    
+    //  Display the specified resource.
+     
     public function show(string $id)
     {
         $user = auth()->user(); 
@@ -64,9 +153,9 @@ class AppointmentController extends Controller
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    
+    //  Update the specified resource in storage.
+     
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
@@ -80,9 +169,9 @@ class AppointmentController extends Controller
         return response()->json($appointment,200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
+    //  Remove the specified resource from storage.
+     
     public function destroy(string $id)
     {
         $user = auth()->user(); 
@@ -104,4 +193,4 @@ class AppointmentController extends Controller
         return response()->json(['message' => 'Appointment deleted successfully']);
 
     }
-}
+}*/

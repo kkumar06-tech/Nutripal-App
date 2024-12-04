@@ -44,6 +44,6 @@ class UserProfile extends Model
     }
 
     public function userAppointment(){
-        return $this->hasMany(Appointment::class, foreignKey: 'user_profile_id');
+        return $this->hasMany(Appointment::class, 'user_profile_id');
     }
 }

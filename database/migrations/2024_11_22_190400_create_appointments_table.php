@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_profile_id')->constrained('user_profiles')->onDelete('cascade');
-            $table->foreignId('nutritionist_id')->constrained('nutritionist_profiles')->onDelete('cascade');
+            $table->foreignId('nutritionist_profile_id')->constrained('nutritionist_profiles')->onDelete('cascade');
             $table->date('date');
             $table->time('time');
             $table->timestamps();

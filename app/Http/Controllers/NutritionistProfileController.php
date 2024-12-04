@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\NutritionistProfile;
 use Illuminate\Http\Request;
+
 
 class NutritionistProfileController extends Controller
 {

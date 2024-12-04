@@ -31,7 +31,22 @@ class UserTableSeeder extends Seeder
                 'username'=>'Cena orton',
                 'email'=>'cowwe@gmail.com',
                 'password'=> bcrypt('cowwe2wse9j'),
+                'role'=>'user'
+            ] ); 
+
+            User::create( [ 
+                'username'=>'ondrej',
+                'email'=>'ondrej@gmail.com',
+                'password'=> bcrypt('1232wse9j'),
                 'role'=>'nutritionist'
+                ] ); 
+               
+                User::create( [ 
+                    'username'=>'aastha',
+                    'email'=>'aasthaj@gmail.com',
+                    'password'=> bcrypt('1232'),
+                    'role'=>'nutritionist'
+
             ] ); 
     }
 }

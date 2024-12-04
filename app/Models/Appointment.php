@@ -8,7 +8,7 @@ class Appointment extends Model
 {
     protected $fillable = [
         'user_profile_id',
-        'nutritionists_id',
+        'nutritionist_profile_id',
         'date',
         'time'
     ];
