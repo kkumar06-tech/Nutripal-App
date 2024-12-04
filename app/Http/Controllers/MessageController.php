@@ -2,9 +2,25 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use App\Models\Message;
 
-class Message extends Controller
+class MessageController extends Controller
 {
+
+    public function index(){
+return Message::all();
+
+    }
+
+    public function show(int $id){
+ // Find the specific Message by ID
+ $message = Message::findOrFail($id);
+
+ // Return the found Message
+ return response()->json($message, 200);
+        
+            } 
+
     // retrieve all messages for a user /either sent or received
     public function getUserMessages($userId)
     {

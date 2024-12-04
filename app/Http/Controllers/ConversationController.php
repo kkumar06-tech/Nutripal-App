@@ -8,8 +8,17 @@ use Illuminate\Http\Request;
 
 class ConversationController extends Controller
 {
+
+
+public function index(){
+return Conversation::all();
+
+}
+
+
     public function createConversation(Request $request)
     {
+
         // Create a new conversation
         $conversation = Conversation::create([
             'user_id' => $request->user_id,

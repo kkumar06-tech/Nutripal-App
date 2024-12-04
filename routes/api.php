@@ -11,6 +11,8 @@ use App\Http\Controllers\NutritionistProfileController;
 use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\LiquidController;
+use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\MessageController;
 
 
 
@@ -29,11 +31,29 @@ Route::apiResource('mealplans', MealPlanController::class);
 Route::apiResource('appointments', AppointmentController::class);
 Route::apiResource('liquids', LiquidController::class);
 
+/*
+// create a new conversation
+//Route::post('/addconversations', [ConversationController::class, 'createConversation']);
+
+//  the details of a specific conversation 
+Route::get('/conversations/{conversationId}', [ConversationController::class, 'getConversation']);
+
+// send a message in a specific conversation
+//Route::post('/conversations/{conversationId}/messages', [ConversationController::class, 'sendMessage']);
+*/
+
+Route::get('/conversations', [ConversationController::class, 'index']);
 
 
-//Route::apiResource('conversations', ConversationController::class);
-//Route::apiResource('messages', MessageController::class);
-//Route::apiResource('recipes', RecipeController::class);
+
+//messages
+
+Route::get('/messages', [ConversationController::class, 'index']);
+Route::get('/messages/{id}', [ConversationController::class, 'show']);
+
+
+
+
 
 
 
