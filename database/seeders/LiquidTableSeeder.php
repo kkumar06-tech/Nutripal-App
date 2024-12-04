@@ -2,35 +2,35 @@
 
 namespace Database\Seeders;
 
-use App\Models\Water;
+
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
-class WaterTableSeeder extends Seeder
+use App\Models\Liquid;
+class LiquidTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Water::create([
+        Liquid::create([
             'name' => 'Water',
-            'calories' => 0,
+            'calories_per_100ml' => 0,
         ]);
         
-        Water::create([
+        Liquid::create([
             'name' => 'Milk (Whole)',
-            'calories' => 65,
+            'calories_per_100ml' => 65,
         ]);
 
-        Water::create([
+        Liquid::create([
             'name' => 'Orange Juice',
-            'calories' => 45,
+            'calories_per_100ml' => 45,
         ]);
 
-        Water::create([
+        Liquid::create([
             'name' => 'Milk (Skimmed)',
-            'calories' => 35,
+            'calories_per_100ml' => 35,
         ]);
 
     }

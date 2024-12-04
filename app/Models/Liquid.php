@@ -6,14 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Liquid extends Model
 {
-    protected $table = 'water';
     
     protected $fillable = [
         'name',
-        'calories',
-        'protein',
-        'carbs',
-        'fat',
+        'calories_per_100ml'
     ];
 
 
