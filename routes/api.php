@@ -11,10 +11,7 @@ use App\Http\Controllers\NutritionistProfileController;
 use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\LiquidController;
-use App\Http\Controllers\ConversationController;
 
-use App\Http\Controllers\RecipeController;
-use App\Http\Controllers\MessageController;
 
 
 //marija
