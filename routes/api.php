@@ -8,6 +8,13 @@ use App\Http\Controllers\FoodLogController;
 use App\Http\Controllers\UserStatController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\NutritionistProfileController;
+use App\Http\Controllers\MealPlanController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\LiquidController;
+use App\Http\Controllers\ConversationController;
+
+use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\MessageController;
 
 
 //marija
@@ -24,6 +31,12 @@ Route::apiResource('userstats', UserStatController::class);
 Route::apiResource('mealplans', MealPlanController::class);
 Route::apiResource('appointments', AppointmentController::class);
 Route::apiResource('liquids', LiquidController::class);
+
+
+
+//Route::apiResource('conversations', ConversationController::class);
+//Route::apiResource('messages', MessageController::class);
+//Route::apiResource('recipes', RecipeController::class);
 
 
 
