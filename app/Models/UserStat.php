@@ -14,6 +14,16 @@ class UserStat extends Model
         'liquid_intake',
     ];
 
+    protected static function booted()
+    {
+        static::creating(function ($userStat) {
+            
+            if (!$userStat->date) {
+                
+                $userStat->date = now()->format('Y-m-d'); 
+            }
+        });
+    }
     public function userProfile()
     {
         return $this->belongsTo(UserProfile::class);

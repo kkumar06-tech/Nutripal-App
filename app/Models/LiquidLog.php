@@ -10,19 +10,30 @@ class LiquidLog extends Model
 
     protected $fillable = [
         'user_profile_id',
-        'liquid_id',
         'date',
-        'amount_ml',
+        'total_amount_ml',
     ];
+
+
+    protected static function booted()
+    {
+        static::creating(function ($liquidLog) {
+            // check if the date is not set
+            if (!$liquidLog->date) {
+                // if the date is not set, set it to today's date
+                $liquidLog->date = now()->format('Y-m-d'); 
+            }
+        });
+    }
 
     public function updateTotalAmount()
     {
-        // Sum the 'amount_ml' values from the pivot table
+        // sum the 'amount_ml' values from the pivot table
         $totalAmountMl = $this->liquids->sum(function ($liquid) {
             return $liquid->pivot->amount_ml;
         });
 
-        // Update the total_amount_ml field in the LiquidLog table
+        // update the total_amount_ml field in the LiquidLog table
         $this->update(['total_amount_ml' => $totalAmountMl]);
     }
 

@@ -15,22 +15,17 @@ class LiquidTableSeeder extends Seeder
     {
         Liquid::create([
             'name' => 'Water',
-            'calories_per_100ml' => 0,
-        ]);
-        
-        Liquid::create([
-            'name' => 'Milk (Whole)',
-            'calories_per_100ml' => 65,
+            'amount_ml' => 250,
         ]);
 
         Liquid::create([
-            'name' => 'Orange Juice',
-            'calories_per_100ml' => 45,
+            'name' => 'Juice',
+            'amount_ml' => 200,
         ]);
 
         Liquid::create([
-            'name' => 'Milk (Skimmed)',
-            'calories_per_100ml' => 35,
+            'name' => 'Milk',
+            'amount_ml' => 300,
         ]);
 
     }

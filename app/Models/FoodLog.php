@@ -14,6 +14,16 @@ class FoodLog extends Model
         'calories'
     ];
 
+
+    protected static function booted()   //the date will automatically be set to current date, when we call Create::...
+    {
+        static::creating(function ($foodLog) {
+            if (!$foodLog->date) { //checks if date exists
+                $foodLog->date = now()->format('Y-m-d'); 
+            }
+        });
+    }
+
     public function updateTotalAmount(){
         $totalCalories = $this->foods->sum('calories');
 

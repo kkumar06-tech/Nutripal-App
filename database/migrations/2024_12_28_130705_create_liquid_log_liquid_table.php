@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('liquid_log_liquid', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('liquid_log_id')->constrained('liquid_logs')->onDelete('cascade');
-            $table->foreignId('liquid_id')->constrained('liquids')->onDelete('cascade');
+            $table->foreignId('liquid_log_id')->constrained()->onDelete('cascade');
+            $table->foreignId('liquid_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

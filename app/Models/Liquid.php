@@ -9,12 +9,12 @@ class Liquid extends Model
     
     protected $fillable = [
         'name',
-        'calories_per_100ml'
+        'ml_amount'
     ];
 
 
     public function logs()
     {
-        return $this->hasMany(LiquidLog::class,'liquid_log_liquid');
+        return $this->belongsToMany(LiquidLog::class,'liquid_log_liquid');
     }
 }

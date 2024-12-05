@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('liquids', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('calories_per_100ml')->nullable();   //we might not count calories for drinks
             $table->timestamps();
+            $table->string('name');
+            $table->integer('amount_ml');
         });
     }
 
