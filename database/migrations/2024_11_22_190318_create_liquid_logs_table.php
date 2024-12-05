@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('liquid_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_profile_id')->constrained('user_profiles')->onDelete('cascade');
+            $table->date('date')->default(DB::raw('CURRENT_DATE'));
             $table->foreignId('liquid_id')->constrained()->onDelete('cascade');
-            $table->date('date');
+
             $table->integer('total_amount_ml');
             $table->timestamps();
         });
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('water_logs');
+        Schema::dropIfExists('liquid_logs');
     }
 };

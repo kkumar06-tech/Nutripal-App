@@ -16,7 +16,7 @@ class MessageTableSeeder extends Seeder
         Message::create( [ 
             'conversation_id'=>1,
             'sender_id'=>1,
-            'receiver_id'=>4,
+            'receiver_id'=>1,
             'content'=>'hell how r u',
             'is_read'=>true
         ] );  
@@ -24,7 +24,7 @@ class MessageTableSeeder extends Seeder
         Message::create( [ 
             'conversation_id'=>1,
             'sender_id'=>2,
-            'receiver_id'=>5,
+            'receiver_id'=>2,
             'content'=>'i need help with my diet',
 
             'is_read'=>true

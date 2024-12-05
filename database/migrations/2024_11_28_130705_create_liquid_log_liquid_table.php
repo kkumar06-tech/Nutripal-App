@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('liquid_log_id')->constrained('liquid_logs')->onDelete('cascade');
             $table->foreignId('liquid_id')->constrained('liquids')->onDelete('cascade');
-            $table->integer('amount_ml');
             $table->timestamps();
         });
     }

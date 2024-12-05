@@ -15,6 +15,6 @@ class Liquid extends Model
 
     public function logs()
     {
-        return $this->hasMany(LiquidLog::class);
+        return $this->hasMany(LiquidLog::class,'liquid_log_liquid');
     }
 }

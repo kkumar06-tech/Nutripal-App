@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             $this->call(AppointmentTableSeeder::class);
             $this->call(ConversationTableSeeder::class);
             $this->call(MessageTableSeeder::class);
+            $this->call(LiquidLogTableSeeder::class);
 
 
            

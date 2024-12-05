@@ -17,5 +17,10 @@ class conversation extends Model
         return $this->belongsTo(NutritionistProfile::class);
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class); // each conversation has many messages
+    }
+
 
 }

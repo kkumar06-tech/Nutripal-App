@@ -31,4 +31,10 @@ class Recipe extends Model
     public function mealPlans(){
         return $this->belongsToMany(MealPlan::class);
     }
+
+    public function nutritionalvalue(){
+        return $this->hasOne(NutrionalValue::class);
+    }
+
+    
 }

@@ -13,8 +13,13 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\LiquidController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\LiquidLogController;
+use App\Http\Controllers\NutritionalValueController;
+use App\Http\Controllers\AuthController;
 
-
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 //marija
 Route::apiResource('users', UserController::class);
@@ -30,6 +35,12 @@ Route::apiResource('userstats', UserStatController::class);
 Route::apiResource('mealplans', MealPlanController::class);
 Route::apiResource('appointments', AppointmentController::class);
 Route::apiResource('liquids', LiquidController::class);
+
+
+Route::apiResource('ingredients', IngredientController::class);
+Route::apiResource('liquidlogs', LiquidLogController::class);
+Route::apiResource('Nutrivalue', NutritionalValueController::class);
+
 
 /*
 // create a new conversation
