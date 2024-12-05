@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use App\Mail\EmailVerificationMail;
+use App\Models\NutritionistProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -38,6 +40,20 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']), // Hashing password
             'role' => $validated['role'],
         ]);
+
+        if ($user->role === 'user') {
+            // Create user profile
+            UserProfile::create([
+                'user_id' => $user->id, 
+                // We can add other body and fitness variables here too, depends on frontend
+            ]);
+        } elseif ($user->role === 'nutritionist') {
+            // Create nutritionist profile
+            NutritionistProfile::create([
+                'user_id' => $user->id, 
+                //Same thing as above
+            ]);
+        }
         
         /* event(new Registered($user));
 
