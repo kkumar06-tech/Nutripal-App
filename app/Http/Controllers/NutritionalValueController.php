@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\NutritionalValue;
 use Illuminate\Http\Request;
 
 class NutritionalValueController extends Controller

@@ -25,6 +25,7 @@ use App\Http\Controllers\NutritionistProfileController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+
 //only logged in/authenticated users can logout
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
@@ -53,13 +54,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // Additional routes
     Route::apiResource('ingredients', IngredientController::class);
     Route::apiResource('liquidlogs', LiquidLogController::class);
-    Route::apiResource('Nutrivalue', NutritionalValueController::class);
+  Route::apiResource('nutrivalue', NutritionalValueController::class);
+Route::apiResource('recipes', RecipeController::class);
  
 }); 
 
-
-
-Route::apiResource('recipes', RecipeController::class);
 /*
 // create a new conversation
 //Route::post('/addconversations', [ConversationController::class, 'createConversation']);
