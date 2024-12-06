@@ -11,39 +11,50 @@ class ConversationController extends Controller
 
 
 public function index(){
-return Conversation::all();
+$conversations= Conversation::with(['userProfile','nutritionist'])->get();
+return response()->json($conversations);
 
 }
 
-
-    public function createConversation(Request $request)
+public function store(Request $request)
     {
-
-        // Create a new conversation
-        $conversation = Conversation::create([
-            'user_id' => $request->user_id,
-            'nutritionist_id' => $request->nutritionist_id,
+        $validated = $request->validate([
+            'user_profile_id' => 'required|exists:user_profiles,id',
+            'nutritionist_id' => 'required|exists:nutritionist_profiles,id',
         ]);
 
-        return response()->json($conversation, 201);
+        $conversation = Conversation::create($validated);
+
+        return response()->json($conversation, 201); // 201 Created
     }
 
-    public function getConversation($conversationId)
+
+    public function show(Conversation $conversation)
     {
-        // Get messages in a conversation
-        $conversation = Conversation::with('messages.sender')->findOrFail($conversationId);
+        // Return the specified conversation as JSON
+        return response()->json($conversation->load(['userProfile', 'nutritionist']));
+    }
+
+
+
+    public function update(Request $request, Conversation $conversation)
+    {
+        $validated = $request->validate([
+            'user_profile_id' => 'sometimes|exists:user_profiles,id',
+            'nutritionist_id' => 'sometimes|exists:nutritionist_profiles,id',
+        ]);
+
+        $conversation->update($validated);
+
         return response()->json($conversation);
     }
 
-    public function sendMessage(Request $request, $conversationId)
-    {
-        // Send a message in a conversation
-        $message = Message::create([
-            'conversation_id' => $conversationId,
-            'sender_id' => $request->sender_id,
-            'message' => $request->message,
-        ]);
 
-        return response()->json($message, 201);
+    public function destroy(Conversation $conversation)
+    {
+        $conversation->delete();
+
+        return response()->json(['message' => 'Conversation deleted successfully']);
     }
+   
 }

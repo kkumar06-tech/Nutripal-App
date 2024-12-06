@@ -7,53 +7,74 @@ use App\Models\Message;
 class MessageController extends Controller
 {
 
-    public function index(){
-return Message::all();
-
-    }
-
-    public function show(int $id){
- // Find the specific Message by ID
- $message = Message::findOrFail($id);
-
- // Return the found Message
- return response()->json($message, 200);
-        
-            } 
-
-    // retrieve all messages for a user /either sent or received
-    public function getUserMessages($userId)
+    public function index()
     {
-        $messages = Message::where('send_from_id', $userId)
-                            ->orWhere('send_to_id', $userId)
-                            ->orderBy('created_at', 'desc')
-                            ->get();
-
+    
+        $messages = Message::with(['conversation', 'sender', 'receiver'])->get();
         return response()->json($messages);
     }
 
-    // send  new message
-    public function sendMessage(Request $request)
+   
+    public function store(Request $request)
     {
-        $request->validate([
-            'send_from_id' => 'required|integer',
-            'send_to_id' => 'required|integer',
-            'content' => 'required|string|max:1000',
+        // Validate the incoming request
+        $validated = $request->validate([
+            'conversation_id' => 'required|exists:conversations,id',
+            'sender_id' => 'required|exists:users,id',
+            'receiver_id' => 'required|exists:users,id',
+            'content' => 'required|string|max:5000',
         ]);
 
-        $message = Message::create([
-            'send_from_id' => $request->input('send_from_id'),
-            'send_to_id' => $request->input('send_to_id'),
-            'content' => $request->input('content'),
-        ]);
+        // Create a new message
+        $message = Message::create($validated);
 
-        return response()->json($message, 201);
+        return response()->json($message, 201); // 201 Created
     }
 
-    // delete message through id
-    public function deleteMessage($messageId)
+  
+    public function show(Message $message)
     {
-        $message = Message::findOrFail($messageId);
+        // Return the specified message with conversation and user details
+        return response()->json($message->load(['conversation', 'sender', 'receiver']));
+    }
+
+    
+    public function update(Request $request, Message $message)
+    {
+        // Validate the incoming request
+        $validated = $request->validate([
+            'content' => 'sometimes|string|max:5000',
+            'is_read' => 'sometimes|boolean',
+        ]);
+
+        // Update the message
+        $message->update($validated);
+
+        return response()->json($message);
+    }
+
+
+
+    public function markAsRead(Message $message)
+    {
+        $message->markAsRead();
+        return response()->json(['message' => 'Message marked as read']);
+    }
+
+    /**
+     * Mark a message as unread.
+     */
+    public function markAsUnread(Message $message)
+    {
+        $message->markAsUnread();
+        return response()->json(['message' => 'Message marked as unread']);
+    }
+
+
+     
+    public function destroy(Message $message)
+    {
+        // Delete the message
         $message->delete();
 
         return response()->json(['message' => 'Message deleted successfully']);

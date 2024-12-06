@@ -30,12 +30,12 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
 
-
+   
 
 
 Route::middleware('auth:sanctum')->group(function () {
     // Marija
-    Route::apiResource('users', UserController::class);
+ Route::apiResource('users', UserController::class);
     Route::apiResource('user-profiles', UserProfileController::class);
     Route::apiResource('nutritionist-profiles', NutritionistProfileController::class);
 
@@ -47,38 +47,34 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     // Daphne
-    Route::apiResource('mealplans', MealPlanController::class);
+   Route::apiResource('mealplans', MealPlanController::class);
     Route::apiResource('appointments', AppointmentController::class);
     Route::apiResource('liquids', LiquidController::class);
 
-    // Additional routes
+    //Mauricio
     Route::apiResource('ingredients', IngredientController::class);
     Route::apiResource('liquidlogs', LiquidLogController::class);
   Route::apiResource('nutrivalue', NutritionalValueController::class);
-Route::apiResource('recipes', RecipeController::class);
+
+
+  // Additional routes
+ Route::apiResource('recipes', RecipeController::class);
+ Route::apiResource('conversations', ConversationController::class);
+ Route::apiResource('messages', MessageController::class);
  
-}); 
-
-/*
-// create a new conversation
-//Route::post('/addconversations', [ConversationController::class, 'createConversation']);
-
-//  the details of a specific conversation 
-Route::get('/conversations/{conversationId}', [ConversationController::class, 'getConversation']);
-
-// send a message in a specific conversation
-//Route::post('/conversations/{conversationId}/messages', [ConversationController::class, 'sendMessage']);
-*/
-
-/*Route::get('/conversations', [ConversationController::class, 'index']);
+Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// still left to test
+Route::patch('/markunread{id}',[MessageController::class,'markAsUnRead']); // 
+ Route::get('usermealplans/{userId}', [MealPlanController::class,'usermealplan']);// all mealplans of a user
+});
+ 
 
 
 
-//messages
 
-Route::get('/messages', [ConversationController::class, 'index']);
-Route::get('/messages/{id}', [ConversationController::class, 'show']);
-*/
+
+
+
+
 
 
 

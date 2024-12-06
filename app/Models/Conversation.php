@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class conversation extends Model
 {
-    protected $fillable = ['user_profile_id', 'nutritionist_id', 'content', 'is_read'];
+    protected $fillable = ['user_profile_id', 'nutritionist_id'];
 
     public function userProfile(){
         return $this->belongsTo(UserProfile::class);

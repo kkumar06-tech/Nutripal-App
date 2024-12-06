@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
             $this->call(MessageTableSeeder::class);
             $this->call(NutritionalValueTableSeeder::class);
 
+            $this->call(MealPlanRecipeTableSeeder::class);
+
+
             $this->call([
                 IngredientTableSeeder::class,  // Seed ingredients
                 RecipeTableSeeder::class,  // Seed recipes

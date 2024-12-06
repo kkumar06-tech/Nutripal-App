@@ -14,13 +14,11 @@ class MealPlanTableSeeder extends Seeder
     {
         MealPlan::create([
             'user_id' => 1,
-            'recipe_id' => 1,
             'date' => '2024-12-04', 
         ]);
 
         MealPlan::create([
             'user_id' => 2,
-            'recipe_id' => 2,
             'date' => '2024-12-05', 
         ]);
     }
