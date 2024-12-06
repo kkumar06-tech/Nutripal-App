@@ -17,8 +17,9 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\NutritionalValueController;
-use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\NutritionistProfileController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
 
 //authentication routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -26,6 +27,20 @@ Route::post('/login', [AuthController::class, 'login']);
 
 //only logged in/authenticated users can logout
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+
+//email verification routes
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();  // Mark the email as verified
+    return response()->json(['message' => 'Email verified successfully!']);
+})->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+
+
+Route::post('/email/verify/resend', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();  // Send the verification email
+    return response()->json(['message' => 'Verification email sent.']);
+})->middleware('auth:sanctum');
+
+
 
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -72,12 +87,6 @@ Route::get('/messages/{id}', [ConversationController::class, 'show']);
 
 
 
-/* Route::middleware('auth:sanctum')->group(function () {
-    // Route for email verification
-    Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
-        ->name('verification.verify');
-});
- */
 
 
 

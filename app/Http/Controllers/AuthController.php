@@ -41,24 +41,8 @@ class AuthController extends Controller
             'role' => $validated['role'],
         ]);
 
-        if ($user->role === 'user') {
-            // Create user profile
-            UserProfile::create([
-                'user_id' => $user->id, 
-                // We can add other body and fitness variables here too, depends on frontend
-            ]);
-        } elseif ($user->role === 'nutritionist') {
-            // Create nutritionist profile
-            NutritionistProfile::create([
-                'user_id' => $user->id, 
-                //Same thing as above
-            ]);
-        }
         
-        /* event(new Registered($user));
-
-        // Send the verification email
-        Mail::to($user->email)->send(new EmailVerificationMail($user)); */
+        $user->sendEmailVerificationNotification();
     
         // Generate a token for the user
         $token = $user->createToken('auth_token')->plainTextToken;

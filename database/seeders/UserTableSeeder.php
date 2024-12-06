@@ -48,5 +48,12 @@ class UserTableSeeder extends Seeder
                     'role'=>'nutritionist'
 
             ] ); 
+                User::create( [ 
+                    'username'=>'nana',
+                    'email'=>'mvolod00@gmail.com',
+                    'password'=> bcrypt('omglola'),
+                    'role'=>'user'
+
+            ] ); 
     }
 }
