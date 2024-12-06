@@ -16,21 +16,21 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references(columns: 'id')->on('users')->onDelete('cascade');
 
-            $table->string('name');
-            $table->date('date_of_birth');
-            $table->float('weight');
-            $table->float('height');
-            $table->enum('gender', ['male', 'female', 'other']);
-            $table->enum('fitness_goal', ['maintenance', 'weight_loss', 'muscle_building']);
+            $table->string('name')->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->float('weight')->nullable();
+            $table->float('height')->nullable();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->enum('fitness_goal', ['maintenance', 'weight_loss', 'muscle_building'])->nullable();
             $table->enum('weekly_exercise_frequency', [
                 '0 days',
                 '1-2 days',
                 '3-4 days',
                 '5-6 days',
                 '7 days'
-            ]);
-            $table->integer('daily_goal_ml')->default(2000); 
-            $table->integer('daily_goal_calories')->default(2000);
+            ])->nullable();
+            $table->integer('daily_goal_ml')->default(2000)->nullable(); 
+            $table->integer('daily_goal_calories')->default(2000)->nullable();
             $table->string('profile_image')->nullable();
 
             $table->timestamps();
