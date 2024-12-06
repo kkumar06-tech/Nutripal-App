@@ -13,7 +13,7 @@ class Liquid extends Model
     ];
 
 
-    public function logs()
+    public function liquidlogs()
     {
         return $this->belongsToMany(LiquidLog::class,'liquid_log_liquid');
     }

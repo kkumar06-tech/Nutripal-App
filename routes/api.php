@@ -17,6 +17,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\NutritionalValueController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\NutritionistProfileController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -24,6 +25,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 //authentication routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
 
 //only logged in/authenticated users can logout
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
@@ -43,9 +45,12 @@ Route::post('/email/verify/resend', function (Request $request) {
 
 
 
+   
+
+
 Route::middleware('auth:sanctum')->group(function () {
     // Marija
-    Route::apiResource('users', UserController::class);
+ Route::apiResource('users', UserController::class);
     Route::apiResource('user-profiles', UserProfileController::class);
     Route::apiResource('nutritionist-profiles', NutritionistProfileController::class);
 
@@ -54,35 +59,36 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('foodlogs', FoodLogController::class);
     Route::apiResource('userstats', UserStatController::class);
 
+
+
     // Daphne
-    Route::apiResource('mealplans', MealPlanController::class);
+   Route::apiResource('mealplans', MealPlanController::class);
     Route::apiResource('appointments', AppointmentController::class);
     Route::apiResource('liquids', LiquidController::class);
 
-    // Additional routes
+    //Mauricio
     Route::apiResource('ingredients', IngredientController::class);
     Route::apiResource('liquidlogs', LiquidLogController::class);
-    Route::apiResource('Nutrivalue', NutritionalValueController::class);
+  Route::apiResource('nutrivalue', NutritionalValueController::class);
+
+
+  // Additional routes
+ Route::apiResource('recipes', RecipeController::class);
+ Route::apiResource('conversations', ConversationController::class);
+ Route::apiResource('messages', MessageController::class);
+ 
+Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// still left to test
+Route::patch('/markunread{id}',[MessageController::class,'markAsUnRead']); // 
+ Route::get('usermealplans/{userId}', [MealPlanController::class,'usermealplan']);// all mealplans of a user
 });
-/*
-// create a new conversation
-//Route::post('/addconversations', [ConversationController::class, 'createConversation']);
-
-//  the details of a specific conversation 
-Route::get('/conversations/{conversationId}', [ConversationController::class, 'getConversation']);
-
-// send a message in a specific conversation
-//Route::post('/conversations/{conversationId}/messages', [ConversationController::class, 'sendMessage']);
-*/
-
-Route::get('/conversations', [ConversationController::class, 'index']);
+ 
 
 
 
-//messages
 
-Route::get('/messages', [ConversationController::class, 'index']);
-Route::get('/messages/{id}', [ConversationController::class, 'show']);
+
+
+
 
 
 

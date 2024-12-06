@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MealPlan extends Model
 {
-    protected $fillable = ['user_id', 'recipe_id', 'date'];
+    protected $fillable = ['user_id','date'];
 
     public function userProfiles(){
         return $this->belongsTo(UserProfile::class);

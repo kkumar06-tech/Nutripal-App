@@ -37,7 +37,7 @@ class LiquidLog extends Model
         $this->update(['total_amount_ml' => $totalAmountMl]);
     }
 
-    public function liquid()
+    public function liquids()
     {
         return $this->belongsToMany(Liquid::class, 'liquid_log_liquid');
     }

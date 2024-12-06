@@ -55,4 +55,20 @@ class User extends Authenticatable implements MustVerifyEmail
     public function nutriotionistProfile(){
         return $this->hasOne(NutriotionistProfile::class);
     }
+
+    //sent the by sender
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    
+    //  Get the messages received by the user.
+     
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
+
+
 }

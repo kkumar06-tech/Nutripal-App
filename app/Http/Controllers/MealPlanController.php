@@ -10,15 +10,13 @@ class MealPlanController extends Controller
     /**
      * Display a listing of the resource.
      */
-
     public function index()
     {
-        // Retrieve all meal plans
-        $mealPlans = MealPlan::all();
-        
-        // Return the list of meal plans as a JSON response
+        $mealPlans = MealPlan::with('recipes')->get();
         return response()->json($mealPlans);
     }
+
+
 
     /**
      * Store a newly created meal plan in storage.
@@ -51,15 +49,18 @@ class MealPlanController extends Controller
      */
     public function show($id)
     {
-        // Find the meal plan by ID
-        $mealPlan = MealPlan::find($id);
-
+        
+        $mealPlan = MealPlan::with('recipes')->find($id);
+    
+  
         if (!$mealPlan) {
-            return response()->json(['message' => 'Meal Plan not found'], 404);  // Return 404 if meal plan is not found
+            return response()->json(['message' => 'Meal Plan not found'], 404);
         }
-
-        return response()->json($mealPlan);  // Return the meal plan as a JSON response
+    
+        
+        return response()->json($mealPlan);
     }
+
 
     /**
      * Update the specified meal plan in storage.
@@ -113,71 +114,22 @@ class MealPlanController extends Controller
     }
 
 
+
+
+  public function usermealplan($userId)
+     {
+         // Get paginated meal plans for the specific user
+         $mealPlans = MealPlan::where('user_id', $userId)
+                              ->with('recipes')
+                              ->paginate(10);  // Paginate, 10 results per page
+     
+         if ($mealPlans->isEmpty()) {
+             return response()->json(['message' => 'No meal plans found for this user'], 404);
+         }
+     
+         return response()->json($mealPlans);  // Return paginated meal plans with recipes
+     }
+
 }
 
-        /*
-    public function index()
-    {
-        $mealPlans = MealPlan::all(); // Fetch all meal plans from the database
-    
-    return response()->json($mealPlans);
-
-       // $plans = auth()->user()->userProfile->mealPlans()->get();
-        //return response()->json($plans);
-
-    }
-
-    
-    // Store a newly created resource in storage.
      
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'user_profile_id' => ['required', 'exists:user_profiles,id'],
-            'recipe_id' => ['required','exists:recipe,id'],
-            'date' => ['required','date']
-        ]);
-        $plans = MealPlan::create($validated);
-        return response()->json($plans);
-
-    }
-
-    
-     // Display the specified resource.
-     
-    public function show(string $id)
-    {
-        // to show a specific mealplan with specific id plan for specific user
-        $plan = auth()->user()->userProfile->mealPlans()->findOrFail($id);
-        return response()->json($plan);
-        
-    }
-
-    
-     // Update the specified resource in storage.
-     
-    public function update(Request $request, string $id)
-    {
-        $plan = auth()->user()->userProfile->mealPlans()->findOrFail($id);
-
-        $validated = $request->validate([
-            'user_profile_id' => ['required', 'exists:user_profiles,id'],
-            'recipe_id' => ['required','exists:recipe,id'],
-            'date' => ['required','date']
-        ]);
-        $plan->update($validated);
-        return response()->json($plan,200);
-
-    }
-
-    
-    //  Remove the specified resource from storage.
-     
-    public function destroy(string $id)
-    {
-        $plan = auth()->user()->userProfile->mealPlans()->findOrFail($id);
-        $plan->delete();
-        return response()->json(['message' => 'MealPlan of this user deleted successfully']);
-
-    }*/
-

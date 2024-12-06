@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LiquidLog;
 use Illuminate\Http\Request;
 
 class LiquidLogController extends Controller
 {
     public function index()
     {
-        $liquidLogs = LiquidLog::with('liquid', 'userProfile')->get();
+        // Fetch liquid logs with their related liquids and user profile
+        $liquidLogs = LiquidLog::with('liquids', 'userProfile')->get();
         return response()->json($liquidLogs);
     }
 
@@ -32,15 +34,13 @@ class LiquidLogController extends Controller
             ]
         );
 
-        // Attach the liquid to the log with the amount
-        $liquidLog->liquid()->attach($validatedData['liquid_id'], [
-            'amount_ml' => $validatedData['amount_ml']
-        ]);
+        // Store the liquid log with the liquid and the amount_ml directly in the LiquidLog model
+        $liquidLog->liquids()->attach($validatedData['liquid_id'], ['amount_ml' => $validatedData['amount_ml']]);
 
-        // Update total amount in the log
+        // Optionally update the total amount in the log
         $liquidLog->updateTotalAmount();
 
-        return response()->json(['message' => 'Liquid log updated successfully.', 'data' => $liquidLog]);
+        return response()->json(['message' => 'Liquid log created successfully.', 'data' => $liquidLog]);
     }
 
     /**
@@ -48,7 +48,8 @@ class LiquidLogController extends Controller
      */
     public function show($id)
     {
-        $liquidLog = LiquidLog::with('liquid', 'userProfile')->findOrFail($id);
+        // Fetch specific liquid log with liquids and user profile
+        $liquidLog = LiquidLog::with('liquids', 'userProfile')->findOrFail($id);
         return response()->json($liquidLog);
     }
 
@@ -64,8 +65,8 @@ class LiquidLogController extends Controller
             'amount_ml' => 'required|integer|min:1',
         ]);
 
-        // Update the pivot table with new liquid and amount
-        $liquidLog->liquid()->syncWithoutDetaching([
+        // Update the pivot table with new liquid and amount_ml
+        $liquidLog->liquids()->syncWithoutDetaching([
             $validatedData['liquid_id'] => ['amount_ml' => $validatedData['amount_ml']]
         ]);
 
@@ -83,7 +84,7 @@ class LiquidLogController extends Controller
         $liquidLog = LiquidLog::findOrFail($id);
 
         // Detach all liquids and delete the liquid log
-        $liquidLog->liquid()->detach();
+        $liquidLog->liquids()->detach();  // Detach all liquids
         $liquidLog->delete();
 
         return response()->json(['message' => 'Liquid log deleted successfully.']);

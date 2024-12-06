@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('calories'); 
             $table->integer('carbohydrates'); 
             $table->integer('protein'); 
-            $table->integer('fat');
+            $table->integer('fats');
             $table->timestamps();
         });
     }

@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ingredient extends Model
 {
+    protected $fillable = ['name'];
+
     public function recipes(){
-        return $this->belongsToMany(Recipe::class);
+        return $this->belongsToMany(Recipe::class,'recipe_ingredient');
     }
 }

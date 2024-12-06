@@ -13,16 +13,8 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        $recipes = Recipe::with(['ingredients', 'filters'])->get();
-        return response()->json($recipes);
-    }
-
-    /**
-     * Show the form for creating a new recipe.
-     */
-    public function create()
-    {
-        return view('recipes.create');
+        $recipes = Recipe::all();
+        return response()->json($recipes, 200);
     }
 
     /**
@@ -30,31 +22,25 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        // Validate the request
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'description' => 'required|string',
+            'image' => 'required|string',
             'cooking_time' => 'required|integer',
-            'difficulty' => 'required|string',
-            'cuisine_type' => 'required|string',
-            'meal_type' => 'required|string',
+            'difficulty' => 'required|string|max:50',
+            'cuisine_type' => 'required|string|max:100',
+            'meal_type' => 'required|string|max:100',
         ]);
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $validatedData['image'] = $request->file('image')->store('images/recipes', 'public');
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        $recipe = Recipe::create($validatedData);
+        // Create the recipe
+        $recipe = Recipe::create($validator->validated());
 
-        // Attach ingredients (if provided)
-        if ($request->has('ingredients')) {
-            foreach ($request->ingredients as $ingredientData) {
-                $recipe->ingredients()->create($ingredientData);
-            }
-        }
-
-        return response()->json(['message' => 'Recipe created successfully!', 'recipe' => $recipe], 201);
+        return response()->json(['message' => 'Recipe created successfully', 'recipe' => $recipe], 201);
     }
 
     /**
@@ -62,17 +48,13 @@ class RecipeController extends Controller
      */
     public function show($id)
     {
-        $recipe = Recipe::with(['ingredients', 'filters', 'likedByUsers', 'mealPlans'])->findOrFail($id);
-        return response()->json($recipe);
-    }
+        $recipe = Recipe::find($id);
 
-    /**
-     * Show the form for editing the specified recipe.
-     */
-    public function edit($id)
-    {
-        $recipe = Recipe::findOrFail($id);
-        return view('recipes.edit', compact('recipe'));
+        if (!$recipe) {
+            return response()->json(['message' => 'Recipe not found'], 404);
+        }
+
+        return response()->json($recipe, 200);
     }
 
     /**
@@ -80,26 +62,31 @@ class RecipeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $recipe = Recipe::findOrFail($id);
+        $recipe = Recipe::find($id);
 
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-            'cooking_time' => 'required|integer',
-            'difficulty' => 'required|string',
-            'cuisine_type' => 'required|string',
-            'meal_type' => 'required|string',
-        ]);
-
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $validatedData['image'] = $request->file('image')->store('images/recipes', 'public');
+        if (!$recipe) {
+            return response()->json(['message' => 'Recipe not found'], 404);
         }
 
-        $recipe->update($validatedData);
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|required|string|max:255',
+            'description' => 'sometimes|required|string',
+            'image' => 'sometimes|required|string',
+            'cooking_time' => 'sometimes|required|integer',
+            'difficulty' => 'sometimes|required|string|max:50',
+            'cuisine_type' => 'sometimes|required|string|max:100',
+            'meal_type' => 'sometimes|required|string|max:100',
+        ]);
 
-        return response()->json(['message' => 'Recipe updated successfully!', 'recipe' => $recipe]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        // Update the recipe
+        $recipe->update($validator->validated());
+
+        return response()->json(['message' => 'Recipe updated successfully', 'recipe' => $recipe], 200);
     }
 
     /**
@@ -107,9 +94,14 @@ class RecipeController extends Controller
      */
     public function destroy($id)
     {
-        $recipe = Recipe::findOrFail($id);
+        $recipe = Recipe::find($id);
+
+        if (!$recipe) {
+            return response()->json(['message' => 'Recipe not found'], 404);
+        }
+
         $recipe->delete();
 
-        return response()->json(['message' => 'Recipe deleted successfully!']);
+        return response()->json(['message' => 'Recipe deleted successfully'], 200);
     }
 }
