@@ -14,12 +14,14 @@ class LiquidLogTableSeeder extends Seeder
     { 
         LiquidLog::create([ 
           'user_profile_id' => 1,
+        
           'total_amount_ml' => 4000,
           'date' => now()->format('Y-m-d')  
       ]); 
         
       LiquidLog::create([ 
         'user_profile_id' => 2,
+        
         'total_amount_ml' => 1600,
         'date' => now()->format('Y-m-d')  
     ]);

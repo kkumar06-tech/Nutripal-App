@@ -16,6 +16,9 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\LiquidLogController;
 use App\Http\Controllers\NutritionalValueController;
+use App\Http\Controllers\RecipeController;
+
+
 use App\Http\Controllers\AuthController;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -37,9 +40,14 @@ Route::apiResource('appointments', AppointmentController::class);
 Route::apiResource('liquids', LiquidController::class);
 
 
+Route::apiResource('recipes', RecipeController::class);
 Route::apiResource('ingredients', IngredientController::class);
+
+
 Route::apiResource('liquidlogs', LiquidLogController::class);
 Route::apiResource('Nutrivalue', NutritionalValueController::class);
+
+
 
 
 /*
@@ -53,7 +61,7 @@ Route::get('/conversations/{conversationId}', [ConversationController::class, 'g
 //Route::post('/conversations/{conversationId}/messages', [ConversationController::class, 'sendMessage']);
 */
 
-Route::get('/conversations', [ConversationController::class, 'index']);
+/*Route::get('/conversations', [ConversationController::class, 'index']);
 
 
 
@@ -61,7 +69,7 @@ Route::get('/conversations', [ConversationController::class, 'index']);
 
 Route::get('/messages', [ConversationController::class, 'index']);
 Route::get('/messages/{id}', [ConversationController::class, 'show']);
-
+*/
 
 
 
