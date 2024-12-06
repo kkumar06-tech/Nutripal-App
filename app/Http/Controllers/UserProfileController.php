@@ -21,8 +21,7 @@ class UserProfileController extends Controller
      */
     public function store(Request $request)
     {
-        $incomingFields = $request->validate([
-            'user_id' => ['required', 'exists:users,id'], 
+        $incomingFields = $request->validate([ 
             'name' => ['required', 'string', 'max:255'],
             'date_of_birth' => ['required', 'date'],
             'weight' => ['required', 'numeric'],
@@ -33,6 +32,8 @@ class UserProfileController extends Controller
             'daily_goal_ml' => ['required', 'integer'],
             'daily_goal_calories' => ['required', 'integer']
         ]);
+
+        $incomingFields['user_id'] = Auth::id();
 
         $profile=UserProfile::create($incomingFields);
 
@@ -57,7 +58,6 @@ class UserProfileController extends Controller
     public function update(Request $request, string $id)
     {
         $incomingFields = $request->validate([
-            'user_id' => ['nullable', 'exists:users,id'], 
             'name' => ['nullable', 'string', 'max:255'],
             'date_of_birth' => ['nullable', 'date'],
             'weight' => ['nullable', 'numeric'],
@@ -76,6 +76,10 @@ class UserProfileController extends Controller
         }
 
         $profile = UserProfile::findOrFail($id);
+        
+        if ($profile->user_id !== Auth::id()) {
+            return response()->json(['message' => 'You cannot update another user\'s profile.'], 403);
+        }
 
         $profile->update($incomingFields);
 

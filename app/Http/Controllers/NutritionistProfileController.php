@@ -20,14 +20,16 @@ class NutritionistProfileController extends Controller
      */
     public function store(Request $request)
     {
-        $incomingFields = $request->validate([
-            'user_id' => ['required', 'exists:users,id'], 
+        $incomingFields = $request->validate([ 
             'credentials' => ['required', 'string'],
             'certificate_image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'] 
         ]);
 
         if($request->hasFile('certificate_image')){
             $certificatePath = $request->file('certificate_image')->store('certificates','public');
+
+            $incomingFields['certificate_image'] = $certificatePath;
+            $incomingFields['user_id'] = Auth::id();
 
             $nutri = NutritionistProfile::create($incomingFields);
 
@@ -57,6 +59,10 @@ class NutritionistProfileController extends Controller
             'bio_description' => ['nullable', 'string']
         ]);
         $nutri = NutritionistProfile::findOrFail($id);
+
+        if ($nutri->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         if ($request->hasFile('profile_image')) {
             $profileImagePath = $request->file('profile_image')->store('profile_images', 'public');

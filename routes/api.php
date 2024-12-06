@@ -43,11 +43,6 @@ Route::post('/email/verify/resend', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-
-
-   
-
-
 Route::middleware('auth:sanctum')->group(function () {
     // Marija
  Route::apiResource('users', UserController::class);
