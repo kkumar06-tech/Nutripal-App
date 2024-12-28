@@ -15,6 +15,8 @@ use App\Http\Controllers\LiquidLogController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\RecipeController;
+
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\NutritionalValueController;
 use App\Http\Controllers\EmailVerificationController;
@@ -29,6 +31,12 @@ Route::post('/login', [AuthController::class, 'login']);
 
 //only logged in/authenticated users can logout
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+
+Route::middleware('auth:sanctum')->get('/user', function () {
+    $user = Auth::user(); // Get the currently authenticated user
+    return response()->json($user); // Return all the user's data as JSON
+});
+
 
 //email verification routes
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
@@ -75,7 +83,13 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// still left to test
 Route::patch('/markunread{id}',[MessageController::class,'markAsUnRead']); // 
  Route::get('usermealplans/{userId}', [MealPlanController::class,'usermealplan']);// all mealplans of a user
-});
+
+
+ Route::post('/verify-code', [EmailVerificationController::class, 'verifyCode']);
+
+Route::post('/resend-code', [EmailVerificationController::class, 'resendCode']);
+
+ });
  
 
 

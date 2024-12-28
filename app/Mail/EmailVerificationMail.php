@@ -16,14 +16,41 @@ class EmailVerificationMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($user)
+
+     public $user;
+     public $verificationCode;
+
+     /**
+      * Create a new message instance.
+      */
+     public function __construct($user,$verificationCode )
+     {
+        $this->user = $user;
+         $this->verificationCode = $verificationCode;
+     }
+
+   /* public function __construct($user)
     {
         $this->user = $user;
-    }
+    }*/
 
     public function build()
     {
-        return $this->from('noreply@mailtrap.io', 'Example App')
+
+
+
+
+
+        return $this->from('noreply@NUTRIPAL.com', 'NUTRIPAL')
+        ->subject('Your Email Verification Code')
+        ->text('email.verification_plain')  // Send plain text instead of a view
+        ->with([
+            'verificationCode' => $this->verificationCode,
+            'user' => $this->user
+        ]);
+
+
+       /* return $this->from('noreply@mailtrap.io', 'Example App')
                     ->subject('Verify Your Email Address')
                     ->view('verify')  // The view where your email content is stored
                     ->with([
@@ -31,7 +58,7 @@ class EmailVerificationMail extends Mailable
                             'id' => $this->user->id,
                             'hash' => sha1($this->user->email)
                         ])
-                    ]);
+                    ]);*/
     }
 
     /**
@@ -44,13 +71,14 @@ class EmailVerificationMail extends Mailable
         );
     }
 
+    
     /**
      * Get the message content definition.
      */
-    public function content(): Content
+     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'email.verification_plain',
         );
     }
 
@@ -59,7 +87,8 @@ class EmailVerificationMail extends Mailable
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
-    public function attachments(): array
+    
+     public function attachments(): array
     {
         return [];
     }
