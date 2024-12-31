@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             $this->call(NutritionalValueTableSeeder::class);
 
             $this->call(MealPlanRecipeTableSeeder::class);
+            $this->call(FoodFoodLogTableSeeder::class);
 
 
             $this->call([

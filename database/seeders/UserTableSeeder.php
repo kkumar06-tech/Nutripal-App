@@ -16,7 +16,7 @@ class UserTableSeeder extends Seeder
         User::create( [ 
             'username'=>'keshav',
             'email'=>'kk12@gmail.com',
-            'password'=>'j3ne9j',
+            'password'=>'123456789',
             'role'=>'user'
             ] ); 
 
@@ -44,7 +44,7 @@ class UserTableSeeder extends Seeder
                 User::create( [ 
                     'username'=>'aastha',
                     'email'=>'aasthaj@gmail.com',
-                    'password'=> bcrypt('1232'),
+                    'password'=> bcrypt('123456789'),
                     'role'=>'nutritionist'
 
             ] ); 

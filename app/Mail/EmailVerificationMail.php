@@ -50,7 +50,7 @@ class EmailVerificationMail extends Mailable
         ]);
 
 
-       /* return $this->from('noreply@mailtrap.io', 'Example App')
+      /*  return $this->from('noreply@mailtrap.io', 'Example App')
                     ->subject('Verify Your Email Address')
                     ->view('verify')  // The view where your email content is stored
                     ->with([

@@ -13,7 +13,7 @@ class FoodLogController extends Controller
     public function index()
     {
         // Get all food logs
-        $foodLogs = FoodLog::all();
+        $foodLogs = FoodLog::with('foods')->get();
 
         return response()->json($foodLogs);
     }
@@ -43,7 +43,7 @@ class FoodLogController extends Controller
     public function show($id)
     {
         // Find the food log by ID or fail
-        $foodLog = FoodLog::findOrFail($id);
+        $foodLog = FoodLog::with('foods')->findOrFail($id);
 
         return response()->json($foodLog);
     }

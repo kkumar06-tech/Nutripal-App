@@ -8,7 +8,6 @@ class FoodLog extends Model
 {
     protected $fillable = [
         'user_profile_id',
-        'food_id',
         'date',
         'portion',
         'calories'

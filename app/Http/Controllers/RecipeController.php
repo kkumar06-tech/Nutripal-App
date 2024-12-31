@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Recipe;
-use App\Models\Ingredient;
 use Illuminate\Http\Request;
 
 class RecipeController extends Controller
@@ -13,8 +12,8 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        $recipes = Recipe::all();
-        return response()->json($recipes, 200);
+        $recipes = Recipe::with('ingredients')->get();           
+        return response()->json($recipes);
     }
 
     /**
@@ -48,14 +47,19 @@ class RecipeController extends Controller
      */
     public function show($id)
     {
-        $recipe = Recipe::find($id);
+        $recipe = Recipe::with('ingredients')->findOrFail($id);
+        return response()->json($recipe);
+   
+     /*   $recipe = Recipe::find($id);
 
         if (!$recipe) {
             return response()->json(['message' => 'Recipe not found'], 404);
         }
 
         return response()->json($recipe, 200);
-    }
+    }*/
+ }
+
 
     /**
      * Update the specified recipe in storage.

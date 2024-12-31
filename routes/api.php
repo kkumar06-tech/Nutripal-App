@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 
 Route::middleware('auth:sanctum')->get('/user', function () {
     $user = Auth::user(); // Get the currently authenticated user
-    return response()->json($user); // Return all the user's data as JSON
+    return response()->json($user);
 });
 
 

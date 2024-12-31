@@ -15,7 +15,6 @@ return new class extends Migration
         Schema::create('food_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_profile_id')->constrained('user_profiles')->onDelete('cascade');
-            $table->foreignId('food_id')->constrained('foods')->onDelete('cascade');
             $table->date('date');    /* ->default(DB::raw('CURRENT_DATE')); */
             $table->integer('total_calories')->nullable(); 
             $table->timestamps();
