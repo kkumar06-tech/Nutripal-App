@@ -10,10 +10,13 @@ class Food extends Model
     
     protected $fillable = [
         'name',
+        'meal_type',
         'calories',
         'protein',
         'carbs',
         'fat',
+        'portion',
+        'food_image'
     ];
 
 

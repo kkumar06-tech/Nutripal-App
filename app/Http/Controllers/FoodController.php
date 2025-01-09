@@ -24,17 +24,23 @@ class FoodController extends Controller
         // Validation
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'meal_type'=>['required','in:breakfast,lunch,snack,dinner'],
             'calories' => 'required|integer',
             'protein' => 'required|integer',
             'carbs' => 'required|integer',
             'fat' => 'required|integer',
             'portion' => 'required|integer',
+            'food_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048']
         ]);
 
-        // Create a new food item
-        $food = Food::create($validated);
-
-        return response()->json($food, 201); // Return the created food
+        try {
+            // Create a new food item
+            $food = Food::create($validated);
+    
+            return response()->json($food, 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unable to create food item'], 500);
+        }
     }
 
     /**
@@ -53,7 +59,7 @@ class FoodController extends Controller
     {
         $food = Food::findOrFail($id); // Find the food by id or fail if not found
 
-        
+       /* 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'calories' => 'required|integer',
@@ -61,10 +67,10 @@ class FoodController extends Controller
             'carbs' => 'required|integer',
             'fat' => 'required|integer',
             'portion' => 'required|integer',
-        ]);
+        ]);*/
 
 
-        $food->update($validated);
+        $food->update($request->all());
 
         return response()->json($food);
     }
@@ -77,6 +83,6 @@ class FoodController extends Controller
         $food = Food::findOrFail($id); 
         $food->delete(); // Delete the food
 
-        return response()->json(['message' => 'Food deleted successfully']);
+        return response()->json(['message' => 'Food deleted successfully'],200);
     }
 }

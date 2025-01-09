@@ -15,6 +15,7 @@ class FoodTableSeeder extends Seeder
     {
         Food::create([
             'name' => 'Apple',
+            'meal_type'=>'breakfast',
             'calories' => 95,
             'protein' => 0,
             'carbs' => 25,
@@ -25,6 +26,7 @@ class FoodTableSeeder extends Seeder
         Food::create([
             'name' => 'Banana',
             'calories' => 105,
+            'meal_type'=>'breakfast',
             'protein' => 1,
             'carbs' => 27,
             'fat' => 0,
@@ -33,10 +35,21 @@ class FoodTableSeeder extends Seeder
 
         Food::create([
             'name' => 'Chicken Breast',
+            'meal_type'=>'lunch',
             'calories' => 165,
             'protein' => 31,
             'carbs' => 0,
             'fat' => 3,
+            'portion' => 100
+        ]);
+
+        Food::create([
+            'name' => 'Mushrrom Curry',
+            'meal_type'=>'dinner',
+            'calories' => 106,
+            'protein' => 10,
+            'carbs' => 50,
+            'fat' => 20,
             'portion' => 100
         ]);
 
