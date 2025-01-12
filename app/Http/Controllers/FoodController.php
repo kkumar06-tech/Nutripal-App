@@ -13,6 +13,10 @@ class FoodController extends Controller
     public function index()
     {
         $foods = Food::all(); // Retrieve all foods
+        $foods->transform(function ($food) {
+            $food->food_image_url = $food->food_image ? asset('storage/' . $food->food_image) : null;
+            return $food;
+        });
         return response()->json($foods);
     }
 
@@ -34,6 +38,16 @@ class FoodController extends Controller
         ]);
 
         try {
+
+            if ($request->hasFile('food_image')) {
+
+                if ($food->food_image) {
+                    Storage::disk('public')->delete($food->food_image);
+                }
+                
+                $validated['food_image'] = $request->file('food_image')->store('food_images', 'public');
+            }
+
             // Create a new food item
             $food = Food::create($validated);
     
@@ -49,6 +63,7 @@ class FoodController extends Controller
     public function show($id)
     {
         $food = Food::findOrFail($id); // Find the food by id or fail if not found
+        $food->food_image_url = $food->food_image ? asset('storage/' . $food->food_image) : null;
         return response()->json($food);
     }
 
