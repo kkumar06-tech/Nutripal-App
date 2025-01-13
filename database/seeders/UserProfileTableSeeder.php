@@ -21,7 +21,7 @@ class UserProfileTableSeeder extends Seeder
             'height' => 185, 
             'gender' => 'female',
             'fitness_goal' => 'weight_loss', 
-            'weekly_exercise_frequency' => '3-4 days',
+            'weekly_exercise_frequency' => 'lightly_active',
         ]);
 
         UserProfile::create([
@@ -32,7 +32,7 @@ class UserProfileTableSeeder extends Seeder
             'height' => 160, 
             'gender' => 'female',
             'fitness_goal' => 'maintenance', 
-            'weekly_exercise_frequency' => '1-2 days',
+            'weekly_exercise_frequency' => 'sedentary',
         ]);
 
         UserProfile::create([
@@ -42,8 +42,22 @@ class UserProfileTableSeeder extends Seeder
             'weight' => 85.2, 
             'height' => 175, 
             'gender' => 'male',
-            'fitness_goal' => 'muscle_building', 
-            'weekly_exercise_frequency' => '5-6 days',
+            'fitness_goal' => 'build_muscle', 
+            'weekly_exercise_frequency' => 'very_active',
+        ]);
+
+        UserProfile::create([
+            'user_id' => 4, 
+            'name' => 'keshav kumar',
+            'date_of_birth' => '2003-02-06',
+            'weight' => 65, 
+            'height' => 176, 
+            'gender' => 'male',
+            'fitness_goal' => 'build_muscle', 
+            'weekly_exercise_frequency' => 'very_active',
+            'daily_goal_ml' => 2300,
+            'daily_goal_calories'=>2801 ,
+            
         ]);
 
 

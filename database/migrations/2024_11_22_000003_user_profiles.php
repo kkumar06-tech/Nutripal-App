@@ -21,13 +21,13 @@ return new class extends Migration
             $table->float('weight')->nullable();
             $table->float('height')->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
-            $table->enum('fitness_goal', ['maintenance', 'weight_loss', 'muscle_building'])->nullable();
+            $table->enum('fitness_goal', ['maintenance', 'weight_loss', 'build_muscle'])->nullable();
             $table->enum('weekly_exercise_frequency', [
-                '0 days',
-                '1-2 days',
-                '3-4 days',
-                '5-6 days',
-                '7 days'
+                'sedentary',
+                'lightly_active',
+                'moderately_active',
+                'very_active',
+                'extremely_active'
             ])->nullable();
             $table->integer('daily_goal_ml')->default(2000)->nullable(); 
             $table->integer('daily_goal_calories')->default(2000)->nullable();

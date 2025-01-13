@@ -15,10 +15,12 @@ class UserStatTableSeeder extends Seeder
     {
         
         UserStat::create([
-            'user_id'=>1 ,
+            'user_id'=>4 ,
        
         'calories'=>200,
-        'weight'=>50,
+        'protein'=>50,
+        'fat'=>80,
+        'carbs'=>120,
         'liquid_intake'=>10,
         ]);
     

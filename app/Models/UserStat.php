@@ -10,7 +10,9 @@ class UserStat extends Model
         'user_id',
         'date',
         'calories',
-        'weight',
+        'protein',
+        'fats',
+        'carbs',
         'liquid_intake',
     ];
 

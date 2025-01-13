@@ -24,9 +24,10 @@ class UserStatController extends Controller
         // Validate incoming request data
         $validated = $request->validate([
             'user_id' => ['required', 'exists:user_profiles,id'], // Ensure the user exists in user_profiles table
-            'date' => ['required', 'date'], // Validate date format
             'calories' => ['required', 'integer'],
-            'weight' => ['nullable', 'numeric'],
+            'protein' => ['required', 'integer'],
+            'fat' => ['nullable', 'integer'],
+            'carbs' => ['nullable', 'integer'],
             'liquid_intake' => ['nullable', 'numeric'],
         ]);
 
@@ -49,13 +50,17 @@ class UserStatController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show( $userId)
     {
-        // Find the specific UserStat by ID
-        $userStat = UserStat::findOrFail($id);
+        $userStats = UserStat::where('user_id', $userId)->get();
 
-        // Return the found UserStat
-        return response()->json($userStat, 200);
+        // Check if any stats were found
+        if ($userStats->isEmpty()) {
+            return response()->json(['message' => 'No stats found for this user'], 404);
+        }
+    
+        // Return the user stats
+        return response()->json($userStats, 200);
     }
 
     /**
@@ -66,9 +71,10 @@ class UserStatController extends Controller
         // Validate incoming request data
         $validated = $request->validate([
             'user_id' => ['required', 'exists:user_profiles,id'], // Ensure the user exists in user_profiles table
-            'date' => ['required', 'date'], // Validate date format
             'calories' => ['required', 'integer'],
-            'weight' => ['nullable', 'numeric'],
+            'protein' => ['required', 'integer'],
+            'fat' => ['nullable', 'integer'],
+            'carbs' => ['nullable', 'integer'],
             'liquid_intake' => ['nullable', 'numeric'],
         ]);
 

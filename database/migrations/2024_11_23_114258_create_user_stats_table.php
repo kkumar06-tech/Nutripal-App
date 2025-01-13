@@ -17,7 +17,9 @@ return new class extends Migration
             
             $table->date('date');                     /* ->default(DB::raw('CURRENT_DATE')); */
             $table->integer('calories')->default(0);
-            $table->decimal('weight', 5, 2)->nullable();
+            $table->integer('protein')->default(0);
+            $table->integer('fat')->default(0);
+            $table->integer('carbs')->default(0);
             $table->decimal('liquid_intake', 5, 2)->default(0.0);
 
             $table->timestamps();

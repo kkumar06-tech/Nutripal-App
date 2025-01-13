@@ -18,12 +18,12 @@ class FoodFoodLogTableSeeder extends Seeder
         $food2 = Food::where('name', 'Chicken Breast')->first();
         $food3 = Food::where('name', 'Banana')->first();
         
-        // Find liquid log by user_profile_id (this is what ties it to the user)
+        // Find food log by user_profile_id (this is what ties it to the user)
         $foodLog1 =FoodLog::where('user_profile_id', 1)->first();  // Find log for user 1
         $foodLog2 = FoodLog::where('user_profile_id', 2)->first();  // Find log for user 2
         $foodLog3 = FoodLog::where('user_profile_id', 3)->first();  // Find log for user 2
 
-        // Attach liquids to liquid logs (pivot table insertion)
+        // Attach foodss to food logs (pivot table insertion)
         if ($food1 && $foodLog1) {
             $food1->foodlogs()->attach($foodLog1->id);
         }
