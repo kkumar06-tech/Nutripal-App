@@ -15,18 +15,28 @@ class LiquidTableSeeder extends Seeder
     {
         Liquid::create([
             'name' => 'Water',
-            'amount_ml' => 250,
         ]);
 
         Liquid::create([
             'name' => 'Juice',
-            'amount_ml' => 200,
         ]);
 
         Liquid::create([
-            'name' => 'Milk',
-            'amount_ml' => 300,
+            'name' => 'coffee',
         ]);
 
+
+        
+        
+        Liquid::create([
+            'name' => 'tea',
+        ]);
+
+
+Liquid::create([
+            'name' => 'milk',
+        ]);
+    
     }
+
 }

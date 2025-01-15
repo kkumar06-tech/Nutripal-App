@@ -1,7 +1,12 @@
 <?php
 
+
 namespace App\Http\Controllers;
 use App\Models\FoodLog;
+use App\Models\UserProfile;
+use App\Models\Food;
+use Illuminate\Support\Facades\Log;
+use App\Models\UserStat;
 
 use Illuminate\Http\Request;
 
@@ -23,51 +28,151 @@ class FoodLogController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate incoming request data
         $validated = $request->validate([
-            'user_profile_id' => ['required', 'exists:user_profiles,id'],
-            'food_id' => ['required', 'exists:foods,id'],
-            'date' => ['required', 'date'],
-            'total_calories' => ['required', 'integer'],
+            'user_id' => ['required', 'exists:user_profiles,user_id'], 
+            'foods' => ['required', 'array'], // Expecting an array of food IDs
+            'foods.*' => ['required', 'exists:foods,id'], // Validate each food ID
         ]);
 
-        // Create a new food log record
-        $foodLog = FoodLog::create($validated);
-
-        return response()->json($foodLog, 201);
+       
+        // Find the user profile by user_id
+        $userProfile = UserProfile::where('user_id', $validated['user_id'])->first();
+    
+        if (!$userProfile) {
+            return response()->json(['message' => 'UserProfile not found'], 404);
+        }
+    
+        // Initialize variables for total nutritional values
+        $totalCalories = 0;
+        $totalProtein = 0;
+        $totalFat = 0;
+        $totalCarbs = 0;
+    
+        // Store food logs
+        $foodLogs = [];
+    
+        // Iterate through the foods array and create separate logs for each food
+        foreach ($validated['foods'] as $foodId) {
+            // Create a new food log record
+            $foodLog = FoodLog::create([
+                'user_profile_id' => $userProfile->id,
+            ]);
+    
+            // Attach the food to the food log
+            $foodLog->foods()->attach($foodId);
+    
+            // Fetch the food details
+            $food = Food::find($foodId);
+    
+            if ($food) {
+                // Accumulate stats for this food
+                $totalCalories += $food->calories;
+                $totalProtein += $food->protein;
+                $totalFat += $food->fat;
+                $totalCarbs += $food->carbs;
+            }
+    
+            // Store the food log in the array
+            $foodLogs[] = $foodLog;
+        }
+    
+        // Update or create user stats
+        $userStats = UserStat::where('user_id', $userProfile->id)->first();
+    
+        if (!$userStats) {
+            // Create new stats entry
+            $userStats = new UserStat();
+            $userStats->user_id = $userProfile->id;
+            $userStats->calories = $totalCalories;
+            $userStats->protein = $totalProtein;
+            $userStats->fat = $totalFat;
+            $userStats->carbs = $totalCarbs;
+            $userStats->save();
+        } else {
+            // Update existing stats
+            $userStats->calories += $totalCalories;
+            $userStats->protein += $totalProtein;
+            $userStats->fat += $totalFat;
+            $userStats->carbs += $totalCarbs;
+            $userStats->save();
+        }
+    
+        // Return the newly created food logs and a success message
+        return response()->json([
+            'message' => 'Foods logged successfully',
+            'foodLogs' => $foodLogs,
+        ], 201);
     }
 
-    /**
-     * Display the specified food log.
-     */
-    public function show($id)
-    {
-        // Find the food log by ID or fail
-        $foodLog = FoodLog::with('foods')->findOrFail($id);
 
+
+    public function show($user_id)
+    {
+        $userProfile = UserProfile::where('user_id', $user_id)->first();
+    
+        if (!$userProfile) {
+            return response()->json(['message' => 'UserProfile not found'], 404);
+        }
+    
+        $foodLog = FoodLog::with('foods')->where('user_profile_id', $userProfile->id)->get();
+    
+        if ($foodLog->isEmpty()) {
+            return response()->json(['message' => 'No food logs found for this user'], 404);
+        }
+    
         return response()->json($foodLog);
     }
+
 
     /**
      * Update the specified food log in storage.
      */
     public function update(Request $request, $id)
     {
-        // Validate incoming request data
-        $validated = $request->validate([
-            'user_profile_id' => ['required', 'exists:user_profiles,id'],
-            'food_id' => ['required', 'exists:foods,id'],
-            'date' => ['required', 'date'],
-            'total_calories' => ['nullable', 'integer'],
-        ]);
-
-        // Find the food log by ID or fail
-        $foodLog = FoodLog::findOrFail($id);
-
-        // Update the food log with validated data
-        $foodLog->update($validated);
-
-        return response()->json($foodLog);
+              // Validate incoming request data
+              $validated = $request->validate([
+                'foods' => ['required', 'array'],  // Expecting an array of food IDs
+                'foods.*' => ['required', 'exists:foods,id'], // Validate each food ID
+            ]);
+    
+            // Find the food log by ID or fail
+            $foodLog = FoodLog::findOrFail($id);
+    
+            // Detach old foods and attach new ones
+            $foodLog->foods()->detach();
+            $foodLog->foods()->attach($validated['foods']);
+    
+            // Recalculate nutritional stats
+            $totalCalories = 0;
+            $totalProtein = 0;
+            $totalFat = 0;
+            $totalCarbs = 0;
+    
+            foreach ($validated['foods'] as $foodId) {
+                $food = Food::find($foodId);
+                if ($food) {
+                    $totalCalories += $food->calories;
+                    $totalProtein += $food->protein;
+                    $totalFat += $food->fat;
+                    $totalCarbs += $food->carbs;
+                }
+            }
+    
+            // Update user stats
+            $userStats = UserStat::where('user_id', $foodLog->user_profile_id)->first();
+            if ($userStats) {
+                $userStats->calories += $totalCalories;
+                $userStats->protein += $totalProtein;
+                $userStats->fat += $totalFat;
+                $userStats->carbs += $totalCarbs;
+                $userStats->save();
+            }
+    
+            // Return the updated food log
+            return response()->json([
+                'message' => 'Food log updated successfully',
+                'foodLog' => $foodLog,
+              ]);
     }
 
     /**
@@ -75,11 +180,10 @@ class FoodLogController extends Controller
      */
     public function destroy($id)
     {
-        $foodLog = FoodLog::findOrFail($id);
+      $foodLog = FoodLog::findOrFail($id);
 
-        // Delete the food log
-        $foodLog->delete();
+      $foodLog->delete();
 
-        return response()->json(['message' => 'Food log deleted successfully'], 200);
+      return response()->json(['message' => 'Food log deleted successfully'], 200);
     }
 }

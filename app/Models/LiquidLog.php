@@ -24,18 +24,18 @@ class LiquidLog extends Model
                 $liquidLog->date = now()->format('Y-m-d'); 
             }
         });
-    }
 
-    public function updateTotalAmount()
-    {
-        // sum the 'amount_ml' values from the pivot table
-        $totalAmountMl = $this->liquids->sum(function ($liquid) {
-            return $liquid->pivot->amount_ml;
+
+        static::updating(function ($liquidLog) {
+            // check if the date is not set
+            if (!$liquidLog->date) {
+                // if the date is not set, set it to today's date
+                $liquidLog->date = now()->format('Y-m-d'); 
+            }
         });
-
-        // update the total_amount_ml field in the LiquidLog table
-        $this->update(['total_amount_ml' => $totalAmountMl]);
     }
+
+  
 
     public function liquids()
     {

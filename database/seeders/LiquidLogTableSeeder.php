@@ -26,5 +26,41 @@ class LiquidLogTableSeeder extends Seeder
         'date' => now()->format('Y-m-d')  
     ]);
 
+    LiquidLog::create([ 
+        'user_profile_id' => 4,
+        
+        'total_amount_ml' => 2000,
+   'date' => '2025-01-13'
+    ]);
+
+    LiquidLog::create([ 
+        'user_profile_id' => 4,
+        
+        'total_amount_ml' => 2000,
+   'date' => '2025-01-14'
+    ]);   
+    
+    LiquidLog::create([ 
+        'user_profile_id' => 4,
+        
+        'total_amount_ml' => 1300,
+        'date' => '2025-01-14'
+    ]);
+    
+    LiquidLog::create([ 
+        'user_profile_id' => 4,
+        
+        'total_amount_ml' => 1100,
+       'date' => '2025-01-15'
+    ]);
+
+    LiquidLog::create([ 
+        'user_profile_id' => 4,
+        
+        'total_amount_ml' => 1200,
+       'date' => '2025-01-15'
+    ]);
+
+
     }
 }

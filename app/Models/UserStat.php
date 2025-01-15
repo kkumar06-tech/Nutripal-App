@@ -25,6 +25,15 @@ class UserStat extends Model
                 $userStat->date = now()->format('Y-m-d'); 
             }
         });
+
+
+
+        static::updating(function ($userStat) {
+            if (!$userStat->date) {
+                $userStat->date = now()->format('Y-m-d');  // Automatically set the current date during update
+            }
+        });
+
     }
     public function userProfile()
     {

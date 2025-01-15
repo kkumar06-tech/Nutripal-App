@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\UserStat;
 use Illuminate\Http\Request;
-
+use App\Models\UserProfile;
 class UserStatController extends Controller
 {
     /**
@@ -28,21 +28,26 @@ class UserStatController extends Controller
             'protein' => ['required', 'integer'],
             'fat' => ['nullable', 'integer'],
             'carbs' => ['nullable', 'integer'],
-            'liquid_intake' => ['nullable', 'numeric'],
+            'liquid_intake' => ['nullable', 'integer'],
         ]);
+        $userProfile = UserProfile::where('user_id', $validated['user_id'])->first();
 
-        // Check if a record already exists for the same user and date
-        $existingStat = UserStat::where('user_id', $validated['user_id'])
-                                ->where('date', $validated['date'])
-                                ->first();
-
+        if (!$userProfile) {
+            return response()->json(['message' => 'UserProfile not found'], 404);
+        }
+    
+        $existingStat = UserStat::where('user_profile_id', $userProfile->id) ->where('date', $validated['date']) ->first();
+    
         if ($existingStat) {
             return response()->json(['message' => 'Record already exists for this date'], 400);
         }
-
+    
+        // Add the user_profile_id to the validated data
+        $validated['user_profile_id'] = $userProfile->id;
+    
         // Create a new UserStat record
         $userStat = UserStat::create($validated);
-
+    
         // Return the created UserStat
         return response()->json($userStat, 201);
     }
@@ -52,15 +57,20 @@ class UserStatController extends Controller
      */
     public function show( $userId)
     {
-        $userStats = UserStat::where('user_id', $userId)->get();
+         $userProfile = UserProfile::where('user_id', $userId)->first();
 
-        // Check if any stats were found
+        if (!$userProfile) {
+            return response()->json(['message' => 'UserProfile not found'], 404);
+        }
+    
+        // Fetch UserStats using user_profile_id
+        $userStats =UserStat::where('user_id', $userProfile->id)->get();
+    
         if ($userStats->isEmpty()) {
             return response()->json(['message' => 'No stats found for this user'], 404);
         }
     
-        // Return the user stats
-        return response()->json($userStats, 200);
+        return response()->json($userStats, 200); 
     }
 
     /**
@@ -75,7 +85,7 @@ class UserStatController extends Controller
             'protein' => ['required', 'integer'],
             'fat' => ['nullable', 'integer'],
             'carbs' => ['nullable', 'integer'],
-            'liquid_intake' => ['nullable', 'numeric'],
+            'liquid_intake' => ['nullable', 'integer'],
         ]);
 
         // Find the UserStat record by ID
@@ -102,4 +112,7 @@ class UserStatController extends Controller
         // Return success message
         return response()->json(['message' => 'UserStat deleted successfully'], 200);
     }
+    
+
+
 }

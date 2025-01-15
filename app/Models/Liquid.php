@@ -9,7 +9,6 @@ class Liquid extends Model
     
     protected $fillable = [
         'name',
-        'ml_amount'
     ];
 
 

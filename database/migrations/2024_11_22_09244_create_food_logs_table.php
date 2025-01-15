@@ -16,7 +16,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_profile_id')->constrained('user_profiles')->onDelete('cascade');
             $table->date('date');    /* ->default(DB::raw('CURRENT_DATE')); */
-            $table->integer('total_calories')->nullable(); 
             $table->timestamps();
         });
     }

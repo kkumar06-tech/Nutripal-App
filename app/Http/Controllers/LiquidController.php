@@ -24,8 +24,7 @@ class LiquidController extends Controller
     {
         
         $validated = $request->validate([
-            "name"=> "reqired",'required|string|max:255',
-            'calories' => 'required|integer'
+            'name'=> 'required|string|max:255',
         ]);
         $liquid = Liquid::create($validated);
         return response()->json($liquid);
@@ -49,8 +48,7 @@ class LiquidController extends Controller
     {
         $liquid = Liquid::find($id);
         $validated = $request->validate([
-            "name"=> "reqired",'required|string|max:255',
-            'calories' => 'required|integer'
+            'name'=> 'required|string|max:255',
         ]);
         $liquid->update($validated);
         return response()->json($liquid,200);

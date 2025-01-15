@@ -9,8 +9,6 @@ class FoodLog extends Model
     protected $fillable = [
         'user_profile_id',
         'date',
-        'portion',
-        'calories'
     ];
 
 
@@ -21,13 +19,14 @@ class FoodLog extends Model
                 $foodLog->date = now()->format('Y-m-d'); 
             }
         });
+
+        static::updating(function ($foodLog) {
+            if (!$foodLog->date) { // Check if 'date' exists
+                $foodLog->date = now()->format('Y-m-d');  }
+            });
     }
 
-    public function updateTotalAmount(){
-        $totalCalories = $this->foods->sum('calories');
-
-        $this->update(['total_calories' => $totalCalories]);
-    }
+   
 
     public function foods()
     {

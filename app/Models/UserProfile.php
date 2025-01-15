@@ -38,6 +38,11 @@ class UserProfile extends Model
         return $this->hasMany(LiquidLog::class);
     }
 
+    public function foodLogs()
+    {
+        return $this->hasMany(FoodLog::class);
+    }
+
     public function conversations()
     {
         return $this->hasMany(Conversation::class);
