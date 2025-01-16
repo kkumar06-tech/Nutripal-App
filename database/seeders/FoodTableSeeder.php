@@ -21,7 +21,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 25,
         'fat' => 0,
         'portion' => 100,
-        'food_image'=>'food_images/apple.jpg'
+        'food_image'=>'food_images/apple.png'
     ]);
     
     Food::create([
@@ -32,7 +32,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 27,
         'fat' => 0,
         'portion' => 100,
-         'food_image'=>'food_images/banana.jpg'
+         'food_image'=>'food_images/banana.png'
     ]);
     
     Food::create([
@@ -43,7 +43,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 0,
         'fat' => 3,
         'portion' => 100,
-         'food_image'=>'food_images/chicken_breast.jpg'
+         'food_image'=>'food_images/chicken.png'
     ]);
     
     Food::create([
@@ -54,7 +54,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 50,
         'fat' => 20,
         'portion' => 100,
-         'food_image'=>'food_images/mushroom_curry.jpg'
+         'food_image'=>'food_images/stew.png'
     ]);
     
     Food::create([
@@ -65,7 +65,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 22,
         'fat' => 49,
         'portion' => 100,
-         'food_image'=>'food_images/almonds.jpg'
+         'food_image'=>'food_images/almonds.png'
     ]);
     
     Food::create([
@@ -76,7 +76,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 0,
         'fat' => 13,
         'portion' => 100,
-         'food_image'=>'food_images/salmon.jpg'
+         'food_image'=>'food_images/salmon.png'
     ]);
     
     Food::create([
@@ -87,19 +87,10 @@ class FoodTableSeeder extends Seeder
         'carbs' => 3,
         'fat' => 0,
         'portion' => 100,
-         'food_image'=>'food_images/greek_yoghurt.jpg'
+         'food_image'=>'food_images/yogurt.png'
     ]);
     
-    Food::create([
-        'name' => 'Oatmeal',
-        'meal_type' => 'Breakfast',
-        'calories' => 150,
-        'protein' => 5,
-        'carbs' => 27,
-        'fat' => 3,
-        'portion' => 100,
-         'food_image'=>'food_images/oatmeal.jpg'
-    ]);
+
     
     Food::create([
         'name' => 'Broccoli',
@@ -109,7 +100,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 11,
         'fat' => 0,
         'portion' => 100,
-         'food_image'=>'food_images/brocolli.jpg'
+         'food_image'=>'food_images/broccoli.png'
     ]);
     
     Food::create([
@@ -120,6 +111,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 1,
         'fat' => 11,
         'portion' => 100,
+        'food_image'=>'food_images/eggs.png'
     ]);
     
     Food::create([
@@ -130,6 +122,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 28,
         'fat' => 0,
         'portion' => 100,
+        'food_image'=>'food_images/rice.png'
     ]);
     
     Food::create([
@@ -140,6 +133,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 3,
         'fat' => 8,
         'portion' => 100,
+        'food_image'=>'food_images/tofu.png'
     ]);
     
  
@@ -152,6 +146,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 20,
         'fat' => 0,
         'portion' => 100,
+        'food_image'=>'food_images/sweetpotato.png'
     ]);
     
     Food::create([
@@ -162,6 +157,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 20,
         'fat' => 2,
         'portion' => 100,
+    'food_image'=>'food_images/stew3.png'
     ]);
     
     Food::create([
@@ -172,6 +168,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 1,
         'fat' => 33,
         'portion' => 100,
+        'food_image'=>'food_images/cheese.png'
     ]);
     
     Food::create([
@@ -182,6 +179,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 15,
         'fat' => 0,
         'portion' => 100,
+        'food_image'=>'food_images/orange.png'
     ]);
     
     Food::create([
@@ -192,6 +190,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 4,
         'fat' => 0,
         'portion' => 100,
+        'food_image'=>'food_images/spinach.png'
     ]);
     
     Food::create([
@@ -202,6 +201,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 9,
         'fat' => 15,
         'portion' => 100,
+        'food_image'=>'food_images/avocado.png'
     ]);
     
     Food::create([
@@ -212,6 +212,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 0,
         'fat' => 19,
         'portion' => 100,
+        'food_image'=>'food_images/meat.png'
     ]);
     
 
@@ -224,6 +225,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 25,
         'fat' => 1,
         'portion' => 100,
+        'food_image'=>'food_images/pasta.png'
     ]);
     
     Food::create([
@@ -234,6 +236,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 14,
         'fat' => 0,
         'portion' => 100,
+        'food_image'=>'food_images/blueberry.png'
     ]);
     
     Food::create([
@@ -244,6 +247,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 46,
         'fat' => 31,
         'portion' => 100,
+        'food_image'=>'food_images/chocolate.png'
     ]);
     
     Food::create([
@@ -254,6 +258,7 @@ class FoodTableSeeder extends Seeder
         'carbs' => 0,
         'fat' => 1,
         'portion' => 100,
+    'food_image'=>'food_images/chicken2.png'
     ]);
   
 
@@ -266,6 +271,7 @@ class FoodTableSeeder extends Seeder
     'carbs' => 48,
     'fat' => 3.3,
     'portion' => 100,
+    'food_image'=>'food_images/bread.png'
 ]);
 
 Food::create([
@@ -276,17 +282,10 @@ Food::create([
     'carbs' => 10,
     'fat' => 12,
     'portion' => 150,
+    'food_image'=>'food_images/salad.png'
 ]);
 
-Food::create([
-    'name' => 'Spanish Gazpacho',
-    'meal_type' => 'Lunch',
-    'calories' => 70,
-    'protein' => 2,
-    'carbs' => 8,
-    'fat' => 3,
-    'portion' => 250,
-]);
+
 
 Food::create([
     'name' => 'Quinoa Salad',
@@ -296,6 +295,7 @@ Food::create([
     'carbs' => 21,
     'fat' => 3,
     'portion' => 100,
+    'food_image'=>'food_images/ricesalad.png'
 ]);
 
 Food::create([
@@ -306,6 +306,8 @@ Food::create([
     'carbs' => 14,
     'fat' => 2,
     'portion' => 200,
+    'food_image'=>'food_images/stew2.png',
+'food_image'=>'food_images/stew4.png'
 ]);
 
 Food::create([
@@ -316,6 +318,8 @@ Food::create([
     'carbs' => 7,
     'fat' => 6,
     'portion' => 200,
+    'food_image'=>'food_images/.png',
+    'food_image'=>'food_images/ratatoie.png'
 ]);
 
 Food::create([
@@ -326,6 +330,7 @@ Food::create([
     'carbs' => 0,
     'fat' => 4,
     'portion' => 85,
+    'food_image'=>'food_images/salmon.png'
 ]);
 
 Food::create([
@@ -336,18 +341,9 @@ Food::create([
     'carbs' => 68,
     'fat' => 2,
     'portion' => 100,
+    'food_image'=>'food_images/cracker.png'
 ]);
 
-Food::create([
-    'name' => 'Norwegian Mackerel',
-    'meal_type' => 'Dinner',
-    'calories' => 205,
-    'protein' => 19,
-    'carbs' => 0,
-    'fat' => 14,
-    'portion' => 100,
-]);
-
-}
+   }
 
 }
