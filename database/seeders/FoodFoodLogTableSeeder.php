@@ -25,12 +25,10 @@ class FoodFoodLogTableSeeder extends Seeder
         $foodLog1 =FoodLog::where('user_profile_id', 1)->first();  // Find log for user 1
         $foodLog2 = FoodLog::where('user_profile_id', 2)->first();  // Find log for user 2
         $foodLog3 = FoodLog::where('user_profile_id', 3)->first();  // Find log for user 2
-        $foodLog4 = FoodLog::where('user_profile_id', 4)->first();  // Find log for user 2
-        $foodLog5 = FoodLog::where('user_profile_id', 4)->where('date', '2025-01-14')->first();
-        $foodLog6 = FoodLog::where('user_profile_id', 4)->where('date', '2025-01-13')->first();
-        $foodLog7 = FoodLog::where('user_profile_id', 4)->where('date', '2025-01-14')->first();
-        $foodLog8 = FoodLog::where('user_profile_id', 4)->where('date', '2025-01-15')->first();
-        $foodLog9 = FoodLog::where('user_profile_id', 4)->where('date', '2025-01-15')->first();
+        $foodLog4 = FoodLog::where('user_profile_id', 4)->where('date', '2025-01-14')->first();
+         $foodLog5 = FoodLog::where('user_profile_id', 4)->where('date', '2025-01-15')->first();
+            $foodLog6 = FoodLog::where('user_profile_id', 4)->where('date', '2025-01-13')->first();
+    
 
         
         // Attach foodss to food logs (pivot table insertion)
@@ -59,18 +57,6 @@ class FoodFoodLogTableSeeder extends Seeder
             $food2->foodlogs()->attach($foodLog6->id);
 
         }  
-        if ($food4 && $foodLog7) {
-            $food2->foodlogs()->attach($foodLog7->id);
-
-        }
-        if ($food1 && $foodLog8) {
-            $food1->foodlogs()->attach($foodLog8->id);
-
-        }
-        if ($food3 && $foodLog9) {
-            $food3->foodlogs()->attach($foodLog9->id);
-
-        }
-     
+       
     }
 }

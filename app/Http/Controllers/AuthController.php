@@ -42,7 +42,35 @@ class AuthController extends Controller
         ]);
 
         
-        $user->sendEmailVerificationNotification();
+      //  $user->sendEmailVerificationNotification();
+
+        $user = User::where('username', $request->username)->firstOrFail();
+
+
+        // Generate a 4-digit verification code
+        $verificationCode = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+     
+        // Cache the verification code with a 10-minute expiration
+        $cacheKey = 'verification_code_' . $user->id; // Unique key for the user
+        $expiresAt = now()->addMinutes(10);
+     
+        Cache::put($cacheKey, [
+            'code' => $verificationCode,
+            'expires_at' => $expiresAt
+        ], 300); // 600 seconds = 10 minutes
+     
+        // Log cache data to ensure the code and expiration time are being stored
+        Log::info('Verification code cached: ' . $verificationCode);
+        Log::info('Cache expiration time: ' . $expiresAt);
+     
+     
+     try {
+         // Send the verification code to the user's email
+         Mail::to($user->email)->send(new EmailVerificationMail($user, $verificationCode));
+     } catch (\Exception $e) {
+         \Log::error('Mail error: ' . $e->getMessage());
+         return response()->json(['message' => 'Failed to send verification code. Please try again.'], 500);
+     }
     
         // Generate a token for the user
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -80,31 +108,6 @@ class AuthController extends Controller
     // Get the authenticated user
     $user = User::where('username', $request->username)->firstOrFail();
 
-
-   // Generate a 4-digit verification code
-   $verificationCode = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
-
-   // Cache the verification code with a 10-minute expiration
-   $cacheKey = 'verification_code_' . $user->id; // Unique key for the user
-   $expiresAt = now()->addMinutes(10);
-
-   Cache::put($cacheKey, [
-       'code' => $verificationCode,
-       'expires_at' => $expiresAt
-   ], 300); // 600 seconds = 10 minutes
-
-   // Log cache data to ensure the code and expiration time are being stored
-   Log::info('Verification code cached: ' . $verificationCode);
-   Log::info('Cache expiration time: ' . $expiresAt);
-
-
-try {
-    // Send the verification code to the user's email
-    Mail::to($user->email)->send(new EmailVerificationMail($user, $verificationCode));
-} catch (\Exception $e) {
-    \Log::error('Mail error: ' . $e->getMessage());
-    return response()->json(['message' => 'Failed to send verification code. Please try again.'], 500);
-}
 
 
 // Generate a token for the user

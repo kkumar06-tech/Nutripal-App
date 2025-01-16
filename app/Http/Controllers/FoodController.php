@@ -28,7 +28,7 @@ class FoodController extends Controller
         // Validation
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'meal_type'=>['required','in:breakfast,lunch,snack,dinner'],
+            'meal_type'=>['required','in:Breakfast,Lunch,Snack,Dinner'],
             'calories' => 'required|integer',
             'protein' => 'required|integer',
             'carbs' => 'required|integer',
@@ -100,4 +100,25 @@ class FoodController extends Controller
 
         return response()->json(['message' => 'Food deleted successfully'],200);
     }
+
+
+
+    public function suggest($mealtype)
+    {
+        try {
+            // Retrieve a random food item based on meal type
+            $food = Food::where('meal_type', $mealtype)->inRandomOrder()->first(); // Corrected reference to $mealtype
+    
+            if ($food) {
+            
+                return response()->json($food);
+            } else {
+                return response()->json(['message' => 'No food found for the specified meal type'], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unable to fetch food suggestion'], 500);
+        }
+
+}
+
 }

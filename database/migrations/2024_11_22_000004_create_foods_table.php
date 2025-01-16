@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('foods', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('meal_type',  ['breakfast', 'lunch','snack','dinner']);
+            $table->enum('meal_type',  ['Breakfast', 'Lunch','Snack','Dinner']);
             $table->integer('calories');  
             $table->integer('protein');  
             $table->integer('carbs');  

@@ -17,11 +17,11 @@ class UserStatTableSeeder extends Seeder
         UserStat::create([
             'user_id'=>4 ,
        
-        'calories'=>200,
-        'protein'=>50,
-        'fat'=>80,
-        'carbs'=>120,
-        'liquid_intake'=>10,
+        'calories'=>0,
+        'protein'=>0,
+        'fat'=>0,
+        'carbs'=>0,
+        'liquid_intake'=>0,
         ]);
     
     }

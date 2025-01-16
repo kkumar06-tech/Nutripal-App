@@ -29,12 +29,6 @@ class FoodLogTableSeeder extends Seeder
                     
       ] ); 
 
-
-    FoodLog::create( [ 
-   'user_profile_id' => 4,
-     'date' => '2025-01-14'
-    ] );
-
                     
      FoodLog::create( [
       'user_profile_id' => 4,
@@ -51,9 +45,5 @@ class FoodLogTableSeeder extends Seeder
              'date' => '2025-01-15'
                             ] );
 
-                            FoodLog::create( [ 
-                                'user_profile_id' => 4,
-                 'date' => '2025-01-15'
-                                ] );
     }
 }

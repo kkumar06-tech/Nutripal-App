@@ -61,6 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('foods', FoodController::class);
     Route::apiResource('foodlogs', FoodLogController::class);
     Route::apiResource('userstats', UserStatController::class);
+    Route::get('/suggest/{mealtype}', [FoodController::class, 'suggest']);
 
 
 
