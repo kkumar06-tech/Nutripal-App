@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LiquidController;
+use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\FoodLogController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MealPlanController;
@@ -14,10 +15,10 @@ use App\Http\Controllers\UserStatController;
 use App\Http\Controllers\LiquidLogController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\RecipeController;
 
+use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NutritionalValueController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\NutritionistProfileController;
@@ -51,9 +52,9 @@ Route::post('/email/verify/resend', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::middleware('auth:sanctum')->group(function () {
+
     // Marija
- Route::apiResource('users', UserController::class);
+    Route::apiResource('users', UserController::class);
     Route::apiResource('user-profiles', UserProfileController::class);
     Route::apiResource('nutritionist-profiles', NutritionistProfileController::class);
 
@@ -65,14 +66,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     // Daphne
-   Route::apiResource('mealplans', MealPlanController::class);
+    Route::apiResource('mealplans', MealPlanController::class);
     Route::apiResource('appointments', AppointmentController::class);
     Route::apiResource('liquids', LiquidController::class);
-
-    //Mauricio
+        
     Route::apiResource('ingredients', IngredientController::class);
     Route::apiResource('liquidlogs', LiquidLogController::class);
-  Route::apiResource('nutrivalue', NutritionalValueController::class);
+    Route::apiResource('nutrivalue', NutritionalValueController::class);
+
+    Route::apiResource('notification', NotificationController::class);
 
 
   // Additional routes
@@ -89,7 +91,7 @@ Route::patch('/markunread{id}',[MessageController::class,'markAsUnRead']); //
 
 Route::post('/resend-code', [EmailVerificationController::class, 'resendCode']);
 
- });
+
  
 
 

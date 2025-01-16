@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Notification;
 use Illuminate\Database\Eloquent\Model;
 
 class UserProfile extends Model
@@ -54,5 +55,9 @@ class UserProfile extends Model
 
     public function userAppointment(){
         return $this->hasMany(Appointment::class, 'user_profile_id');
+    }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_profile_id');
     }
 }

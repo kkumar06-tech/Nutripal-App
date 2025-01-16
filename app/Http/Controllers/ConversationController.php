@@ -28,13 +28,16 @@ public function store(Request $request)
         return response()->json($conversation, 201); // 201 Created
     }
 
-
-    public function show(Conversation $conversation)
+    public function show(string $id)
     {
-        // Return the specified conversation as JSON
-        return response()->json($conversation->load(['userProfile', 'nutritionist']));
-    }
+        $conversation = Conversation::with(['nutritionist', 'userProfile'])->find($id);
 
+        if (!$conversation) {
+            return response()->json(['message' => 'Conversation not found'], 404);
+        }
+
+        return response()->json($conversation);
+    }
 
 
     public function update(Request $request, Conversation $conversation)

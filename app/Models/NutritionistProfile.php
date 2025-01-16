@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Notification;
 use Illuminate\Database\Eloquent\Model;
 
 class NutritionistProfile extends Model
@@ -30,6 +31,10 @@ class NutritionistProfile extends Model
     public function conversations()
     {
         return $this->hasMany(Conversation::class);
+    }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'nutritionist_id');
     }
 
     
