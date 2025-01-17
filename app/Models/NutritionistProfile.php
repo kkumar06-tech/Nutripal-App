@@ -9,6 +9,7 @@ class NutritionistProfile extends Model
 {
     protected $fillable = [
         'user_id', 
+        'name',
         'certificate_image', 
         'credentials',
         'profile_image', 

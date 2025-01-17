@@ -60,7 +60,7 @@ class UserTableSeeder extends Seeder
                     'username'=>'nana',
                     'email'=>'mvolod00@gmail.com',
                     'password'=> bcrypt('omglola'),
-                    'role'=>'user'
+                    'role'=>'nutritionist'
 
             ] ); 
     }

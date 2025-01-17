@@ -12,7 +12,14 @@ class NutritionistProfileController extends Controller
      */
     public function index()
     {
-        return NutritionistProfile::all();
+        $nutriProfiles= NutritionistProfile::all();
+        $nutriProfiles->transform(function ($profile) {
+            $profile->profile_image_url = $profile->profile_image ? asset('storage/' . $profile->profile_image) : null;
+            return $profile;
+        });
+
+
+        return response()->json($nutriProfiles);
     }
 
     /**
@@ -45,7 +52,11 @@ class NutritionistProfileController extends Controller
     public function show(string $id)
     {
         $nutri = NutritionistProfile::findOrFail($id);
-
+       
+        $nutri->profile_image_url = $nutri->profile_image
+        ? asset('storage/' . $nutri->profile_image)
+        : null;
+       
         return $nutri;
     }
 

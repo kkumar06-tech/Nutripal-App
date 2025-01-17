@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\UserProfile;
+
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -21,12 +23,24 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_profile_id' => ['required', 'exists:user_profiles,id'],
+            'user_id' => ['required', 'exists:users,id'],
             'nutritionist_profile_id' => ['required', 'exists:nutritionist_profiles,id'],
             'date' => ['required', 'date', 'after_or_equal:today'],
             'time' => ['required', 'date_format:H:i'],
         ]);
 
+        $userProfile = UserProfile::where('user_id', $validated['user_id'])->first();
+
+        if (!$userProfile) {
+            return response()->json(['error' => 'User profile not found for the given user ID'], 404);
+        }
+    
+        // Add the user_profile_id to the validated data
+        $validated['user_profile_id'] = $userProfile->id;
+    
+        // Remove user_id as it's not needed for appointment creation
+        unset($validated['user_id']);
+        
         $appointment = Appointment::create($validated);
 
         return response()->json($appointment, 201);
