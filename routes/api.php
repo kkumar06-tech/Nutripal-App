@@ -89,11 +89,11 @@ Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// still l
 Route::patch('/markunread{id}',[MessageController::class,'markAsUnRead']); // 
  Route::get('usermealplans/{userId}', [MealPlanController::class,'usermealplan']);// all mealplans of a user
 
-
+ Route::middleware('auth:api')->group(function () {
  Route::post('/verify-code', [EmailVerificationController::class, 'verifyCode']);
 
 Route::post('/resend-code', [EmailVerificationController::class, 'resendCode']);
-
+});
 
  
 
