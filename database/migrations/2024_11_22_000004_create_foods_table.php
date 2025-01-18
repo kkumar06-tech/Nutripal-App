@@ -19,9 +19,12 @@ return new class extends Migration
             $table->integer('protein');  
             $table->integer('carbs');  
             $table->integer('fat');
-            $table->integer('portion'); 
+            $table->json('portion'); 
             $table->string('food_image')->nullable();
             $table->timestamps();
+            $table->string('cuisine_type')->nullable();
+            $table->integer('cooking_time')->nullable();
+            $table->json('dietary_preferences')->nullable(); 
         });
     }
 

@@ -20,8 +20,11 @@ class FoodTableSeeder extends Seeder
         'protein' => 0,
         'carbs' => 25,
         'fat' => 0,
-        'portion' => 100,
-        'food_image'=>'food_images/apple.png'
+        'portion' => [100, 150], 
+        'food_image'=>'food_images/apple.png',
+        'cuisine_type' => 'Other',
+        'cooking_time' => 0,
+        'dietary_preferences' => 'Vegan, Gluten Free'
     ]);
     
     Food::create([
@@ -31,8 +34,11 @@ class FoodTableSeeder extends Seeder
         'protein' => 1,
         'carbs' => 27,
         'fat' => 0,
-        'portion' => 100,
-         'food_image'=>'food_images/banana.png'
+        'portion' => [100, 150],
+        'food_image'=>'food_images/banana.png',
+        'cuisine_type' => 'Other',
+        'cooking_time' => 0,
+        'dietary_preferences' => 'Vegan, Gluten Free'
     ]);
     
     Food::create([
@@ -42,8 +48,12 @@ class FoodTableSeeder extends Seeder
         'protein' => 31,
         'carbs' => 0,
         'fat' => 3,
-        'portion' => 100,
-         'food_image'=>'food_images/chicken.png'
+        'portion' => [100, 200],
+        'food_image'=>'food_images/chicken.png',
+        'cuisine_type' => 'European',
+        'cooking_time' => 20,
+        'dietary_preferences' => 'Halal, Pescetarian'
+        
     ]);
     
     Food::create([
@@ -53,8 +63,11 @@ class FoodTableSeeder extends Seeder
         'protein' => 10,
         'carbs' => 50,
         'fat' => 20,
-        'portion' => 100,
-         'food_image'=>'food_images/stew.png'
+        'portion' => [100, 150],
+        'food_image'=>'food_images/stew.png',
+        'cuisine_type' => 'Indian',
+        'cooking_time' => 45,
+        'dietary_preferences' => 'Vegan, Gluten Free'
     ]);
     
     Food::create([
@@ -64,8 +77,11 @@ class FoodTableSeeder extends Seeder
         'protein' => 21,
         'carbs' => 22,
         'fat' => 49,
-        'portion' => 100,
-         'food_image'=>'food_images/almonds.png'
+        'portion' => [100, 150],
+        'food_image'=>'food_images/almonds.png',
+        'cuisine_type' => 'Other',
+        'cooking_time' => 0,
+        'dietary_preferences' => 'Vegan, Gluten Free'
     ]);
     
     Food::create([
@@ -75,8 +91,11 @@ class FoodTableSeeder extends Seeder
         'protein' => 20,
         'carbs' => 0,
         'fat' => 13,
-        'portion' => 100,
-         'food_image'=>'food_images/salmon.png'
+        'portion' => [100, 150],
+        'food_image'=>'food_images/salmon.png',
+        'cuisine_type' => 'European',
+        'cooking_time' => 20,
+        'dietary_preferences' => 'Pescetarian'
     ]);
     
     Food::create([
@@ -86,8 +105,11 @@ class FoodTableSeeder extends Seeder
         'protein' => 10,
         'carbs' => 3,
         'fat' => 0,
-        'portion' => 100,
-         'food_image'=>'food_images/yogurt.png'
+        'portion' => [100, 150],
+        'food_image'=>'food_images/yogurt.png',
+        'cuisine_type' => 'European',
+        'cooking_time' => 0,
+        'dietary_preferences' => 'Halal'
     ]);
     
 
@@ -99,8 +121,11 @@ class FoodTableSeeder extends Seeder
         'protein' => 4,
         'carbs' => 11,
         'fat' => 0,
-        'portion' => 100,
-         'food_image'=>'food_images/broccoli.png'
+        'portion' => [100, 150],
+        'food_image'=>'food_images/broccoli.png',
+        'cuisine_type' => 'European',
+        'cooking_time' => 10,
+        'dietary_preferences' => 'Vegan, Gluten Free'
     ]);
     
     Food::create([
@@ -110,8 +135,11 @@ class FoodTableSeeder extends Seeder
         'protein' => 13,
         'carbs' => 1,
         'fat' => 11,
-        'portion' => 100,
-        'food_image'=>'food_images/eggs.png'
+        'portion' => [100, 150],
+        'food_image'=>'food_images/eggs.png',
+        'cuisine_type' => 'European',
+        'cooking_time' => 10,
+        'dietary_preferences' => 'Halal'
     ]);
     
     Food::create([
@@ -121,8 +149,11 @@ class FoodTableSeeder extends Seeder
         'protein' => 2,
         'carbs' => 28,
         'fat' => 0,
-        'portion' => 100,
-        'food_image'=>'food_images/rice.png'
+        'portion' => [100, 150],
+        'food_image'=>'food_images/rice.png',
+        'cuisine_type' => 'Asian',
+        'cooking_time' => 15,
+        'dietary_preferences' => 'Vegan, Gluten Free'
     ]);
     
     Food::create([
@@ -132,8 +163,11 @@ class FoodTableSeeder extends Seeder
         'protein' => 16,
         'carbs' => 3,
         'fat' => 8,
-        'portion' => 100,
-        'food_image'=>'food_images/tofu.png'
+        'portion' => [100, 150], 
+        'food_image'=>'food_images/tofu.png',
+        'cuisine_type' => 'Asian',
+        'cooking_time' => 15,
+        'dietary_preferences' => 'Vegan, Gluten Free'
     ]);
     
  
@@ -146,7 +180,10 @@ class FoodTableSeeder extends Seeder
         'carbs' => 20,
         'fat' => 0,
         'portion' => 100,
-        'food_image'=>'food_images/sweetpotato.png'
+        'food_image'=>'food_images/sweetpotato.png',
+        'cuisine_type' => 'Other',
+        'cooking_time' => 30,
+        'dietary_preferences' => 'Vegan, Gluten Free'
     ]);
     
     Food::create([
@@ -157,7 +194,10 @@ class FoodTableSeeder extends Seeder
         'carbs' => 20,
         'fat' => 2,
         'portion' => 100,
-    'food_image'=>'food_images/stew3.png'
+        'food_image'=>'food_images/stew3.png',
+        'cuisine_type' => 'Middle Eastern',
+        'cooking_time' => 40,
+        'dietary_preferences' => 'Vegan, Gluten Free'
     ]);
     
     Food::create([
@@ -168,7 +208,11 @@ class FoodTableSeeder extends Seeder
         'carbs' => 1,
         'fat' => 33,
         'portion' => 100,
-        'food_image'=>'food_images/cheese.png'
+        'food_image'=>'food_images/cheese.png',
+        'cuisine_type' => 'European',
+        'cooking_time' => 0,
+        'dietary_preferences' => 'Gluten Free'
+
     ]);
     
     Food::create([
@@ -179,7 +223,10 @@ class FoodTableSeeder extends Seeder
         'carbs' => 15,
         'fat' => 0,
         'portion' => 100,
-        'food_image'=>'food_images/orange.png'
+        'food_image'=>'food_images/orange.png',
+        'cuisine_type' => 'Other',
+        'cooking_time' => 0,
+        'dietary_preferences' => 'Vegan, Gluten Free'
     ]);
     
     Food::create([
@@ -190,7 +237,10 @@ class FoodTableSeeder extends Seeder
         'carbs' => 4,
         'fat' => 0,
         'portion' => 100,
-        'food_image'=>'food_images/spinach.png'
+        'food_image'=>'food_images/spinach.png',
+        'cuisine_type' => 'European',
+        'cooking_time' => 10,
+        'dietary_preferences' => 'Vegan, Gluten Free'
     ]);
     
     Food::create([
@@ -201,7 +251,10 @@ class FoodTableSeeder extends Seeder
         'carbs' => 9,
         'fat' => 15,
         'portion' => 100,
-        'food_image'=>'food_images/avocado.png'
+        'food_image'=>'food_images/avocado.png',
+        'cuisine_type' => 'Mexican',
+        'cooking_time' => 0,
+        'dietary_preferences' => 'Vegan, Gluten Free'
     ]);
     
     Food::create([
@@ -212,7 +265,10 @@ class FoodTableSeeder extends Seeder
         'carbs' => 0,
         'fat' => 19,
         'portion' => 100,
-        'food_image'=>'food_images/meat.png'
+        'food_image'=>'food_images/meat.png',
+        'cuisine_type' => 'European',
+        'cooking_time' => 20,
+        'dietary_preferences' => 'Gluten Free'
     ]);
     
 
@@ -225,7 +281,10 @@ class FoodTableSeeder extends Seeder
         'carbs' => 25,
         'fat' => 1,
         'portion' => 100,
-        'food_image'=>'food_images/pasta.png'
+        'food_image'=>'food_images/pasta.png',
+        'cuisine_type' => 'Italian',
+        'cooking_time' => 15,
+        'dietary_preferences' => 'Vegetarian, Gluten Free (if gluten-free pasta)'
     ]);
     
     Food::create([
@@ -236,7 +295,10 @@ class FoodTableSeeder extends Seeder
         'carbs' => 14,
         'fat' => 0,
         'portion' => 100,
-        'food_image'=>'food_images/blueberry.png'
+        'food_image'=>'food_images/blueberry.png',
+        'cuisine_type' => 'Other',
+        'cooking_time' => 0,
+        'dietary_preferences' => 'Vegan, Gluten Free'
     ]);
     
     Food::create([
@@ -247,7 +309,10 @@ class FoodTableSeeder extends Seeder
         'carbs' => 46,
         'fat' => 31,
         'portion' => 100,
-        'food_image'=>'food_images/chocolate.png'
+        'food_image'=>'food_images/chocolate.png',
+        'cuisine_type' => 'European',
+        'cooking_time' => 0,
+        'dietary_preferences' => 'Vegetarian, Gluten Free'
     ]);
     
     Food::create([
@@ -258,7 +323,10 @@ class FoodTableSeeder extends Seeder
         'carbs' => 0,
         'fat' => 1,
         'portion' => 100,
-    'food_image'=>'food_images/chicken2.png'
+        'food_image'=>'food_images/chicken2.png',
+        'cuisine_type' => 'European',
+        'cooking_time' => 15,
+        'dietary_preferences' => 'Gluten Free'
     ]);
   
 
@@ -271,7 +339,10 @@ class FoodTableSeeder extends Seeder
     'carbs' => 48,
     'fat' => 3.3,
     'portion' => 100,
-    'food_image'=>'food_images/bread.png'
+    'food_image'=>'food_images/bread.png',
+    'cuisine_type' => 'European',
+    'cooking_time' => 0,
+    'dietary_preferences' => 'Vegetarian'
 ]);
 
 Food::create([
@@ -282,7 +353,10 @@ Food::create([
     'carbs' => 10,
     'fat' => 12,
     'portion' => 150,
-    'food_image'=>'food_images/salad.png'
+    'food_image'=>'food_images/salad.png',
+    'cuisine_type' => 'European',
+    'cooking_time' => 10,
+    'dietary_preferences' => 'Vegan, Gluten Free'
 ]);
 
 
@@ -295,7 +369,10 @@ Food::create([
     'carbs' => 21,
     'fat' => 3,
     'portion' => 100,
-    'food_image'=>'food_images/ricesalad.png'
+    'food_image'=>'food_images/ricesalad.png',
+    'cuisine_type' => 'European',
+    'cooking_time' => 15,
+    'dietary_preferences' => 'Vegan, Gluten Free'
 ]);
 
 Food::create([
@@ -306,8 +383,11 @@ Food::create([
     'carbs' => 14,
     'fat' => 2,
     'portion' => 200,
-    'food_image'=>'food_images/stew2.png',
-'food_image'=>'food_images/stew4.png'
+    'food_image'=>'food_images/stew4.png',
+    'cuisine_type' => 'Italian',
+    'cooking_time' => 30,
+    'dietary_preferences' => 'Vegan, Gluten Free'
+
 ]);
 
 Food::create([
@@ -318,8 +398,8 @@ Food::create([
     'carbs' => 7,
     'fat' => 6,
     'portion' => 200,
-    'food_image'=>'food_images/.png',
-    'food_image'=>'food_images/ratatoie.png'
+    'food_image'=>'food_images/ratatouille.png',
+
 ]);
 
 Food::create([
@@ -330,7 +410,10 @@ Food::create([
     'carbs' => 0,
     'fat' => 4,
     'portion' => 85,
-    'food_image'=>'food_images/salmon.png'
+    'food_image'=>'food_images/salmon.png',
+    'cuisine_type' => 'European',
+    'cooking_time' => 0,
+    'dietary_preferences' => 'Gluten Free'
 ]);
 
 Food::create([
@@ -341,8 +424,55 @@ Food::create([
     'carbs' => 68,
     'fat' => 2,
     'portion' => 100,
-    'food_image'=>'food_images/cracker.png'
+    'food_image'=>'food_images/cracker.png',
+    'cuisine_type' => 'Other',
+    'cooking_time' => 0,
+    'dietary_preferences' => 'Vegetarian'
+
 ]);
+
+Food::create([
+    'name' => 'Kung Pao Chicken',
+    'meal_type' => 'Dinner',
+    'calories' => 280,
+    'protein' => 24,
+    'carbs' => 10,
+    'fat' => 17,
+    'portion' => 100,
+    'food_image' => 'food_images/kung_pao_chicken.png',
+    'cuisine_type' => 'Chinese',
+    'cooking_time' => 20,
+    'dietary_preferences' => 'Non-Vegetarian'
+]);
+
+Food::create([
+    'name' => 'Bibimbap',
+    'meal_type' => 'Lunch',
+    'calories' => 500,
+    'protein' => 22,
+    'carbs' => 70,
+    'fat' => 14,
+    'portion' => 100,
+    'food_image' => 'food_images/bibimbap.png',
+    'cuisine_type' => 'Korean',
+    'cooking_time' => 25,
+    'dietary_preferences' => 'Vegetarian'
+]);
+
+Food::create([
+    'name' => 'Jollof Rice',
+    'meal_type' => 'Lunch',
+    'calories' => 350,
+    'protein' => 7,
+    'carbs' => 65,
+    'fat' => 9,
+    'portion' => 100,
+    'food_image' => 'food_images/jollof_rice.png',
+    'cuisine_type' => 'African',
+    'cooking_time' => 45,
+    'dietary_preferences' => 'Vegetarian'
+]);
+
 
    }
 

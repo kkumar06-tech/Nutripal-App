@@ -30,57 +30,51 @@ class FoodLogController extends Controller
     {
         $validated = $request->validate([
             'user_id' => ['required', 'exists:user_profiles,user_id'], 
-            'foods' => ['required', 'array'], // Expecting an array of food IDs
-            'foods.*' => ['required', 'exists:foods,id'], // Validate each food ID
+            'foods' => ['required', 'array'], 
+            'foods.*' => ['required', 'exists:foods,id'],
         ]);
 
        
-        // Find the user profile by user_id
+        
         $userProfile = UserProfile::where('user_id', $validated['user_id'])->first();
     
         if (!$userProfile) {
             return response()->json(['message' => 'UserProfile not found'], 404);
         }
     
-        // Initialize variables for total nutritional values
+      
         $totalCalories = 0;
         $totalProtein = 0;
         $totalFat = 0;
         $totalCarbs = 0;
     
-        // Store food logs
         $foodLogs = [];
     
-        // Iterate through the foods array and create separate logs for each food
         foreach ($validated['foods'] as $foodId) {
-            // Create a new food log record
+            
             $foodLog = FoodLog::create([
                 'user_profile_id' => $userProfile->id,
             ]);
     
-            // Attach the food to the food log
             $foodLog->foods()->attach($foodId);
-    
-            // Fetch the food details
+
             $food = Food::find($foodId);
     
             if ($food) {
-                // Accumulate stats for this food
+
+
                 $totalCalories += $food->calories;
                 $totalProtein += $food->protein;
                 $totalFat += $food->fat;
                 $totalCarbs += $food->carbs;
             }
     
-            // Store the food log in the array
             $foodLogs[] = $foodLog;
         }
     
-        // Update or create user stats
         $userStats = UserStat::where('user_id', $userProfile->id)->first();
     
         if (!$userStats) {
-            // Create new stats entry
             $userStats = new UserStat();
             $userStats->user_id = $userProfile->id;
             $userStats->calories = $totalCalories;
@@ -89,7 +83,7 @@ class FoodLogController extends Controller
             $userStats->carbs = $totalCarbs;
             $userStats->save();
         } else {
-            // Update existing stats
+
             $userStats->calories += $totalCalories;
             $userStats->protein += $totalProtein;
             $userStats->fat += $totalFat;
