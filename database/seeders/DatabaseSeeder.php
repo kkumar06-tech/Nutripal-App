@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
             $this->call(ConversationTableSeeder::class);
             $this->call(MessageTableSeeder::class);
             $this->call(NutritionalValueTableSeeder::class);
+            $this->call(NotificationSeeder::class);
+
 
             $this->call(MealPlanRecipeTableSeeder::class);
             $this->call(FoodFoodLogTableSeeder::class);

@@ -37,7 +37,7 @@ class NotificationSeeder extends Seeder
        
         Notification::create([
             'user_profile_id' => 2,
-            'nutritionist_id' => 1,
+            'nutritionist_id' => 3,
             'message' => 'appointment confirmed',
             'type' => 'appointment_confirmed',
             'created_at' => Carbon::now(),

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
+use App\Models\UserStat;
+use App\Models\User;
+
 
 class UserProfileController extends Controller
 {
@@ -15,6 +18,68 @@ class UserProfileController extends Controller
         return response()->json(UserProfile::all());
 
     }
+
+
+
+
+
+    public function getUserProfiles(Request $request)
+    {
+        $userProfileIds = $request->input('user_profile_ids'); // Get the array of IDs
+    
+        if (empty($userProfileIds)) {
+            return response()->json(['message' => 'No user profile IDs provided'], 400);
+        }
+    
+        $userProfiles = UserProfile::whereIn('id', $userProfileIds)->get(); // Fetch profiles based on IDs
+    
+        if ($userProfiles->isEmpty()) {
+            return response()->json(['message' => 'No user profiles found'], 404);
+        }
+    
+        // Format the response to match the frontend's expected structure
+        $formattedProfiles = $userProfiles->map(function ($profile) {
+            return [
+                'id' => $profile->id,
+                'name' => $profile->name,
+                'focus' => $profile->fitness_goal,
+                'image'=>null
+            ];
+        });
+    
+        return response()->json($formattedProfiles); // Return the profiles
+    }
+
+    public function getProfile($id)
+    {
+       
+        $profile = UserProfile::where('id', $id)->firstOrFail();
+        $userStat = UserStat::where('user_id',$id)->firstOrFail();; // Fetch profiles based on IDs
+        $dateOfBirth= $profile->date_of_birth;
+        $age = \Carbon\Carbon::parse($dateOfBirth)->age;
+        
+        // Format the response to match the frontend's expected structure
+        $formattedProfile = [
+            'name' => $profile->name,
+            'Image' => $profile->profile_image ?? null, // Assuming image is a field or null if not available
+            'gender' => $profile->gender,
+            'age' => $age,
+            'username' => $profile->name,
+            'height' => $profile->height,
+            'weight' => $profile->weight,
+            'goal' => $profile->fitness_goal, // Assuming this maps to 'goal'
+            'totalCaloriesIntake' => $userStat->calories, // Assuming this is the field name
+            'frequency' => $profile->weekly_exercise_frequency // Assuming this is the field name
+        ];
+
+      
+    
+        return response()->json($formattedProfile); // Return the profiles
+    }
+
+
+
+
 
     /**
      * Store a newly created resource in storage.

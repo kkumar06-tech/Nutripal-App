@@ -63,7 +63,9 @@ Route::post('/email/verify/resend', function (Request $request) {
     Route::apiResource('foodlogs', FoodLogController::class);
     Route::apiResource('userstats', UserStatController::class);
     Route::get('/suggest/{mealtype}', [FoodController::class, 'suggest']);
-
+    Route::post('/getProfiles', [UserProfileController::class, 'getUserProfiles']);
+    Route::get('/nutriappoint/{id}', [AppointmentController::class, 'nutriAppointments']);
+    Route::get('/profile/{id}', [UserProfileController::class, 'getProfile']);
 
 
     // Daphne

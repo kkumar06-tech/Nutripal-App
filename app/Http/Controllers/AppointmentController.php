@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\UserProfile;
-
+use App\Models\NutritionistProfile;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -16,6 +16,31 @@ class AppointmentController extends Controller
 
         return response()->json($appointments, 200);
     }
+
+
+
+
+
+ public function nutriAppointments($id)  {
+    $nutritionistProfile = NutritionistProfile::where('user_id', $id)->first();
+
+    if (!$nutritionistProfile) {
+        return response()->json(['message' => 'Nutritionist profile not found for this user.'], 404);
+    }
+
+    // Fetch appointments for the given nutritionist profile
+    $appointments = Appointment::where('nutritionist_profile_id', $nutritionistProfile->id)->get();
+
+    // Check if there are no appointments for the nutritionist
+    if ($appointments->isEmpty()) {
+        return response()->json(['message' => 'No appointments found for this nutritionist.'], 404);
+    }
+
+    return response()->json($appointments, 200);
+}
+
+
+
 
     /**
      * Store a newly created appointment.
