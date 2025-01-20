@@ -39,7 +39,7 @@ class NotificationSeeder extends Seeder
             'user_profile_id' => 2,
             'nutritionist_id' => 3,
             'message' => 'appointment confirmed',
-            'type' => 'appointment_confirmed',
+            'type' => 'appointment',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

@@ -93,6 +93,7 @@ $notifications = $notifications->map(function ($notification) {
         'message' => $notification->message,
         'time' => $notification->created_at,
         'name' => $user->name,
+        'type'=>$notification->type
     ];
 });
 

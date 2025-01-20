@@ -23,6 +23,17 @@ class UserStatTableSeeder extends Seeder
         'carbs'=>0,
         'liquid_intake'=>0,
         ]);
+
+
+        UserStat::create([
+            'user_id'=>2 ,
+       
+        'calories'=>0,
+        'protein'=>0,
+        'fat'=>0,
+        'carbs'=>0,
+        'liquid_intake'=>0,
+        ]);
     
     }
 }

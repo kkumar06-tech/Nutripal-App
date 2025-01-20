@@ -88,7 +88,7 @@ Route::post('/email/verify/resend', function (Request $request) {
  Route::apiResource('conversations', ConversationController::class);
  Route::apiResource('messages', MessageController::class);
  
-Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// still left to test
+Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// 
 Route::patch('/markunread{id}',[MessageController::class,'markAsUnRead']); // 
  Route::get('usermealplans/{userId}', [MealPlanController::class,'usermealplan']);// all mealplans of a user
 
