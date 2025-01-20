@@ -63,6 +63,9 @@ Route::post('/email/verify/resend', function (Request $request) {
     Route::apiResource('foodlogs', FoodLogController::class);
     Route::apiResource('userstats', UserStatController::class);
     Route::get('/suggest/{mealtype}', [FoodController::class, 'suggest']);
+    Route::post('/apply-filters', [FoodController::class, 'applyFilters']);
+
+
     Route::post('/getProfiles', [UserProfileController::class, 'getUserProfiles']);
     Route::get('/nutriappoint/{id}', [AppointmentController::class, 'nutriAppointments']);
     Route::get('/profile/{id}', [UserProfileController::class, 'getProfile']);
@@ -89,11 +92,11 @@ Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// still l
 Route::patch('/markunread{id}',[MessageController::class,'markAsUnRead']); // 
  Route::get('usermealplans/{userId}', [MealPlanController::class,'usermealplan']);// all mealplans of a user
 
-
+ Route::middleware('auth:api')->group(function () {
  Route::post('/verify-code', [EmailVerificationController::class, 'verifyCode']);
 
 Route::post('/resend-code', [EmailVerificationController::class, 'resendCode']);
-
+});
 
  
 

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Filter extends Model
 {
     public function recipes(){
-        return $this->belongsToMany(Recipe::class);
+        return $this->belongsToMany(Food::class);
         }  
 }

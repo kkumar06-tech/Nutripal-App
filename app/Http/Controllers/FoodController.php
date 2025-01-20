@@ -34,7 +34,10 @@ class FoodController extends Controller
             'carbs' => 'required|integer',
             'fat' => 'required|integer',
             'portion' => 'required|integer',
-            'food_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048']
+            'food_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'cuisine_type' => 'nullable|string|max:255',        
+            'cooking_time' => 'nullable|integer',        
+            'dietary_preferences' => 'nullable|string|max:255',
         ]);
 
         try {
@@ -119,6 +122,48 @@ class FoodController extends Controller
             return response()->json(['error' => 'Unable to fetch food suggestion'], 500);
         }
 
+    }
+
+    public function applyFilters(Request $request)
+{
+    $calorieRange = $request->input('calorieRange');
+    $selectedCuisines = $request->input('selectedCuisines');
+    $selectedTime = $request->input('selectedTime');
+    $selectedDietary = $request->input('selectedDietary');
+    $selectedMeals = $request->input('selectedMeals');
+
+    $foods = Food::query();
+
+    if ($calorieRange && count($calorieRange) == 2) {
+        $foods->whereBetween('calories', $calorieRange);
+    }
+
+    if ($selectedCuisines && count($selectedCuisines) > 0) {
+        $foods->whereIn('cuisine_type', $selectedCuisines);
+    }
+    if ($selectedTime) {
+       
+        $timeRange = explode('-', $selectedTime); 
+        
+        if (count($timeRange) == 2) {
+            $minTime = trim($timeRange[0]); // Get the min time
+            $maxTime = trim($timeRange[1]); // Get the max time
+
+            $foods->whereBetween('cooking_time', [(int)$minTime, (int)$maxTime]);
+        }
+    }
+
+    if ($selectedDietary && count($selectedDietary) > 0) {
+        $foods->whereIn('dietary_preferences', $selectedDietary);  // Make sure your DB column matches
+    }
+
+    if ($selectedMeals && count($selectedMeals) > 0) {
+        $foods->whereIn('meal_type', $selectedMeals);
+    }
+
+    $foods = $foods->get();
+
+    return response()->json($foods);
 }
 
 }

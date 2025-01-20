@@ -16,12 +16,19 @@ class Food extends Model
         'carbs',
         'fat',
         'portion',
-        'food_image'
+        'food_image',
+        'cuisine_type',        
+        'cooking_time',        
+        'dietary_preferences'
     ];
 
 
+    protected $casts = [
+        'portion' => 'array', 
+    ];
+
     public function foodlogs()
-{
-    return $this->belongsToMany(FoodLog::class);
-}
+    {
+        return $this->belongsToMany(FoodLog::class);
+    }
 }
