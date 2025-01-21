@@ -200,6 +200,15 @@ class UserProfileController extends Controller
     {
         $profile = UserProfile::where('user_id', $userId)->firstOrFail();
 
+
+        $defaultImage = asset('storage/default_images/default.jpg'); // Path to default image
+
+        // Resolve the image URL or fallback to default
+        $imageUrl = $profile->profile_image 
+            ? asset('storage/' . $profile->profile_image) 
+            : $defaultImage;
+
+
         $maxCalories = $profile->daily_goal_calories;
 
     // calculations (in grams):
@@ -218,6 +227,7 @@ class UserProfileController extends Controller
 
         return response()->json([
                 'profile' => $profile,
+                'profile_image_url'=>$imageUrl,
                 'calories'=>$maxCalories,
                 'protein' => intval($maxProtein), 
                 'fat' =>intval($maxFats, 2),
