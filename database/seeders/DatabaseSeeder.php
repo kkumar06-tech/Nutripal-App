@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
             $this->call(UserTableSeeder::class);
             $this->call(UserProfileTableSeeder::class);
             $this->call(FoodTableSeeder::class);
-            $this->call(RecipeTableSeeder::class);
             $this->call(FoodLogTableSeeder::class);
             $this->call(UserStatTableSeeder::class);
             $this->call(MealPlanTableSeeder::class);
@@ -23,19 +22,13 @@ class DatabaseSeeder extends Seeder
             $this->call(AppointmentTableSeeder::class);
             $this->call(ConversationTableSeeder::class);
             $this->call(MessageTableSeeder::class);
-            $this->call(NutritionalValueTableSeeder::class);
             $this->call(NotificationSeeder::class);
 
 
-            $this->call(MealPlanRecipeTableSeeder::class);
             $this->call(FoodFoodLogTableSeeder::class);
 
 
-            $this->call([
-                IngredientTableSeeder::class,  // Seed ingredients
-                RecipeTableSeeder::class,  // Seed recipes
-                RecipeIngredientTableSeeder::class,  // Seed the pivot table
-            ]);
+       
 
             $this->call([
                 LiquidTableSeeder::class,  // Seed ingredients

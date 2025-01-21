@@ -7,19 +7,16 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LiquidController;
-use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\FoodLogController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\UserStatController;
 use App\Http\Controllers\LiquidLogController;
-use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\AppointmentController;
 
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\NutritionalValueController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\NutritionistProfileController;
 
@@ -76,9 +73,7 @@ Route::post('/email/verify/resend', function (Request $request) {
     Route::apiResource('appointments', AppointmentController::class);
     Route::apiResource('liquids', LiquidController::class);
         
-    Route::apiResource('ingredients', IngredientController::class);
     Route::apiResource('liquidlogs', LiquidLogController::class);
-    Route::apiResource('nutrivalue', NutritionalValueController::class);
 
     Route::apiResource('notifications', NotificationController::class);
 
@@ -89,8 +84,8 @@ Route::post('/email/verify/resend', function (Request $request) {
 
 
   // Additional routes
- Route::apiResource('recipes', RecipeController::class);
  Route::apiResource('conversations', ConversationController::class);
+ Route::get('/nutriconv/{id}', [ConversationController::class, 'nutriconv']);
  Route::apiResource('messages', MessageController::class);
  
 Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// 
