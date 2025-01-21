@@ -7,9 +7,7 @@ use App\Models\Message;
 use App\Models\UserProfile;
 use App\Models\Conversation;
 use App\Models\NutritionistProfile;
-
 use Illuminate\Http\Request;
-use App\Models\NutritionistProfile;
 
 class ConversationController extends Controller
 {
