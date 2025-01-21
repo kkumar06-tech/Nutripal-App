@@ -37,18 +37,27 @@ class UserProfileController extends Controller
             return response()->json(['message' => 'No user profiles found'], 404);
         }
     
-        // Format the response to match the frontend's expected structure
-        $formattedProfiles = $userProfiles->map(function ($profile) {
+        $defaultImage = asset('storage/default_images/default.jpg'); 
+
+        $formattedProfiles = $userProfiles->map(function ($profile) use ($defaultImage) {
+            $imageUrl = $profile->profile_image 
+                ? asset('storage/' . $profile->profile_image) // Generate URL for profile image
+                : $defaultImage; // Use default image if no profile image exists
+    
             return [
                 'id' => $profile->id,
                 'name' => $profile->name,
                 'focus' => $profile->fitness_goal,
-                'image'=>null
+                'image' => $imageUrl, // Include the resolved image URL
             ];
         });
     
-        return response()->json($formattedProfiles); // Return the profiles
+        return response()->json($formattedProfiles); // Return the formatted profiles
     }
+
+
+
+
 
     public function getProfile($id)
     {
@@ -58,10 +67,18 @@ class UserProfileController extends Controller
         $dateOfBirth= $profile->date_of_birth;
         $age = \Carbon\Carbon::parse($dateOfBirth)->age;
         
+
+        $defaultImage = asset('storage/default_images/default.jpg'); // Path to default image
+
+    // Resolve the image URL or fallback to default
+    $imageUrl = $profile->profile_image 
+        ? asset('storage/' . $profile->profile_image) 
+        : $defaultImage;
+
         // Format the response to match the frontend's expected structure
         $formattedProfile = [
             'name' => $profile->name,
-            'Image' => $profile->profile_image ?? null, // Assuming image is a field or null if not available
+            'Image' => $imageUrl, // Assuming image is a field or null if not available
             'gender' => $profile->gender,
             'age' => $age,
             'username' => $profile->name,
@@ -94,6 +111,7 @@ class UserProfileController extends Controller
             'gender' => ['required', 'in:male,female,other'],
             'fitness_goal' => ['required', 'in:maintenance,weight_loss,build_muscle'],
             'weekly_exercise_frequency' => ['required', 'in:sedentary,highly_active,moderately_active,very_active,lightly_active'],
+            'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
 
       
@@ -118,6 +136,15 @@ class UserProfileController extends Controller
 
         // Adjust the TDEE based on the fitness goal
         $caloriesRange = $this->calculateCaloriesRange($tdee, $incomingFields['fitness_goal']);
+      
+        $profileImage = $incomingFields['profile_image'] ?? null;
+
+        if (!$profileImage) {
+            $profileImage = 'default_images/default.jpg'; // Path to the default image
+        } else {
+            // If an image is provided, store it and get the path
+            $profileImagePath = $request->file('profile_image')->store('profile_images', 'public');
+        }
 
         $user_id = auth()->id();
         // Save the data to the database
@@ -132,7 +159,7 @@ class UserProfileController extends Controller
             'weekly_exercise_frequency' => $incomingFields['weekly_exercise_frequency'],
             'daily_goal_ml' => $hydrationGoal,
             'daily_goal_calories' => $caloriesRange,
-            'profile_image' => $validatedData['profile_image'] ?? null,
+            'profile_image' => $profileImage,
         ]);
 
         return response()->json(['message' => 'User data saved successfully', 'data' => $userData], 201);

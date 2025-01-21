@@ -334,7 +334,7 @@ class FoodTableSeeder extends Seeder
         'cooking_time' => 0,
         'dietary_preferences' => json_encode(['Vegetarian']),
     ]);
-    
+  
     Food::create([
         'name' => 'Mediterranean Salad',
         'meal_type' => 'Lunch',

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Conversation;
 use App\Models\Message;
+use App\Models\NutritionistProfile;
+
 use Illuminate\Http\Request;
 
 class ConversationController extends Controller
@@ -38,6 +40,34 @@ public function store(Request $request)
 
         return response()->json($conversation);
     }
+
+
+
+    
+    public function nutriconv(string $id)
+    {
+       $nutriProfile = NutritionistProfile::where('user_id', $id)->first();
+
+        // Check if the user profile exists
+        if (!$nutriProfile) {
+            return response()->json(['message' => 'User profile not found'], 404);
+        }
+    
+        $conversations = Conversation::with(['nutritionist', 'userProfile'])
+        ->with(['messages' => function($query) {
+            $query->latest()->limit(1); // Get the latest message for each conversation
+        }])
+        ->where('nutritionist_id', $nutriProfile->id)
+        ->get();
+    
+        // Check if any conversations are found
+        if ($conversations->isEmpty()) {
+            return response()->json(['message' => 'No conversations found for this user'], 404);
+        }
+    
+        return response()->json($conversations);
+    }
+
 
 
     public function update(Request $request, Conversation $conversation)
