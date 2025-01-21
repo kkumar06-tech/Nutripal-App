@@ -62,6 +62,8 @@ Route::post('/email/verify/resend', function (Request $request) {
     Route::apiResource('userstats', UserStatController::class);
     Route::get('/suggest/{mealtype}', [FoodController::class, 'suggest']);
     Route::post('/apply-filters', [FoodController::class, 'applyFilters']);
+    Route::get('/allstats/{id}', [UserStatController::class, 'allstats']);
+
 
 
     Route::post('/getProfiles', [UserProfileController::class, 'getUserProfiles']);

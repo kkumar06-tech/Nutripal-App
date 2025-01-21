@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\UserStat;
 use Illuminate\Http\Request;
 use App\Models\UserProfile;
+use Carbon\Carbon;
+
 class UserStatController extends Controller
 {
     /**
@@ -63,15 +65,31 @@ class UserStatController extends Controller
             return response()->json(['message' => 'UserProfile not found'], 404);
         }
     
-        // Fetch UserStats using user_profile_id
-        $userStats =UserStat::where('user_id', $userProfile->id)->get();
-    
-        if ($userStats->isEmpty()) {
-            return response()->json(['message' => 'No stats found for this user'], 404);
+        $today = Carbon::today();
+
+        // Check if stats already exist for today
+        $userStat = UserStat::where('user_id', $userProfile->id)
+                            ->where('date', $today)
+                            ->first();
+
+        // If no stats exist for today, create a new entry
+        if (!$userStat) {
+            // Optionally, set default values or use request data to create the stat
+            $userStat = UserStat::create([
+                'user_id' => $userProfile->id,
+               'date' => $today->format('Y-m-d'),
+                'calories' => 0, // Default values, can be adjusted
+                'protein' => 0,
+                'fat' => 0,
+                'carbs' => 0,
+                'liquid_intake' => 0,
+            ]);
         }
-    
-        return response()->json($userStats, 200); 
+
+        // Return the stats (either existing or newly created)
+        return response()->json($userStat, 200);
     }
+    
 
     /**
      * Update the specified resource in storage.
@@ -113,6 +131,20 @@ class UserStatController extends Controller
         return response()->json(['message' => 'UserStat deleted successfully'], 200);
     }
     
+
+    public function allstats($id) {
+        $userProfile = UserProfile::where('user_id', $id)->first();
+    
+        if (!$userProfile) {
+            return response()->json(['message' => 'UserProfile not found'], 404);
+        }
+    
+        $userStats = UserStat::where('user_id', $userProfile->id)->get();
+    
+        return response()->json($userStats);
+    }
+
+
 
 
 }
