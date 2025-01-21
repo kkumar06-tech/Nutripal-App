@@ -78,27 +78,27 @@ class NotificationController extends Controller
         $notifications = Notification::where('nutritionist_id', $nutritionist->id)->get();
 
 
-if ($notifications->isEmpty()) {
-    return response()->json(['message' => 'No notifications found for the provided nutritionist'], 404);
-}
+        if ($notifications->isEmpty()) {
+            return response()->json(['message' => 'No notifications found for the provided nutritionist'], 404);
+        }
 
 
-// Add user details to each notification
-$notifications = $notifications->map(function ($notification) {
-    $user = UserProfile::find($notification->user_profile_id);
- 
-    return [
-        'id' => $notification->id,
-        'title' => "new message!",
-        'message' => $notification->message,
-        'time' => $notification->created_at,
-        'name' => $user->name,
-        'type'=>$notification->type
-    ];
-});
+        // Add user details to each notification
+        $notifications = $notifications->map(function ($notification) {
+            $user = UserProfile::find($notification->user_profile_id);
+        
+            return [
+                'id' => $notification->id,
+                'title' => "new message!",
+                'message' => $notification->message,
+                'time' => $notification->created_at,
+                'name' => $user->name,
+                'type'=>$notification->type
+            ];
+        });
 
-return response()->json($notifications);
-    }
+        return response()->json($notifications);
+        }
 
     /**
      * Update the specified resource in storage.
