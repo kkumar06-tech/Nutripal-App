@@ -7,12 +7,23 @@ use App\Models\Message;
 class MessageController extends Controller
 {
 
-    public function index()
-    {
+    public function index(Request $request)
+{
+    // Ensure conversation_id is passed and is valid
+    $conversationId = $request->query('conversation_id');
     
-        $messages = Message::with(['conversation', 'sender', 'receiver'])->get();
-        return response()->json($messages);
+    if (!$conversationId) {
+        return response()->json(['error' => 'Conversation ID is required'], 400);
     }
+
+    // Get messages for the specified conversation
+    $messages = Message::with(['conversation', 'sender', 'receiver'])
+                       ->where('conversation_id', $conversationId) // Filter by conversation_id
+                       ->get();
+
+    return response()->json($messages);
+}
+
 
    
     public function store(Request $request)

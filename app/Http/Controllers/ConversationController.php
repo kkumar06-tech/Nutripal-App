@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Conversation;
+use Exception;
 use App\Models\Message;
+use App\Models\UserProfile;
+use App\Models\Conversation;
 use App\Models\NutritionistProfile;
 
 use Illuminate\Http\Request;
+use App\Models\NutritionistProfile;
 
 class ConversationController extends Controller
 {
@@ -90,4 +93,43 @@ public function store(Request $request)
         return response()->json(['message' => 'Conversation deleted successfully']);
     }
    
+    public function getConversationByUserAndNutritionist($userId, $nutritionistId)
+    {
+        // First, validate if the user and nutritionist exist
+        $user = UserProfile::find($userId);
+        $nutritionist = NutritionistProfile::find($nutritionistId);
+
+        // Check if both user and nutritionist exist
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        if (!$nutritionist) {
+            return response()->json(['message' => 'Nutritionist not found'], 404);
+        }
+
+        // Try to fetch the conversation
+        $conversation = Conversation::with(['nutritionist', 'userProfile'])
+            ->where('user_profile_id', $userId)
+            ->where('nutritionist_id', $nutritionistId)
+            ->first();
+
+        // If no conversation found, create a new one
+        if (!$conversation) {
+            try {
+                $conversation = Conversation::create([
+                    'user_profile_id' => $userId,
+                    'nutritionist_id' => $nutritionistId,
+                ]);
+            } catch (\Exception $e) {
+                // Log error and return an appropriate response
+                \Log::error("Failed to create conversation: " . $e->getMessage());
+                return response()->json(['message' => 'Error creating conversation'], 500);
+            }
+        }
+
+        // Return the conversation data
+        return response()->json($conversation);
+    }
+
 }

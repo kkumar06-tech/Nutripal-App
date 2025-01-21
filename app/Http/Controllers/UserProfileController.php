@@ -19,10 +19,6 @@ class UserProfileController extends Controller
 
     }
 
-
-
-
-
     public function getUserProfiles(Request $request)
     {
         $userProfileIds = $request->input('user_profile_ids'); // Get the array of IDs
@@ -221,8 +217,8 @@ class UserProfileController extends Controller
 
 
         return response()->json([
-            'profile' => $profile,
-          'calories'=>$maxCalories,
+                'profile' => $profile,
+                'calories'=>$maxCalories,
                 'protein' => intval($maxProtein), 
                 'fat' =>intval($maxFats, 2),
                 'carbs' => intval($maxCarbs, 2),
@@ -274,5 +270,12 @@ class UserProfileController extends Controller
         $profile->delete();
 
         return response()->noContent(); //no message
+    }
+
+    public function getUserProfileById($id)
+    {
+        $profile = UserProfile::where('user_id', $id)->firstOrFail();
+
+        return response()->json($profile);
     }
 }

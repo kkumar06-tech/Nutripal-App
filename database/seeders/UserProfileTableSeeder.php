@@ -48,7 +48,7 @@ class UserProfileTableSeeder extends Seeder
 
         UserProfile::create([
             'user_id' => 4, 
-            'name' => 'keshav kumar',
+            'name' => 'Keshav Kumar',
             'date_of_birth' => '2003-02-06',
             'weight' => 65, 
             'height' => 176, 
