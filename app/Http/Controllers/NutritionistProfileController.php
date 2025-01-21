@@ -96,4 +96,17 @@ class NutritionistProfileController extends Controller
 
         return response()->noContent();
     }
+
+    public function getProfileByUserId($user_id)
+    {
+        // Fetch the nutritionist profile based on user_id
+        $nutritionistProfile = NutritionistProfile::where('user_id', $user_id)->first();
+
+        if (!$nutritionistProfile) {
+            return response()->json(['message' => 'Nutritionist profile not found'], 404);
+        }
+
+        // Return the profile data
+        return response()->json($nutritionistProfile);
+    }
 }

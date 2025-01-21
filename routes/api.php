@@ -54,6 +54,7 @@ Route::post('/email/verify/resend', function (Request $request) {
     Route::apiResource('user-profiles', UserProfileController::class);
     Route::get('/user/profile/{id}', [UserProfileController::class, 'getUserProfileById']);
     Route::apiResource('nutritionist-profiles', NutritionistProfileController::class);
+    Route::get('/nutritionist-profile/{user_id}', [NutritionistProfileController::class, 'getProfileByUserId']);
 
     // Keshav
     Route::apiResource('foods', FoodController::class);
