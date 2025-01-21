@@ -22,7 +22,6 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NutritionalValueController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\NutritionistProfileController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
 //authentication routes
@@ -56,6 +55,7 @@ Route::post('/email/verify/resend', function (Request $request) {
     // Marija
     Route::apiResource('users', UserController::class);
     Route::apiResource('user-profiles', UserProfileController::class);
+    Route::get('/user/profile/{id}', [UserProfileController::class, 'getUserProfileById']);
     Route::apiResource('nutritionist-profiles', NutritionistProfileController::class);
 
     // Keshav
@@ -80,7 +80,12 @@ Route::post('/email/verify/resend', function (Request $request) {
     Route::apiResource('liquidlogs', LiquidLogController::class);
     Route::apiResource('nutrivalue', NutritionalValueController::class);
 
-    Route::apiResource('notification', NotificationController::class);
+    Route::apiResource('notifications', NotificationController::class);
+
+
+    
+
+    Route::get('conversations/{userId}/{nutritionistId}', [ConversationController::class, 'getConversationByUserAndNutritionist']);
 
 
   // Additional routes
