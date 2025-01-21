@@ -50,7 +50,7 @@ class UserProfile extends Model
     }
 
     public function userStat(){
-        return $this->hasOne(UserStat::class);
+        return $this->hasMany(UserStat::class);
     }
 
     public function userAppointment(){

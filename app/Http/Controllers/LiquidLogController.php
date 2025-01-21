@@ -54,7 +54,12 @@ class LiquidLogController extends Controller
         }
 
         // Update or create user stats
-        $userStats = UserStat::where('user_id', $userProfile->id)->first();
+      
+        $today = Carbon::today(); 
+
+        $userStats = UserStat::where('user_id', $userProfile->id)
+                            ->where('date', $today->format('Y-m-d')) 
+                            ->first();
 
         if (!$userStats) {
             // Create new stats entry if not exists
