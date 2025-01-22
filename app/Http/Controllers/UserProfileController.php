@@ -54,41 +54,43 @@ class UserProfileController extends Controller
 
 
     public function getProfile($id)
-    {
-        $profile = UserProfile::where('id', $id)->firstOrFail();
-      
-        $userStat = UserStat::where('user_id', $id)
+{
+    $profile = UserProfile::where('id', $id)->first();
+
+    if (!$profile) {
+        return response()->json(['error' => 'Profile not found'], 404);
+    }
+
+    $userStat = UserStat::where('user_id', $id)
         ->where('date', Carbon::today())
         ->first();
 
+    $dateOfBirth = $profile->date_of_birth ?? '1970-01-01';
+    $age = \Carbon\Carbon::parse($dateOfBirth)->age;
 
-        $dateOfBirth= $profile->date_of_birth;
-        $age = \Carbon\Carbon::parse($dateOfBirth)->age;
-        
-
-        $defaultImage = asset('storage/default_images/default.jpg'); 
-
-        $imageUrl = $profile->profile_image 
+    $defaultImage = asset('storage/default_images/default.jpg');
+    $imageUrl = $profile->profile_image 
         ? asset($profile->profile_image) 
         : $defaultImage;
 
-        
-        $formattedProfile = [
-            'name' => $profile->name,
-            'Image' => $imageUrl,
-            'gender' => $profile->gender,
-            'age' => $age,
-            'username' => $profile->name,
-            'height' => $profile->height,
-            'weight' => $profile->weight,
-            'goal' => $profile->fitness_goal, // Assuming this maps to 'goal'
-            'totalCaloriesIntake' => $userStat->calories, // Assuming this is the field name
-            'frequency' => $profile->weekly_exercise_frequency, // Assuming this is the field name
-        'goalcal'=>$profile->daily_goal_calories
-        ];
+    $formattedProfile = [
+        'name' => $profile->name, 
+        'Image' => $imageUrl, 
+        'gender' => $profile->gender ?? 'Unknown', 
+        'age' => $age, 
+        'username' => $profile->name, 
+        'height' => $profile->height ?? 0, 
+        'weight' => $profile->weight ?? 0, 
+        'goal' => $profile->fitness_goal ?? 'Unknown', 
+        'totalCaloriesIntake' => $userStat->calories ?? 0, 
+        'frequency' => $profile->weekly_exercise_frequency ?? 0, 
+        'goalcal' => $profile->daily_goal_calories ?? 0, 
+    ];
 
-        return response()->json($formattedProfile); 
-    }
+    
+    return response()->json($formattedProfile);
+}
+
 
 
 
