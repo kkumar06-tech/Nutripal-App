@@ -28,17 +28,28 @@ class NutritionistProfileController extends Controller
     public function store(Request $request)
     {
         $incomingFields = $request->validate([ 
+            'user_id' => ['required', 'exists:users,id'],
+            'name' => ['required', 'string', 'max:255'],
             'credentials' => ['required', 'string'],
-            'certificate_image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'] 
+            'certificate_image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'] ,
+            'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+          'bio_description'=> ['nullable', 'string', 'max:255'],
         ]);
 
         if($request->hasFile('certificate_image')){
             $certificatePath = $request->file('certificate_image')->store('certificates','public');
 
             $incomingFields['certificate_image'] = $certificatePath;
-            $incomingFields['user_id'] = Auth::id();
-
-            $nutri = NutritionistProfile::create($incomingFields);
+            $user_id = auth()->id();
+           
+            $nutri = NutritionistProfile::create([
+                'user_id' =>$incomingFields['user_id'],
+                'name' =>$incomingFields['name'],
+                'certificate_image'=>$incomingFields['certificate_image'], 
+                'credentials'=>$incomingFields['credentials'],
+                'profile_image'=>$incomingFields['profile_image'] ?? null, 
+                'bio_description'=>$incomingFields['bio_description'] ?? null
+            ]);
 
             return response()->json($nutri, 201);
         }
@@ -109,4 +120,41 @@ class NutritionistProfileController extends Controller
         // Return the profile data
         return response()->json($nutritionistProfile);
     }
+
+
+
+
+    public function getNutriProfiles(Request $request)
+    {
+        $nutriProfileIds = $request->input('nutri_profile_ids'); // Get the array of IDs
+    
+        if (empty($nutriProfileIds)) {
+            return response()->json(['message' => 'No user profile IDs provided'], 400);
+        }
+    
+        $nutriProfiles = NutritionistProfile::whereIn('id', $nutriProfileIds)->get(); // Fetch profiles based on IDs
+    
+        if ($nutriProfiles->isEmpty()) {
+            return response()->json(['message' => 'No user profiles found'], 404);
+        }
+    
+        $defaultImage = asset('storage/default_images/default.jpg'); 
+
+        $formattedProfiles = $nutriProfiles->map(function ($profile) use ($defaultImage) {
+            $imageUrl = $profile->profile_image 
+                ? asset('storage/' . $profile->profile_image) // Generate URL for profile image
+                : $defaultImage; // Use default image if no profile image exists
+    
+            return [
+                'id' => $profile->id,
+                'name' => $profile->name,
+                'title' => $profile->credentials,
+                'image' => $imageUrl, // Include the resolved image URL
+            ];
+        });
+    
+        return response()->json($formattedProfiles); // Return the formatted profiles
+    }
+
+
 }

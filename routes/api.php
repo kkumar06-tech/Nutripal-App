@@ -66,10 +66,12 @@ Route::post('/email/verify/resend', function (Request $request) {
 
     Route::post('/getProfiles', [UserProfileController::class, 'getUserProfiles']);
     Route::get('/nutriappoint/{id}', [AppointmentController::class, 'nutriAppointments']);
+    Route::get('/userappoint/{id}', [AppointmentController::class, 'userAppointments']);
+ Route::post('/getnutriProfiles', [NutritionistProfileController::class, 'getNutriProfiles']);
     Route::get('/profile/{id}', [UserProfileController::class, 'getProfile']);
+ 
 
-
-
+   
     Route::apiResource('mealplans', MealPlanController::class);
     Route::apiResource('appointments', AppointmentController::class);
     Route::apiResource('liquids', LiquidController::class);

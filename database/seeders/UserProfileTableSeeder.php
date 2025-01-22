@@ -32,7 +32,7 @@ class UserProfileTableSeeder extends Seeder
             'weight' => 63.7, 
             'height' => 160, 
             'gender' => 'female',
-            'fitness_goal' => 'maintenance', 
+            'fitness_goal' => 'maintainance', 
             'weekly_exercise_frequency' => 'sedentary',
             'profile_image'=>'user_images/user2.jpg'
 

@@ -6,7 +6,7 @@ use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use App\Models\UserStat;
 use App\Models\User;
-
+use Carbon\Carbon;
 
 class UserProfileController extends Controller
 {
@@ -56,7 +56,12 @@ class UserProfileController extends Controller
     public function getProfile($id)
     {
         $profile = UserProfile::where('id', $id)->firstOrFail();
-        $userStat = UserStat::where('user_id',$id)->firstOrFail();;
+      
+        $userStat = UserStat::where('user_id', $id)
+        ->where('date', Carbon::today())
+        ->first();
+
+
         $dateOfBirth= $profile->date_of_birth;
         $age = \Carbon\Carbon::parse($dateOfBirth)->age;
         
@@ -76,13 +81,17 @@ class UserProfileController extends Controller
             'username' => $profile->name,
             'height' => $profile->height,
             'weight' => $profile->weight,
-            'goal' => $profile->fitness_goal, 
-            'totalCaloriesIntake' => $userStat->calories, 
-            'frequency' => $profile->weekly_exercise_frequency 
+            'goal' => $profile->fitness_goal, // Assuming this maps to 'goal'
+            'totalCaloriesIntake' => $userStat->calories, // Assuming this is the field name
+            'frequency' => $profile->weekly_exercise_frequency, // Assuming this is the field name
+        'goalcal'=>$profile->daily_goal_calories
         ];
 
         return response()->json($formattedProfile); 
     }
+
+
+
 
 
     /**
@@ -91,12 +100,13 @@ class UserProfileController extends Controller
     public function store(Request $request)
     {
         $incomingFields = $request->validate([ 
+            'user_id' => ['required', 'exists:users,id'],
             'name' => ['required', 'string', 'max:255'],
             'date_of_birth' => ['required', 'date'],
             'weight' => ['required', 'numeric'],
             'height' => ['required', 'numeric'],
             'gender' => ['required', 'in:male,female,other'],
-            'fitness_goal' => ['required', 'in:maintenance,weight_loss,build_muscle'],
+            'fitness_goal' => ['required', 'in:maintainance,weight_loss,build_muscle'],
             'weekly_exercise_frequency' => ['required', 'in:sedentary,highly_active,moderately_active,very_active,lightly_active'],
             'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
@@ -134,7 +144,7 @@ class UserProfileController extends Controller
         $user_id = auth()->id();
         
         $userData = UserProfile::create([
-            'user_id' => $user_id,
+            'user_id' => $incomingFields['user_id'],
             'name' =>$incomingFields['name'],
             'date_of_birth' => $incomingFields['date_of_birth'],
             'weight' => $incomingFields['weight'],
@@ -263,7 +273,7 @@ class UserProfileController extends Controller
 
     public function getUserProfileById($id)
     {
-        $profile = UserProfile::where('user_id', $id)->firstOrFail();
+        $profile = UserProfile::where('id', $id)->firstOrFail();
 
         return response()->json($profile);
     }

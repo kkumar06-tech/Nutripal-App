@@ -39,6 +39,24 @@ class AppointmentController extends Controller
     return response()->json($appointments, 200);
 }
 
+public function userAppointments($id)  {
+    $userProfile = UserProfile::where('user_id', $id)->first();
+
+    if (!$userProfile) {
+        return response()->json(['message' => 'User profile not found for this user.'], 404);
+    }
+
+    // Fetch appointments for the given nutritionist profile
+    $appointments = Appointment::where('user_profile_id', $userProfile->id)->get();
+
+    // Check if there are no appointments for the nutritionist
+    if ($appointments->isEmpty()) {
+        return response()->json(['message' => 'No appointments found for this nutritionist.'], 404);
+    }
+
+    return response()->json($appointments, 200);
+}
+
 
 
 
