@@ -106,20 +106,26 @@ class FoodController extends Controller
 
 
 
-    public function suggest($mealtype)
+    public function suggest()
     {
         try {
-            // Retrieve a random food item based on meal type
-            $food = Food::where('meal_type', $mealtype)->inRandomOrder()->first(); // Corrected reference to $mealtype
+            // Define the meal types
+            $mealTypes = ['Breakfast', 'Snack', 'Lunch', 'Dinner'];
     
-            if ($food) {
-            
-                return response()->json($food);
-            } else {
-                return response()->json(['message' => 'No food found for the specified meal type'], 404);
+            // Fetch a random food item for each meal type
+            $suggestions = [];
+            foreach ($mealTypes as $mealType) {
+                $food = Food::where('meal_type', $mealType)->inRandomOrder()->first();
+                if ($food) {
+                    $suggestions[$mealType] = $food;
+                } else {
+                    $suggestions[$mealType] = ['message' => "No food found for $mealType"];
+                }
             }
+    
+            return response()->json(['suggestions' => $suggestions]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Unable to fetch food suggestion'], 500);
+            return response()->json(['error' => 'Unable to fetch food suggestions'], 500);
         }
 
     }

@@ -60,7 +60,7 @@ Route::post('/email/verify/resend', function (Request $request) {
     Route::apiResource('foods', FoodController::class);
     Route::apiResource('foodlogs', FoodLogController::class);
     Route::apiResource('userstats', UserStatController::class);
-    Route::get('/suggest/{mealtype}', [FoodController::class, 'suggest']);
+    Route::get('/suggest', [FoodController::class, 'suggest']);
     Route::post('/apply-filters', [FoodController::class, 'applyFilters']);
     Route::get('/allstats/{id}', [UserStatController::class, 'allstats']);
     Route::get('/getstat/{userId}/{date}', [UserStatController::class, 'getstatbydate']);
