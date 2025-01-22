@@ -12,13 +12,10 @@ class FoodController extends Controller
      */
     public function index()
     {
-        $foods = Food::all(); // Retrieve all foods
-        $foods->transform(function ($food) {
-            $food->food_image_url = $food->food_image ? asset('storage/' . $food->food_image) : null;
-            return $food;
-        });
-        return response()->json($foods);
+        $foods = Food::all(); 
+        return response()->json($foods); 
     }
+    
 
     /**
      * Store a newly created food in the database.
