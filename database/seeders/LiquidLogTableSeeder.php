@@ -29,37 +29,19 @@ class LiquidLogTableSeeder extends Seeder
     LiquidLog::create([ 
         'user_profile_id' => 4,
         
-        'total_amount_ml' => 2000,
-   'date' => '2025-01-13'
+        'total_amount_ml' => 1800,
+   'date' => '2025-01-19'
     ]);
 
     LiquidLog::create([ 
         'user_profile_id' => 4,
         
         'total_amount_ml' => 2000,
-   'date' => '2025-01-14'
+   'date' => '2025-01-20'
     ]);   
     
-    LiquidLog::create([ 
-        'user_profile_id' => 4,
-        
-        'total_amount_ml' => 1300,
-        'date' => '2025-01-14'
-    ]);
-    
-    LiquidLog::create([ 
-        'user_profile_id' => 4,
-        
-        'total_amount_ml' => 1100,
-       'date' => '2025-01-15'
-    ]);
 
-    LiquidLog::create([ 
-        'user_profile_id' => 4,
-        
-        'total_amount_ml' => 1200,
-       'date' => '2025-01-15'
-    ]);
+  
 
 
     }

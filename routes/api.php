@@ -63,7 +63,7 @@ Route::post('/email/verify/resend', function (Request $request) {
     Route::get('/suggest/{mealtype}', [FoodController::class, 'suggest']);
     Route::post('/apply-filters', [FoodController::class, 'applyFilters']);
     Route::get('/allstats/{id}', [UserStatController::class, 'allstats']);
-
+    Route::get('/getstat/{userId}/{date}', [UserStatController::class, 'getstatbydate']);
 
 
     Route::post('/getProfiles', [UserProfileController::class, 'getUserProfiles']);

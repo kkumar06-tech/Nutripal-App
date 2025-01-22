@@ -30,20 +30,20 @@ class FoodLogController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_id' => ['required', 'exists:user_profiles,user_id'], 
-            'foods' => ['required', 'array'], 
-            'foods.*' => ['required', 'exists:foods,id'],
+            'user_id' => ['required', 'exists:user_profiles,user_id'],
+            'foods' => ['required', 'array'],
+            'foods.*.food_id' => ['required', 'exists:foods,id'],
+            'foods.*.portion' => ['required', 'numeric', 'min:1'],
         ]);
-
-       
-        
+    
+        // Retrieve user profile
         $userProfile = UserProfile::where('user_id', $validated['user_id'])->first();
     
         if (!$userProfile) {
             return response()->json(['message' => 'UserProfile not found'], 404);
         }
     
-      
+        // Initialize total nutrient values
         $totalCalories = 0;
         $totalProtein = 0;
         $totalFat = 0;
@@ -51,23 +51,35 @@ class FoodLogController extends Controller
     
         $foodLogs = [];
     
-        foreach ($validated['foods'] as $foodId) {
-            
+        // Iterate over foods and calculate nutritional data
+        foreach ($validated['foods'] as $foodData) {
+            $foodId = $foodData['food_id'];
+            $portionSize = $foodData['portion'];
+    
+            // Create a food log
             $foodLog = FoodLog::create([
                 'user_profile_id' => $userProfile->id,
             ]);
     
             $foodLog->foods()->attach($foodId);
-
+    
             $food = Food::find($foodId);
     
             if ($food) {
-
-
-                $totalCalories += $food->calories;
-                $totalProtein += $food->protein;
-                $totalFat += $food->fat;
-                $totalCarbs += $food->carbs;
+                // Calculate the portion factor (portion / 100)
+                $portionFactor = $portionSize / 100;
+    
+                // Adjust nutrients based on portion size
+                $adjustedCalories = $food->calories * $portionFactor;
+                $adjustedProtein = $food->protein * $portionFactor;
+                $adjustedFat = $food->fat * $portionFactor;
+                $adjustedCarbs = $food->carbs * $portionFactor;
+    
+                // Add adjusted values to totals
+                $totalCalories += $adjustedCalories;
+                $totalProtein += $adjustedProtein;
+                $totalFat += $adjustedFat;
+                $totalCarbs += $adjustedCarbs;
             }
     
             $foodLogs[] = $foodLog;
@@ -111,7 +123,7 @@ class FoodLogController extends Controller
     public function show($user_id)
     {
         $userProfile = UserProfile::where('user_id', $user_id)->first();
-    
+
         if (!$userProfile) {
             return response()->json(['message' => 'UserProfile not found'], 404);
         }

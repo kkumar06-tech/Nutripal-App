@@ -32,17 +32,17 @@ class FoodLogTableSeeder extends Seeder
                     
      FoodLog::create( [
       'user_profile_id' => 4,
-     'date' => '2025-01-14'
+     'date' => '2025-01-21'
                     ] );
 
       FoodLog::create( [ 
         'user_profile_id' => 4,
-         'date' => '2025-01-13'
+         'date' => '2025-01-20'
                         ] );
 
                         FoodLog::create( [ 
                             'user_profile_id' => 4,
-             'date' => '2025-01-15'
+             'date' => '2025-01-19'
                             ] );
 
     }

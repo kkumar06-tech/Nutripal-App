@@ -23,11 +23,9 @@ class LiquidLiquidLogTableSeeder extends Seeder
         $liquidLog2 = LiquidLog::where('user_profile_id', 2)->first();  // Find log for user 2
         $liquidLog3 = LiquidLog::where('user_profile_id', 4)->first();  // Find log for user 2
 
-        $liquidLog4 = LiquidLog::where('user_profile_id', 4)->where('date', '2025-01-13')->first();
-        $liquidLog5 = LiquidLog::where('user_profile_id', 4)->where('date', '2025-01-14')->first();
-        $liquidLog6 = LiquidLog::where('user_profile_id', 4)->where('date', '2025-01-14')->first();
-        $liquidLog7 = LiquidLog::where('user_profile_id', 4)->where('date', '2025-01-15')->first();
-        $liquidLog8 = LiquidLog::where('user_profile_id', 4)->where('date', '2025-01-15')->first();
+        $liquidLog4 = LiquidLog::where('user_profile_id', 4)->where('date', '2025-01-20')->first();
+        $liquidLog5 = LiquidLog::where('user_profile_id', 4)->where('date', '2025-01-29')->first();
+      
 
 
 
@@ -50,18 +48,6 @@ class LiquidLiquidLogTableSeeder extends Seeder
         
         if ($liquid1 && $liquidLog5) {
             $liquid1->liquidlogs()->attach($liquidLog5->id);
-        }
-        
-        if ($liquid2 && $liquidLog6) {
-            $liquid2->liquidlogs()->attach($liquidLog6->id);
-        } 
-        
-        if ($liquid2 && $liquidLog7) {
-            $liquid2->liquidlogs()->attach($liquidLog7->id);
-        }
-        
-        if ($liquid3 && $liquidLog8) {
-            $liquid3->liquidlogs()->attach($liquidLog8->id);
         }
 
     }

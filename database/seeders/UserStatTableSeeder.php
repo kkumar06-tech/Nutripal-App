@@ -33,7 +33,7 @@ class UserStatTableSeeder extends Seeder
             'protein' => 54,
             'fat' => 56,
             'carbs' => 13,
-            'liquid_intake' => 700,
+            'liquid_intake' => 2000,
         ]);
 
         UserStat::create([
@@ -43,7 +43,7 @@ class UserStatTableSeeder extends Seeder
             'protein' => 32,
             'fat' => 53,
             'carbs' => 55,
-            'liquid_intake' => 12,
+            'liquid_intake' => 1800,
         ]);
 
         UserStat::create([

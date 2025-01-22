@@ -25,6 +25,7 @@ class Food extends Model
 
     protected $casts = [
         'portion' => 'array', 
+        'dietary_preferences' => 'array'
     ];
 
     public function foodlogs()

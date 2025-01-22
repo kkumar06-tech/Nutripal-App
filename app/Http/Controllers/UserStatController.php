@@ -91,6 +91,49 @@ class UserStatController extends Controller
     }
     
 
+
+
+
+    public function getstatbydate( $userId,$date)
+    {
+         // Validate the date format (YYYY-MM-DD)
+    if (!Carbon::hasFormat($date, 'Y-m-d')) {
+        return response()->json(['message' => 'Invalid date format. Use YYYY-MM-DD.'], 400);
+    }
+
+    // Find the user profile based on the user ID
+    $userProfile = UserProfile::where('user_id', $userId)->first();
+
+    if (!$userProfile) {
+        return response()->json(['message' => 'User profile not found'], 404);
+    }
+
+    // Find the user stats for the given date
+    $userStat = UserStat::where('user_id', $userProfile->id)
+                        ->where('date', $date)
+                        ->first();
+
+    // If no stats exist for the given date, create a new entry with default values
+    if (!$userStat) {
+        $userStat = UserStat::create([
+            'user_id' => $userProfile->id,
+            'date' => $date,
+            'calories' => 0, // Default values, can be adjusted
+            'protein' => 0,
+            'fat' => 0,
+            'carbs' => 0,
+            'liquid_intake' => 0,
+        ]);
+    }
+
+    // Return the stats (either existing or newly created)
+    return response()->json($userStat, 200);
+    }
+
+
+
+
+
     /**
      * Update the specified resource in storage.
      */
