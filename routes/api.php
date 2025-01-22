@@ -55,6 +55,8 @@ Route::post('/email/verify/resend', function (Request $request) {
     Route::get('/user/profile/{id}', [UserProfileController::class, 'getUserProfileById']);
     Route::apiResource('nutritionist-profiles', NutritionistProfileController::class);
     Route::get('/nutritionist-profile/{user_id}', [NutritionistProfileController::class, 'getProfileByUserId']);
+   
+
 
     // Keshav
     Route::apiResource('foods', FoodController::class);
@@ -68,8 +70,10 @@ Route::post('/email/verify/resend', function (Request $request) {
 
     Route::post('/getProfiles', [UserProfileController::class, 'getUserProfiles']);
     Route::get('/nutriappoint/{id}', [AppointmentController::class, 'nutriAppointments']);
+    Route::get('/userappoint/{id}', [AppointmentController::class, 'userAppointments']);
+ Route::post('/getnutriProfiles', [NutritionistProfileController::class, 'getNutriProfiles']);
     Route::get('/profile/{id}', [UserProfileController::class, 'getProfile']);
-
+ Route::get('/nutriconv/{id}', [ConversationController::class, 'nutriconv']);
 
     // Daphne
     Route::apiResource('mealplans', MealPlanController::class);
@@ -88,7 +92,7 @@ Route::post('/email/verify/resend', function (Request $request) {
 
   // Additional routes
  Route::apiResource('conversations', ConversationController::class);
- Route::get('/nutriconv/{id}', [ConversationController::class, 'nutriconv']);
+
  Route::apiResource('messages', MessageController::class);
  
 Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// 

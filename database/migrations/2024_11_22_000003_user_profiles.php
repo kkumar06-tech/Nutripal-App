@@ -21,7 +21,7 @@ return new class extends Migration
             $table->float('weight')->nullable();
             $table->float('height')->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
-            $table->enum('fitness_goal', ['maintenance', 'weight_loss', 'build_muscle'])->nullable();
+            $table->enum('fitness_goal', ['maintainance', 'weight_loss', 'build_muscle'])->nullable();
             $table->enum('weekly_exercise_frequency', [
                 'sedentary',
                 'lightly_active',
