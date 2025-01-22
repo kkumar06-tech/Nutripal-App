@@ -21,13 +21,13 @@ class UserProfileController extends Controller
 
     public function getUserProfiles(Request $request)
     {
-        $userProfileIds = $request->input('user_profile_ids'); // Get the array of IDs
+        $userProfileIds = $request->input('user_profile_ids');
     
         if (empty($userProfileIds)) {
             return response()->json(['message' => 'No user profile IDs provided'], 400);
         }
     
-        $userProfiles = UserProfile::whereIn('id', $userProfileIds)->get(); // Fetch profiles based on IDs
+        $userProfiles = UserProfile::whereIn('id', $userProfileIds)->get(); 
     
         if ($userProfiles->isEmpty()) {
             return response()->json(['message' => 'No user profiles found'], 404);
@@ -37,27 +37,24 @@ class UserProfileController extends Controller
 
         $formattedProfiles = $userProfiles->map(function ($profile) use ($defaultImage) {
             $imageUrl = $profile->profile_image 
-                ? asset('storage/' . $profile->profile_image) // Generate URL for profile image
-                : $defaultImage; // Use default image if no profile image exists
+                ? asset($profile->profile_image) 
+                : $defaultImage; 
     
             return [
                 'id' => $profile->id,
                 'name' => $profile->name,
                 'focus' => $profile->fitness_goal,
-                'image' => $imageUrl, // Include the resolved image URL
+                'image' => $imageUrl, 
             ];
         });
     
-        return response()->json($formattedProfiles); // Return the formatted profiles
+        return response()->json($formattedProfiles);
     }
-
-
 
 
 
     public function getProfile($id)
     {
-       
         $profile = UserProfile::where('id', $id)->firstOrFail();
       
         $userStat = UserStat::where('user_id', $id)
@@ -69,17 +66,16 @@ class UserProfileController extends Controller
         $age = \Carbon\Carbon::parse($dateOfBirth)->age;
         
 
-        $defaultImage = asset('storage/default_images/default.jpg'); // Path to default image
+        $defaultImage = asset('storage/default_images/default.jpg'); 
 
-    // Resolve the image URL or fallback to default
-    $imageUrl = $profile->profile_image 
-        ? asset('storage/' . $profile->profile_image) 
+        $imageUrl = $profile->profile_image 
+        ? asset($profile->profile_image) 
         : $defaultImage;
 
-        // Format the response to match the frontend's expected structure
+        
         $formattedProfile = [
             'name' => $profile->name,
-            'Image' => $imageUrl, // Assuming image is a field or null if not available
+            'Image' => $imageUrl,
             'gender' => $profile->gender,
             'age' => $age,
             'username' => $profile->name,
@@ -91,9 +87,7 @@ class UserProfileController extends Controller
         'goalcal'=>$profile->daily_goal_calories
         ];
 
-      
-    
-        return response()->json($formattedProfile); // Return the profiles
+        return response()->json($formattedProfile); 
     }
 
 
@@ -120,10 +114,10 @@ class UserProfileController extends Controller
       
         // Calculate BMR based on gender
         $age = \Carbon\Carbon::parse($incomingFields['date_of_birth'])->age;
-        $weight =  $incomingFields['weight']; // in kg
-        $height =  $incomingFields['height']; // in cm
+        $weight =  $incomingFields['weight']; 
+        $height =  $incomingFields['height']; 
         $gender = $incomingFields['gender'];
-        $activityFactor = $this->getActivityFactor($incomingFields['weekly_exercise_frequency']); // Use the updated activity factor
+        $activityFactor = $this->getActivityFactor($incomingFields['weekly_exercise_frequency']); 
         
         if ($gender == 'male') {
             $bmr = 10 * $weight + 6.25 * $height - 5 * $age + 5;
@@ -131,11 +125,10 @@ class UserProfileController extends Controller
             $bmr = 10 * $weight + 6.25 * $height - 5 * $age - 161;
         }
 
-        // Calculate TDEE (Total Daily Energy Expenditure)
         $tdee = $bmr * $activityFactor;
 
         // Calculate hydration goal (30-35 ml per kg)
-        $hydrationGoal = $weight * 30; // 30 ml per kg of body weight
+        $hydrationGoal = $weight * 30; 
 
         // Adjust the TDEE based on the fitness goal
         $caloriesRange = $this->calculateCaloriesRange($tdee, $incomingFields['fitness_goal']);
@@ -143,14 +136,13 @@ class UserProfileController extends Controller
         $profileImage = $incomingFields['profile_image'] ?? null;
 
         if (!$profileImage) {
-            $profileImage = 'default_images/default.jpg'; // Path to the default image
+            $profileImage = 'default_images/default.jpg'; 
         } else {
-            // If an image is provided, store it and get the path
             $profileImagePath = $request->file('profile_image')->store('profile_images', 'public');
         }
 
         $user_id = auth()->id();
-        // Save the data to the database
+        
         $userData = UserProfile::create([
             'user_id' => $incomingFields['user_id'],
             'name' =>$incomingFields['name'],
@@ -168,7 +160,6 @@ class UserProfileController extends Controller
         return response()->json(['message' => 'User data saved successfully', 'data' => $userData], 201);
     }
 
-    // Function to return activity factor based on exercise level (word)
     private function getActivityFactor($exerciseLevel)
     {
         $activityFactors = [
@@ -178,27 +169,23 @@ class UserProfileController extends Controller
             'very_active' => 1.725,
             'extremely_active' => 1.9,
         ];
-
-        // Default to 1.2 (sedentary) if the exercise level is not recognized
         return $activityFactors[strtolower($exerciseLevel)] ?? 1.2;
     }
 
-    // Function to calculate the calorie range based on fitness goal
+  
     private function calculateCaloriesRange($tdee, $fitnessGoal)
     {
         switch ($fitnessGoal) {
             case 'weight loss':
-                return $tdee - ($tdee * 0.2);  // Reduce 20% for weight loss
+                return $tdee - ($tdee * 0.2);  
             case 'maintenance':
-                return $tdee;  // No change for maintenance
+                return $tdee;  
             case 'weight gain':
-                return $tdee + ($tdee * 0.2);  // Add 20% for weight gain
+                return $tdee + ($tdee * 0.2);  
             default:
-                return $tdee;  // Default to maintenance if goal is unclear
+                return $tdee;  
         }
     }
-    
-
 
     /**
      * Display the specified resource.
@@ -208,27 +195,22 @@ class UserProfileController extends Controller
         $profile = UserProfile::where('user_id', $userId)->firstOrFail();
 
 
-        $defaultImage = asset('storage/default_images/default.jpg'); // Path to default image
+        $defaultImage = asset('storage/default_images/default.jpg'); 
 
-        // Resolve the image URL or fallback to default
         $imageUrl = $profile->profile_image 
-            ? asset('storage/' . $profile->profile_image) 
+            ? asset($profile->profile_image) 
             : $defaultImage;
 
 
         $maxCalories = $profile->daily_goal_calories;
 
-    // calculations (in grams):
-        // Protein: 20% of calories, 
-        // Fats: 25% of calories,
-        // Carbs: Remaining calories (55%)
     
-        $proteinCalories = $maxCalories * 0.20; // 20% for protein
-        $fatCalories = $maxCalories * 0.25;    // 25% for fats
-        $carbCalories = $maxCalories * 0.55;   // Remaining 55% for carbs
+        $proteinCalories = $maxCalories * 0.20; 
+        $fatCalories = $maxCalories * 0.25;    
+        $carbCalories = $maxCalories * 0.55;  
     
-        $maxProtein = $proteinCalories / 4;  // 1g protein = 4 calories
-        $maxFats = $fatCalories / 9;          // 1g fat = 9 calories
+        $maxProtein = $proteinCalories / 4;  
+        $maxFats = $fatCalories / 9;          
         $maxCarbs = $carbCalories / 4;   
 
 
@@ -286,7 +268,7 @@ class UserProfileController extends Controller
 
         $profile->delete();
 
-        return response()->noContent(); //no message
+        return response()->noContent(); 
     }
 
     public function getUserProfileById($id)

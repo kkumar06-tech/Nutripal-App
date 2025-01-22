@@ -13,7 +13,6 @@ class UserStatController extends Controller
      */
     public function index()
     {
-        // Fetch all user stats
         $userStats = UserStat::all();
         return response()->json($userStats, 200);
     }
@@ -23,9 +22,8 @@ class UserStatController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate incoming request data
         $validated = $request->validate([
-            'user_id' => ['required', 'exists:user_profiles,id'], // Ensure the user exists in user_profiles table
+            'user_id' => ['required', 'exists:user_profiles,id'], 
             'calories' => ['required', 'integer'],
             'protein' => ['required', 'integer'],
             'fat' => ['nullable', 'integer'],
@@ -43,14 +41,11 @@ class UserStatController extends Controller
         if ($existingStat) {
             return response()->json(['message' => 'Record already exists for this date'], 400);
         }
-    
-        // Add the user_profile_id to the validated data
+
         $validated['user_profile_id'] = $userProfile->id;
-    
-        // Create a new UserStat record
+
         $userStat = UserStat::create($validated);
     
-        // Return the created UserStat
         return response()->json($userStat, 201);
     }
 
@@ -67,18 +62,16 @@ class UserStatController extends Controller
     
         $today = Carbon::today();
 
-        // Check if stats already exist for today
         $userStat = UserStat::where('user_id', $userProfile->id)
                             ->where('date', $today)
                             ->first();
 
-        // If no stats exist for today, create a new entry
         if (!$userStat) {
-            // Optionally, set default values or use request data to create the stat
+            
             $userStat = UserStat::create([
                 'user_id' => $userProfile->id,
                'date' => $today->format('Y-m-d'),
-                'calories' => 0, // Default values, can be adjusted
+                'calories' => 0, 
                 'protein' => 0,
                 'fat' => 0,
                 'carbs' => 0,
@@ -86,39 +79,34 @@ class UserStatController extends Controller
             ]);
         }
 
-        // Return the stats (either existing or newly created)
         return response()->json($userStat, 200);
     }
-    
-
-
 
 
     public function getstatbydate( $userId,$date)
     {
-         // Validate the date format (YYYY-MM-DD)
+       
     if (!Carbon::hasFormat($date, 'Y-m-d')) {
         return response()->json(['message' => 'Invalid date format. Use YYYY-MM-DD.'], 400);
     }
 
-    // Find the user profile based on the user ID
+   
     $userProfile = UserProfile::where('user_id', $userId)->first();
 
     if (!$userProfile) {
         return response()->json(['message' => 'User profile not found'], 404);
     }
 
-    // Find the user stats for the given date
+    
     $userStat = UserStat::where('user_id', $userProfile->id)
                         ->where('date', $date)
                         ->first();
 
-    // If no stats exist for the given date, create a new entry with default values
     if (!$userStat) {
         $userStat = UserStat::create([
             'user_id' => $userProfile->id,
             'date' => $date,
-            'calories' => 0, // Default values, can be adjusted
+            'calories' => 0, 
             'protein' => 0,
             'fat' => 0,
             'carbs' => 0,
@@ -126,12 +114,9 @@ class UserStatController extends Controller
         ]);
     }
 
-    // Return the stats (either existing or newly created)
+   
     return response()->json($userStat, 200);
     }
-
-
-
 
 
     /**
@@ -139,9 +124,9 @@ class UserStatController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        // Validate incoming request data
+       
         $validated = $request->validate([
-            'user_id' => ['required', 'exists:user_profiles,id'], // Ensure the user exists in user_profiles table
+            'user_id' => ['required', 'exists:user_profiles,id'], 
             'calories' => ['required', 'integer'],
             'protein' => ['required', 'integer'],
             'fat' => ['nullable', 'integer'],
@@ -149,13 +134,10 @@ class UserStatController extends Controller
             'liquid_intake' => ['nullable', 'integer'],
         ]);
 
-        // Find the UserStat record by ID
+      
         $userStat = UserStat::findOrFail($id);
-
-        // Update the UserStat record with new values
         $userStat->update($validated);
 
-        // Return the updated UserStat
         return response()->json($userStat, 200);
     }
 
@@ -164,13 +146,10 @@ class UserStatController extends Controller
      */
     public function destroy(int $id)
     {
-        // Find the UserStat record by ID
         $userStat = UserStat::findOrFail($id);
 
-        // Delete the UserStat record
         $userStat->delete();
 
-        // Return success message
         return response()->json(['message' => 'UserStat deleted successfully'], 200);
     }
     

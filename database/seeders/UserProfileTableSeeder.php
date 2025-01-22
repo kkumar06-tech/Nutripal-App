@@ -62,7 +62,7 @@ class UserProfileTableSeeder extends Seeder
             'weekly_exercise_frequency' => 'very_active',
             'daily_goal_ml' => 2300,
             'daily_goal_calories'=>2801 ,
-              'profile_image'=>'user_images/user4.jpg'
+            'profile_image'=>'user_images/user4.jpg'
         ]);
 
 

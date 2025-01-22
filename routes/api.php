@@ -49,16 +49,12 @@ Route::post('/email/verify/resend', function (Request $request) {
 
 
 
-    // Marija
     Route::apiResource('users', UserController::class);
     Route::apiResource('user-profiles', UserProfileController::class);
     Route::get('/user/profile/{id}', [UserProfileController::class, 'getUserProfileById']);
     Route::apiResource('nutritionist-profiles', NutritionistProfileController::class);
     Route::get('/nutritionist-profile/{user_id}', [NutritionistProfileController::class, 'getProfileByUserId']);
-   
 
-
-    // Keshav
     Route::apiResource('foods', FoodController::class);
     Route::apiResource('foodlogs', FoodLogController::class);
     Route::apiResource('userstats', UserStatController::class);
@@ -73,9 +69,9 @@ Route::post('/email/verify/resend', function (Request $request) {
     Route::get('/userappoint/{id}', [AppointmentController::class, 'userAppointments']);
  Route::post('/getnutriProfiles', [NutritionistProfileController::class, 'getNutriProfiles']);
     Route::get('/profile/{id}', [UserProfileController::class, 'getProfile']);
- Route::get('/nutriconv/{id}', [ConversationController::class, 'nutriconv']);
+ 
 
-    // Daphne
+   
     Route::apiResource('mealplans', MealPlanController::class);
     Route::apiResource('appointments', AppointmentController::class);
     Route::apiResource('liquids', LiquidController::class);
@@ -84,25 +80,20 @@ Route::post('/email/verify/resend', function (Request $request) {
 
     Route::apiResource('notifications', NotificationController::class);
 
-
-    
-
     Route::get('conversations/{userId}/{nutritionistId}', [ConversationController::class, 'getConversationByUserAndNutritionist']);
 
+    Route::apiResource('conversations', ConversationController::class);
+    Route::get('/nutriconv/{id}', [ConversationController::class, 'nutriconv']);
+    Route::apiResource('messages', MessageController::class);
+    
+    Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// 
+    Route::patch('/markunread{id}',[MessageController::class,'markAsUnRead']); // 
+    Route::get('usermealplans/{userId}', [MealPlanController::class,'usermealplan']);// all mealplans of a user
 
-  // Additional routes
- Route::apiResource('conversations', ConversationController::class);
+    Route::middleware('auth:api')->group(function () {
+    Route::post('/verify-code', [EmailVerificationController::class, 'verifyCode']);
 
- Route::apiResource('messages', MessageController::class);
- 
-Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// 
-Route::patch('/markunread{id}',[MessageController::class,'markAsUnRead']); // 
- Route::get('usermealplans/{userId}', [MealPlanController::class,'usermealplan']);// all mealplans of a user
-
- Route::middleware('auth:api')->group(function () {
- Route::post('/verify-code', [EmailVerificationController::class, 'verifyCode']);
-
-Route::post('/resend-code', [EmailVerificationController::class, 'resendCode']);
+    Route::post('/resend-code', [EmailVerificationController::class, 'resendCode']);
 });
 
  
