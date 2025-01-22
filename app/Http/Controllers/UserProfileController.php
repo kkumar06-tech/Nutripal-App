@@ -22,13 +22,11 @@ class UserProfileController extends Controller
     public function getUserProfiles(Request $request)
     {
         $userProfileIds = $request->input('user_profile_ids');
-    
         if (empty($userProfileIds)) {
             return response()->json(['message' => 'No user profile IDs provided'], 400);
         }
     
         $userProfiles = UserProfile::whereIn('id', $userProfileIds)->get(); 
-    
         if ($userProfiles->isEmpty()) {
             return response()->json(['message' => 'No user profiles found'], 404);
         }
@@ -81,17 +79,14 @@ class UserProfileController extends Controller
             'username' => $profile->name,
             'height' => $profile->height,
             'weight' => $profile->weight,
-            'goal' => $profile->fitness_goal, // Assuming this maps to 'goal'
-            'totalCaloriesIntake' => $userStat->calories, // Assuming this is the field name
-            'frequency' => $profile->weekly_exercise_frequency, // Assuming this is the field name
-        'goalcal'=>$profile->daily_goal_calories
+            'goal' => $profile->fitness_goal, 
+            'totalCaloriesIntake' => $userStat->calories, 
+            'frequency' => $profile->weekly_exercise_frequency, 
+            'goalcal'=>$profile->daily_goal_calories
         ];
 
         return response()->json($formattedProfile); 
     }
-
-
-
 
 
     /**
@@ -106,8 +101,8 @@ class UserProfileController extends Controller
             'weight' => ['required', 'numeric'],
             'height' => ['required', 'numeric'],
             'gender' => ['required', 'in:male,female,other'],
-            'fitness_goal' => ['required', 'in:maintainance,weight_loss,build_muscle'],
-            'weekly_exercise_frequency' => ['required', 'in:sedentary,highly_active,moderately_active,very_active,lightly_active'],
+            'fitness_goal' => ['required', 'in:maintenance,weight_loss,build_muscle'],
+            'weekly_exercise_frequency' => ['required', 'in:sedentary,lightly_active,moderately_active,very_active,extremely_active'],
             'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
 
@@ -132,6 +127,8 @@ class UserProfileController extends Controller
 
         // Adjust the TDEE based on the fitness goal
         $caloriesRange = $this->calculateCaloriesRange($tdee, $incomingFields['fitness_goal']);
+
+        $caloriesRange = round($caloriesRange, 1);
       
         $profileImage = $incomingFields['profile_image'] ?? null;
 
@@ -159,6 +156,7 @@ class UserProfileController extends Controller
 
         return response()->json(['message' => 'User data saved successfully', 'data' => $userData], 201);
     }
+
 
     private function getActivityFactor($exerciseLevel)
     {

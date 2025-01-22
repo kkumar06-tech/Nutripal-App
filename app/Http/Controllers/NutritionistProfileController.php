@@ -33,7 +33,7 @@ class NutritionistProfileController extends Controller
             'credentials' => ['required', 'string'],
             'certificate_image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'] ,
             'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-          'bio_description'=> ['nullable', 'string', 'max:255'],
+            'bio_description'=> ['nullable', 'string', 'max:255'],
         ]);
 
         if($request->hasFile('certificate_image')){
@@ -65,7 +65,7 @@ class NutritionistProfileController extends Controller
         $nutri = NutritionistProfile::findOrFail($id);
        
         $nutri->profile_image_url = $nutri->profile_image
-        ? asset('storage/' . $nutri->profile_image)
+        ? asset($nutri->profile_image)
         : null;
        
         return $nutri;
@@ -110,14 +110,13 @@ class NutritionistProfileController extends Controller
 
     public function getProfileByUserId($user_id)
     {
-        // Fetch the nutritionist profile based on user_id
+        
         $nutritionistProfile = NutritionistProfile::where('user_id', $user_id)->first();
 
         if (!$nutritionistProfile) {
             return response()->json(['message' => 'Nutritionist profile not found'], 404);
         }
 
-        // Return the profile data
         return response()->json($nutritionistProfile);
     }
 
@@ -138,22 +137,24 @@ class NutritionistProfileController extends Controller
             return response()->json(['message' => 'No user profiles found'], 404);
         }
     
-        $defaultImage = asset('storage/default_images/default.jpg'); 
+        $defaultImage = asset('default_images/default.jpg'); 
 
         $formattedProfiles = $nutriProfiles->map(function ($profile) use ($defaultImage) {
             $imageUrl = $profile->profile_image 
-                ? asset('storage/' . $profile->profile_image) // Generate URL for profile image
-                : $defaultImage; // Use default image if no profile image exists
+                ? asset($profile->profile_image) 
+                : $defaultImage; 
     
             return [
                 'id' => $profile->id,
                 'name' => $profile->name,
                 'title' => $profile->credentials,
-                'image' => $imageUrl, // Include the resolved image URL
+                'image' => $imageUrl,
+                'rating' => $rating, 
+                'total_ratings' => $totalRatings,
             ];
         });
     
-        return response()->json($formattedProfiles); // Return the formatted profiles
+        return response()->json($formattedProfiles); 
     }
 
 

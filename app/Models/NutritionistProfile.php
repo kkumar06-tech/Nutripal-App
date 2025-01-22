@@ -13,10 +13,10 @@ class NutritionistProfile extends Model
         'certificate_image', 
         'credentials',
         'profile_image', 
-        'bio_description'
+        'bio_description',
+        'rating', 
+        'total_ratings'
     ];
-
-
 
 
     public function user()
