@@ -151,7 +151,7 @@ class NutritionistProfileController extends Controller
             return response()->json(['message' => 'No user profiles found'], 404);
         }
     
-        $defaultImage = asset('default_images/default.jpg'); 
+        $defaultImage = asset('default_images/default.png'); 
 
         $formattedProfiles = $nutriProfiles->map(function ($profile) use ($defaultImage) {
             $imageUrl = $profile->profile_image 
