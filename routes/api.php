@@ -48,12 +48,16 @@ use App\Http\Controllers\NutritionistProfileController;
     })->middleware('auth:sanctum');
 
 
+    Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('users', UserController::class);
     Route::apiResource('user-profiles', UserProfileController::class);
     Route::get('/user/profile/{id}', [UserProfileController::class, 'getUserProfileById']);
     Route::apiResource('nutritionist-profiles', NutritionistProfileController::class);
     Route::get('/nutritionist-profile/{user_id}', [NutritionistProfileController::class, 'getProfileByUserId']);
+    Route::get('/nutribyid/{id}', [NutritionistProfileController::class, 'nutribyid']);
+
+
 
     Route::apiResource('foods', FoodController::class);
     Route::apiResource('foodlogs', FoodLogController::class);
@@ -90,11 +94,18 @@ use App\Http\Controllers\NutritionistProfileController;
     Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// 
     Route::patch('/markunread{id}',[MessageController::class,'markAsUnRead']); // 
     Route::get('usermealplans/{userId}', [MealPlanController::class,'usermealplan']);// all mealplans of a user
+   
+});
+
+
 
     Route::middleware('auth:api')->group(function () {
     Route::post('/verify-code', [EmailVerificationController::class, 'verifyCode']);
 
     Route::post('/resend-code', [EmailVerificationController::class, 'resendCode']);
+
+    
+
 });
 
  

@@ -71,6 +71,20 @@ class NutritionistProfileController extends Controller
         return $nutri;
     }
 
+    public function nutribyid(string $id)
+{
+    // Fetch the first matching NutritionistProfile record
+    $nutri = NutritionistProfile::where('user_id', $id)->first();
+
+    // Check if a record is found, and handle the response accordingly
+    if (!$nutri) {
+        return response()->json(['error' => 'Nutritionist not found'], 404);
+    }
+
+    // Return the record as a JSON response
+    return response()->json($nutri);
+}
+
     /**
      * Update the specified resource in storage.
      */
