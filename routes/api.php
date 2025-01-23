@@ -84,15 +84,17 @@ use App\Http\Controllers\NutritionistProfileController;
         Route::get('/nutriconv/{id}', [ConversationController::class, 'nutriconv']);
         Route::apiResource('messages', MessageController::class);
     
-    Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// 
-    Route::patch('/markunread{id}',[MessageController::class,'markAsUnRead']); // 
-    Route::get('usermealplans/{userId}', [MealPlanController::class,'usermealplan']);// all mealplans of a user
+        Route::patch('/markread{id}',[MessageController::class,'markAsRead']);// 
+        Route::patch('/markunread{id}',[MessageController::class,'markAsUnRead']); // 
+        Route::get('usermealplans/{userId}', [MealPlanController::class,'usermealplan']);// all mealplans of a user
+    });
 
-    Route::middleware('auth:api')->group(function () {
-    Route::post('/verify-code', [EmailVerificationController::class, 'verifyCode']);
+        Route::middleware('auth:api')->group(function () {
+        Route::post('/verify-code', [EmailVerificationController::class, 'verifyCode']);
 
-    Route::post('/resend-code', [EmailVerificationController::class, 'resendCode']);
-});
+        Route::post('/resend-code', [EmailVerificationController::class, 'resendCode']);
+    });
+    
 
  
 
