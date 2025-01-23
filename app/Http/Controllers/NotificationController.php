@@ -25,7 +25,7 @@ class NotificationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_id' => ['required', 'exists:user_profiles,id'],
+            'user_id' => ['required', 'exists:users,id'],
             'nutritionist_id' => 'required|exists:nutritionist_profiles,id',
             'message' => 'required|string',
             'type' => 'required|string',

@@ -94,7 +94,7 @@ public function store(Request $request)
     public function getConversationByUserAndNutritionist($userId, $nutritionistId)
     {
         // First, validate if the user and nutritionist exist
-        $user = UserProfile::find($userId);
+        $user = UserProfile::where('user_id', $userId)->first();
         $nutritionist = NutritionistProfile::find($nutritionistId);
 
         // Check if both user and nutritionist exist
@@ -108,7 +108,7 @@ public function store(Request $request)
 
         // Try to fetch the conversation
         $conversation = Conversation::with(['nutritionist', 'userProfile'])
-            ->where('user_profile_id', $userId)
+            ->where('user_profile_id', $user->id)
             ->where('nutritionist_id', $nutritionistId)
             ->first();
 
@@ -116,7 +116,7 @@ public function store(Request $request)
         if (!$conversation) {
             try {
                 $conversation = Conversation::create([
-                    'user_profile_id' => $userId,
+                    'user_profile_id' => $user->id,
                     'nutritionist_id' => $nutritionistId,
                 ]);
             } catch (\Exception $e) {

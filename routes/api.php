@@ -62,6 +62,7 @@ use App\Http\Controllers\NutritionistProfileController;
     Route::post('/apply-filters', [FoodController::class, 'applyFilters']);
     Route::get('/allstats/{id}', [UserStatController::class, 'allstats']);
     Route::get('/getstat/{userId}/{date}', [UserStatController::class, 'getstatbydate']);
+    Route::get('/getId/{Id}', [UserProfileController::class, 'getUserId']);
 
 
     Route::post('/getProfiles', [UserProfileController::class, 'getUserProfiles']);

@@ -60,11 +60,12 @@ class UserProfileController extends Controller
     public function getProfile($id)
 {
     $profile = UserProfile::where('id', $id)->first();
-
     if (!$profile) {
         return response()->json(['error' => 'Profile not found'], 404);
     }
 
+$uid=$profile->user_id;
+$user=User::where('id',$uid)->first();
     $userStat = UserStat::where('user_id', $id)
         ->where('date', Carbon::today())
         ->first();
@@ -78,11 +79,11 @@ class UserProfileController extends Controller
         : $defaultImage;
 
     $formattedProfile = [
-        'name' => $profile->name, 
+        'name' => $user->username, 
         'Image' => $imageUrl, 
         'gender' => $profile->gender ?? 'Unknown', 
         'age' => $age, 
-        'username' => $profile->name, 
+        'username' => $user->username, 
         'height' => $profile->height ?? 0, 
         'weight' => $profile->weight ?? 0, 
         'goal' => $profile->fitness_goal ?? 'Unknown', 
