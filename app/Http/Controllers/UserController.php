@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
+use App\Models\NutritionistProfile;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
@@ -78,5 +80,33 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['message'=> 'User Account Deleted.'], 200);
+    }
+
+      /**
+     * Get Nutritionist Profile by User ID.
+     */
+    public function getNutritionistProfile($user_id)
+    {
+        $nutritionistProfile = NutritionistProfile::where('user_id', $user_id)->first();
+
+        if ($nutritionistProfile) {
+            return response()->json($nutritionistProfile);
+        }
+
+        return response()->json(['message' => 'Nutritionist profile not found.'], 404);
+    }
+
+    /**
+     * Get User Profile by User ID.
+     */
+    public function getUserProfile($user_id)
+    {
+        $userProfile = UserProfile::where('user_id', $user_id)->first();
+
+        if ($userProfile) {
+            return response()->json($userProfile);
+        }
+
+        return response()->json(['message' => 'User profile not found.'], 404);
     }
 }

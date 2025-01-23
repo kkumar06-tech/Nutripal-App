@@ -41,7 +41,7 @@ class NutritionistProfileTableSeeder extends Seeder
             'certificate_image' => 'images/certificates/certificate2.jpg',
             'profile_image' => 'expert_images/expert1.jpg',
             'bio_description' => 'Expert in managing weight loss and healthy eating habits.',
-            'rating' => 4.8, 
+            'rating' => 3.8, 
             'total_ratings' => 200,
         ]);
     }

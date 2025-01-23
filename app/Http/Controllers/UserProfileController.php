@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\UserStat;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class UserProfileController extends Controller
 {
@@ -58,14 +59,14 @@ class UserProfileController extends Controller
 //used in nutritionist showing patient daily progress
 
     public function getProfile($id)
-{
+    {
     $profile = UserProfile::where('id', $id)->first();
     if (!$profile) {
         return response()->json(['error' => 'Profile not found'], 404);
     }
 
-$uid=$profile->user_id;
-$user=User::where('id',$uid)->first();
+    $uid=$profile->user_id;
+    $user=User::where('id',$uid)->first();
     $userStat = UserStat::where('user_id', $id)
         ->where('date', Carbon::today())
         ->first();
@@ -73,7 +74,7 @@ $user=User::where('id',$uid)->first();
     $dateOfBirth = $profile->date_of_birth ?? '1970-01-01';
     $age = \Carbon\Carbon::parse($dateOfBirth)->age;
 
-    $defaultImage = asset('storage/default_images/default.jpg');
+    $defaultImage = asset('default_images/default.jpg');
     $imageUrl = $profile->profile_image 
         ? asset($profile->profile_image) 
         : $defaultImage;
@@ -250,20 +251,28 @@ $user=User::where('id',$uid)->first();
             'profile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048']
         ]);
 
-        if ($request->hasFile('profile_image')) {
-            $profileImagePath = $request->file('profile_image')->store('profile_images', 'public');
-            $profile->profile_image = $profileImagePath; 
-        }
-
         $profile = UserProfile::findOrFail($id);
-        
+
         if ($profile->user_id !== Auth::id()) {
             return response()->json(['message' => 'You cannot update another user\'s profile.'], 403);
         }
 
+        if ($request->hasFile('profile_image')) {
+            $profileImagePath = $request->file('profile_image')->store('user_images', 'public');
+    
+            if ($profile->profile_image && $profile->profile_image !== 'default_images/default.png') {
+                \Storage::disk('public')->delete($profile->profile_image);
+            }
+    
+            $incomingFields['profile_image'] = $profileImagePath;
+        }
+
         $profile->update($incomingFields);
 
-        return response()->json($profile);
+        return response()->json([
+            'message' => 'Profile updated successfully.',
+            'profile' => $profile,
+        ]);
     }
 
     /**
@@ -285,4 +294,6 @@ $user=User::where('id',$uid)->first();
 
         return response()->json($profile);
     }
+
+
 }

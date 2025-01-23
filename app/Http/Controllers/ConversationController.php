@@ -93,11 +93,9 @@ public function store(Request $request)
    
     public function getConversationByUserAndNutritionist($userId, $nutritionistId)
     {
-        // First, validate if the user and nutritionist exist
         $user = UserProfile::where('user_id', $userId)->first();
         $nutritionist = NutritionistProfile::find($nutritionistId);
 
-        // Check if both user and nutritionist exist
         if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
         }
@@ -106,13 +104,12 @@ public function store(Request $request)
             return response()->json(['message' => 'Nutritionist not found'], 404);
         }
 
-        // Try to fetch the conversation
+      
         $conversation = Conversation::with(['nutritionist', 'userProfile'])
             ->where('user_profile_id', $user->id)
             ->where('nutritionist_id', $nutritionistId)
             ->first();
 
-        // If no conversation found, create a new one
         if (!$conversation) {
             try {
                 $conversation = Conversation::create([
@@ -120,13 +117,11 @@ public function store(Request $request)
                     'nutritionist_id' => $nutritionistId,
                 ]);
             } catch (\Exception $e) {
-                // Log error and return an appropriate response
                 \Log::error("Failed to create conversation: " . $e->getMessage());
                 return response()->json(['message' => 'Error creating conversation'], 500);
             }
         }
 
-        // Return the conversation data
         return response()->json($conversation);
     }
 
