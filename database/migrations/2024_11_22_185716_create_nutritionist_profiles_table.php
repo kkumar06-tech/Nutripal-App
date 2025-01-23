@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('certificate_image');
             $table->string('profile_image')->nullable();
             $table->text('bio_description')->nullable();
+
+            $table->decimal('rating', 2, 1)->default(0.0); 
+            $table->integer('total_ratings')->default(0);
             
             $table->timestamps();
         });

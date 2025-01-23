@@ -26,13 +26,11 @@ class UserProfileController extends Controller
     public function getUserProfiles(Request $request)
     {
         $userProfileIds = $request->input('user_profile_ids');
-    
         if (empty($userProfileIds)) {
             return response()->json(['message' => 'No user profile IDs provided'], 400);
         }
     
         $userProfiles = UserProfile::whereIn('id', $userProfileIds)->get(); 
-    
         if ($userProfiles->isEmpty()) {
             return response()->json(['message' => 'No user profiles found'], 404);
         }
@@ -60,43 +58,42 @@ class UserProfileController extends Controller
 //used in nutritionist showing patient daily progress
 
     public function getProfile($id)
-    {
-        $profile = UserProfile::where('id', $id)->firstOrFail();
-      
-        $userStat = UserStat::where('user_id', $id)
+{
+    $profile = UserProfile::where('id', $id)->first();
+
+    if (!$profile) {
+        return response()->json(['error' => 'Profile not found'], 404);
+    }
+
+    $userStat = UserStat::where('user_id', $id)
         ->where('date', Carbon::today())
         ->first();
 
+    $dateOfBirth = $profile->date_of_birth ?? '1970-01-01';
+    $age = \Carbon\Carbon::parse($dateOfBirth)->age;
 
-        $dateOfBirth= $profile->date_of_birth;
-        $age = \Carbon\Carbon::parse($dateOfBirth)->age;
-        
-
-        $defaultImage = asset('storage/default_images/default.jpg'); 
-
-        $imageUrl = $profile->profile_image 
+    $defaultImage = asset('storage/default_images/default.jpg');
+    $imageUrl = $profile->profile_image 
         ? asset($profile->profile_image) 
         : $defaultImage;
 
-        
-        $formattedProfile = [
-            'name' => $profile->name,
-            'Image' => $imageUrl,
-            'gender' => $profile->gender,
-            'age' => $age,
-            'username' => $profile->name,
-            'height' => $profile->height,
-            'weight' => $profile->weight,
-            'goal' => $profile->fitness_goal, // Assuming this maps to 'goal'
-            'totalCaloriesIntake' => $userStat->calories, // Assuming this is the field name
-            'frequency' => $profile->weekly_exercise_frequency, // Assuming this is the field name
-        'goalcal'=>$profile->daily_goal_calories
-        ];
+    $formattedProfile = [
+        'name' => $profile->name, 
+        'Image' => $imageUrl, 
+        'gender' => $profile->gender ?? 'Unknown', 
+        'age' => $age, 
+        'username' => $profile->name, 
+        'height' => $profile->height ?? 0, 
+        'weight' => $profile->weight ?? 0, 
+        'goal' => $profile->fitness_goal ?? 'Unknown', 
+        'totalCaloriesIntake' => $userStat->calories ?? 0, 
+        'frequency' => $profile->weekly_exercise_frequency ?? 0, 
+        'goalcal' => $profile->daily_goal_calories ?? 0, 
+    ];
 
-        return response()->json($formattedProfile); 
-    }
-
-
+    
+    return response()->json($formattedProfile);
+}
 
 
 
@@ -112,8 +109,8 @@ class UserProfileController extends Controller
             'weight' => ['required', 'numeric'],
             'height' => ['required', 'numeric'],
             'gender' => ['required', 'in:male,female,other'],
-            'fitness_goal' => ['required', 'in:maintainance,weight_loss,build_muscle'],
-            'weekly_exercise_frequency' => ['required', 'in:sedentary,highly_active,moderately_active,very_active,lightly_active'],
+            'fitness_goal' => ['required', 'in:maintenance,weight_loss,build_muscle'],
+            'weekly_exercise_frequency' => ['required', 'in:sedentary,lightly_active,moderately_active,very_active,extremely_active'],
             'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
 
@@ -138,6 +135,8 @@ class UserProfileController extends Controller
 
         // Adjust the TDEE based on the fitness goal
         $caloriesRange = $this->calculateCaloriesRange($tdee, $incomingFields['fitness_goal']);
+
+        $caloriesRange = round($caloriesRange, 1);
       
         $profileImage = $incomingFields['profile_image'] ?? null;
 
@@ -165,6 +164,7 @@ class UserProfileController extends Controller
 
         return response()->json(['message' => 'User data saved successfully', 'data' => $userData], 201);
     }
+
 
     private function getActivityFactor($exerciseLevel)
     {

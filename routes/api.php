@@ -21,31 +21,31 @@ use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\NutritionistProfileController;
 
 
-//authentication routes
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+    //authentication routes
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
 
 
-//only logged in/authenticated users can logout
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+    //only logged in/authenticated users can logout
+    Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
-Route::middleware('auth:sanctum')->get('/user', function () {
-    $user = Auth::user(); // Get the currently authenticated user
-    return response()->json($user);
-});
-
-
-//email verification routes
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();  // Mark the email as verified
-    return response()->json(['message' => 'Email verified successfully!']);
-})->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+    Route::middleware('auth:sanctum')->get('/user', function () {
+        $user = Auth::user(); // Get the currently authenticated user
+        return response()->json($user);
+    });
 
 
-Route::post('/email/verify/resend', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();  // Send the verification email
-    return response()->json(['message' => 'Verification email sent.']);
-})->middleware('auth:sanctum');
+    //email verification routes
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();  // Mark the email as verified
+        return response()->json(['message' => 'Email verified successfully!']);
+    })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+
+
+    Route::post('/email/verify/resend', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();  // Send the verification email
+        return response()->json(['message' => 'Verification email sent.']);
+    })->middleware('auth:sanctum');
 
 
 

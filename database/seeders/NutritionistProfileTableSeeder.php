@@ -19,6 +19,8 @@ class NutritionistProfileTableSeeder extends Seeder
             'certificate_image' => 'images/certificates/certificate1.jpg',
             'profile_image' => 'expert_images/expert3.jpg',
             'bio_description' => 'Experienced nutritionist specializing in diet planning and fitness.',
+            'rating' => 4.5, 
+            'total_ratings' => 100, 
         ]);
 
         NutritionistProfile::create([
@@ -28,6 +30,8 @@ class NutritionistProfileTableSeeder extends Seeder
             'certificate_image' => 'images/certificates/certificate1.jpg',
             'profile_image' => 'expert_images/expert2.jpg',
             'bio_description' => 'Experienced nutritionist specializing in diet planning and fitness.',
+            'rating' => 4.3, 
+            'total_ratings' => 85,
         ]);
         
         NutritionistProfile::create([
@@ -37,6 +41,8 @@ class NutritionistProfileTableSeeder extends Seeder
             'certificate_image' => 'images/certificates/certificate2.jpg',
             'profile_image' => 'expert_images/expert1.jpg',
             'bio_description' => 'Expert in managing weight loss and healthy eating habits.',
+            'rating' => 4.8, 
+            'total_ratings' => 200,
         ]);
     }
 }
