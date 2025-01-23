@@ -21,44 +21,44 @@ class FoodController extends Controller
      * Store a newly created food in the database.
      */
     public function store(Request $request)
-    {
-        // Validation
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'meal_type'=>['required','in:Breakfast,Lunch,Snack,Dinner'],
-            'calories' => 'required|integer',
-            'protein' => 'required|integer',
-            'carbs' => 'required|integer',
-            'fat' => 'required|integer',
-            'portion' => 'required|integer',
-            'food_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
-            'cuisine_type' => 'nullable|string|max:255',        
-            'cooking_time' => 'nullable|integer',        
-            'dietary_preferences' => 'nullable|string|max:255',
-        ]);
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'meal_type' => ['required', 'in:Breakfast,Lunch,Snack,Dinner'],
+        'calories' => 'required|integer',
+        'protein' => 'required|integer',
+        'carbs' => 'required|integer',
+        'fat' => 'required|integer',
+        'portion' => 'required|array', // Validate as an array
+        'portion.*' => 'integer', // Each portion value must be an integer
+        'food_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+        'cuisine_type' => 'nullable|string|max:255',
+        'cooking_time' => 'nullable|integer',
+        'dietary_preferences' => 'nullable|array', // Validate as an array
+        'dietary_preferences.*' => 'string|max:255', // Each preference must be a string
+    ]);
 
-        try {
-
-            if ($request->hasFile('food_image')) {
-
-                if ($food->food_image) {
-                    Storage::disk('public')->delete($food->food_image);
-                }
-                
-                $validated['food_image'] = $request->file('food_image')->store('food_images', 'public');
-            }
-
-            // Create a new food item
-            $food = Food::create($validated);
-    
-            return response()->json($food, 201);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Unable to create food item'], 500);
+    try {
+        if ($request->hasFile('food_image')) {
+            $validated['food_image'] = $request->file('food_image')->store('food_images', 'public');
         }
-    }
 
-    /**
-     * Display the specified food.
+        $validated['portion'] = json_encode($validated['portion']);
+        $validated['dietary_preferences'] = isset($validated['dietary_preferences'])
+            ? json_encode($validated['dietary_preferences'])
+            : null;
+
+        // Create a new food item
+        $food = Food::create($validated);
+
+        return response()->json($food, 201);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Unable to create food item', 'message' => $e->getMessage()], 500);
+    }
+}
+
+    /*
+      Display the specified food.
      */
     public function show($id)
     {
@@ -67,32 +67,49 @@ class FoodController extends Controller
         return response()->json($food);
     }
 
-    /**
-     * Update the specified food in the database.
+    /*
+      Update the specified food in the database.
      */
     public function update(Request $request, $id)
     {
-        $food = Food::findOrFail($id); // Find the food by id or fail if not found
+        $food = Food::findOrFail($id);
 
-       /* 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'calories' => 'required|integer',
-            'protein' => 'required|integer',
-            'carbs' => 'required|integer',
-            'fat' => 'required|integer',
-            'portion' => 'required|integer',
-        ]);*/
+    $validated = $request->validate([
+        'name' => 'sometimes|required|string|max:255',
+        'meal_type' => ['sometimes', 'required', 'in:Breakfast,Lunch,Snack,Dinner'],
+        'calories' => 'sometimes|required|integer',
+        'protein' => 'sometimes|required|integer',
+        'carbs' => 'sometimes|required|integer',
+        'fat' => 'sometimes|required|integer',
+        'portion' => 'sometimes|required|array', 
+        'portion.*' => 'integer', // Each portion value must be an integer
+        'food_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+        'cuisine_type' => 'nullable|string|max:255',
+        'cooking_time' => 'nullable|integer',
+        'dietary_preferences' => 'nullable|array',
+        'dietary_preferences.*' => 'string|max:255', 
+    ]);
 
+    try {
+        if ($request->hasFile('food_image')) {
+            if ($food->food_image) {
+                Storage::disk('public')->delete($food->food_image);
+            }
 
-        $food->update($request->all());
+            $validated['food_image'] = $request->file('food_image')->store('food_images', 'public');
+        }
+
+        $food->update($validated);
 
         return response()->json($food);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Unable to update food item'], 500);
+    }
     }
 
-    /**
-     * Remove the specified food from the database.
-     */
+    /*
+      Remove the specified food from the database.
+    */
     public function destroy($id)
     {
         $food = Food::findOrFail($id); 

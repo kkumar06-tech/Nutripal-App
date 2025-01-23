@@ -13,8 +13,8 @@ use Illuminate\Http\Request;
 
 class FoodLogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+    /*
+      return all foodlogs
      */
     public function index()
     {
@@ -24,9 +24,10 @@ class FoodLogController extends Controller
         return response()->json($foodLogs);
     }
 
-    /**
-     * Store a newly created food log in storage.
+    /*
+      Store a newly created food log in storage and update the userStat
      */
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -119,7 +120,7 @@ class FoodLogController extends Controller
     }
 
 
-
+//show all the foodlogs acc to a particular user using (user_id)
     public function show($user_id)
     {
         $userProfile = UserProfile::where('user_id', $user_id)->first();
@@ -139,7 +140,7 @@ class FoodLogController extends Controller
 
 
     /**
-     * Update the specified food log in storage.
+     * Update the specified food log in storage. (not very used as each foodlog is different)
      */
     public function update(Request $request, $id)
     {

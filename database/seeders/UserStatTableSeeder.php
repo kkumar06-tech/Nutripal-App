@@ -29,20 +29,20 @@ class UserStatTableSeeder extends Seeder
         UserStat::create([
             'user_id' => 4,
             'date' => Carbon::now()->subDays(1)->format('Y-m-d'), // Yesterday
-            'calories' => 30,
-            'protein' => 54,
-            'fat' => 56,
-            'carbs' => 13,
+            'calories' => 165,
+            'protein' => 31,
+            'fat' => 30,
+            'carbs' => 3,
             'liquid_intake' => 2000,
         ]);
 
         UserStat::create([
             'user_id' => 4,
             'date' => Carbon::now()->subDays(2)->format('Y-m-d'), // 2 days ago
-            'calories' => 34,
-            'protein' => 32,
-            'fat' => 53,
-            'carbs' => 55,
+            'calories' => 23,
+            'protein' => 3,
+            'fat' => 40,
+            'carbs' => 2,
             'liquid_intake' => 1800,
         ]);
 

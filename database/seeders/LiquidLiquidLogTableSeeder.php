@@ -21,10 +21,10 @@ class LiquidLiquidLogTableSeeder extends Seeder
         // Find liquid log by user_profile_id (this is what ties it to the user)
         $liquidLog1 = LiquidLog::where('user_profile_id', 1)->first();  // Find log for user 1
         $liquidLog2 = LiquidLog::where('user_profile_id', 2)->first();  // Find log for user 2
-        $liquidLog3 = LiquidLog::where('user_profile_id', 4)->first();  // Find log for user 2
+        $liquidLog3 = LiquidLog::where('user_profile_id', 4)->where('date', '2025-01-20')->first();  // Find log for user 2
 
-        $liquidLog4 = LiquidLog::where('user_profile_id', 4)->where('date', '2025-01-20')->first();
-        $liquidLog5 = LiquidLog::where('user_profile_id', 4)->where('date', '2025-01-29')->first();
+        $liquidLog4 = LiquidLog::where('user_profile_id', 4)->where('date', '2025-01-21')->first();
+        $liquidLog5 = LiquidLog::where('user_profile_id', 4)->where('date', '2025-01-22')->first();
       
 
 

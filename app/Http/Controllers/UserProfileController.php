@@ -19,6 +19,10 @@ class UserProfileController extends Controller
 
     }
 
+
+    //return the userprofiles according to an array of ids provided in request
+    //used in nutritionist section for patient page
+
     public function getUserProfiles(Request $request)
     {
         $userProfileIds = $request->input('user_profile_ids');
@@ -52,6 +56,8 @@ class UserProfileController extends Controller
     }
 
 
+//get the userprofile using the (userProfile id)
+//used in nutritionist showing patient daily progress
 
     public function getProfile($id)
     {
@@ -95,7 +101,7 @@ class UserProfileController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created userProfile and calculate the GOAL CALORIES and GOAL LIQUID intake acc to QUIZ DATA
      */
     public function store(Request $request)
     {
@@ -188,7 +194,7 @@ class UserProfileController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     *
      */
     public function show(string $userId)
     {
@@ -271,6 +277,7 @@ class UserProfileController extends Controller
         return response()->noContent(); 
     }
 
+    //get userProfile using (userProfileId)
     public function getUserProfileById($id)
     {
         $profile = UserProfile::where('id', $id)->firstOrFail();

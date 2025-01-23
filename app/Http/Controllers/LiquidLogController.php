@@ -17,13 +17,12 @@ class LiquidLogController extends Controller
     {
 
 
-        // Fetch liquid logs with their related liquids and user profile
         $liquidLogs = LiquidLog::with('liquids', 'userProfile')->get();
         return response()->json($liquidLogs);
     }
 
-    /**
-     * Store a newly created liquid log in storage.
+    /*
+      Store a newly created liquid log in storage. and also update the userStat
      */
     public function store(Request $request)
     {
@@ -77,6 +76,7 @@ class LiquidLogController extends Controller
         return response()->json(['message' => 'Liquid log created successfully.', 'data' => $liquidLog]);
     }
     
+// return all the food logs according to (user_id)
 
     public function show($user_id)
     {
@@ -126,7 +126,7 @@ class LiquidLogController extends Controller
     }
 
     /**
-     * Remove the specified liquid log.
+     * Remove the specified liquid log and update userStat
      */
     public function destroy($id)
     {

@@ -8,8 +8,8 @@ use Carbon\Carbon;
 
 class UserStatController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+    /*
+      Display a listing of the resource.
      */
     public function index()
     {
@@ -17,9 +17,10 @@ class UserStatController extends Controller
         return response()->json($userStats, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
+    /*
+     find userprofile and make userstat 
      */
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -49,9 +50,11 @@ class UserStatController extends Controller
         return response()->json($userStat, 201);
     }
 
-    /**
-     * Display the specified resource.
+    /*
+      find userprofile using user_id and show today's userstat
+     if not exist create one
      */
+
     public function show( $userId)
     {
          $userProfile = UserProfile::where('user_id', $userId)->first();
@@ -82,6 +85,8 @@ class UserStatController extends Controller
         return response()->json($userStat, 200);
     }
 
+
+    //get user stat according to particular date
 
     public function getstatbydate( $userId,$date)
     {
@@ -119,8 +124,8 @@ class UserStatController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
+    /*
+      Update the userstat.
      */
     public function update(Request $request, int $id)
     {
@@ -141,10 +146,11 @@ class UserStatController extends Controller
         return response()->json($userStat, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
+    /*
+     Remove the specified userstat entry.
      */
-    public function destroy(int $id)
+    
+     public function destroy(int $id)
     {
         $userStat = UserStat::findOrFail($id);
 
@@ -153,6 +159,7 @@ class UserStatController extends Controller
         return response()->json(['message' => 'UserStat deleted successfully'], 200);
     }
     
+//return all the userstat particular to a user using (user_id)
 
     public function allstats($id) {
         $userProfile = UserProfile::where('user_id', $id)->first();

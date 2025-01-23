@@ -27,7 +27,7 @@ class FoodFoodLogTableSeeder extends Seeder
         $foodLog3 = FoodLog::where('user_profile_id', 3)->first();  // Find log for user 2
         $foodLog4 = FoodLog::where('user_profile_id', 4)->where('date', '2025-01-21')->first();
          $foodLog5 = FoodLog::where('user_profile_id', 4)->where('date', '2025-01-20')->first();
-            $foodLog6 = FoodLog::where('user_profile_id', 4)->where('date', '2025-01-19')->first();
+            $foodLog6 = FoodLog::where('user_profile_id', 4)->where('date', '2025-01-22')->first();
     
 
         
