@@ -77,26 +77,80 @@ To set up the backend locally, follow these steps:
    php artisan serve
    ```
 
+
+## Directory Structure
+
+- **Controllers/**: Helps to set the api for the Databank.
+- **Models/**: Files defining the relation between diffrent tables of Database.
+- **Migrations/**:Files that generate Tables and define the Schema  .
+- **Seeders/**:Contain the preloaded examples for the Database .
+- **Tests**: Contains the test cases for the Controller in our case (Food Controller).
+
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `php artisan serve`
+
+Runs the app in the development mode.
+
+- Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+
+### `php artisan test`
+
+Launches the tests in terminal.
+
+The test file is located in `Test -> Feature -> FoodControllerTest.php `.
+
+In-built Test runner , dont require any dependencies. 
+
+
+
+## Dependencies Check
+
+If the app encounters errors during runtime, verify that all required dependencies are installed. Here is the list of dependencies used in this project:
+
+```json
+"dependencies": {
+ 
+   "require": {
+   "php": "^8.2",
+    "laravel/framework": "^11.31",
+    "laravel/sanctum": "^4.0",
+    "laravel/tinker": "^2.9",
+    "laravel/ui": "^4.6"
+    },
+    "require-dev": {
+     "fakerphp/faker": "^1.23",
+     "laravel/pail": "^1.1",
+     "laravel/pint": "^1.13",
+     "laravel/sail": "^1.26",
+     "mockery/mockery": "^1.6",
+     "nunomaduro/collision": "^8.1",
+     "phpunit/phpunit": "^11.0.1"
+    },
+    
+
+}
+```
+
+To install missing dependencies, use the following commands:
+
+```bash
+php artisan install <dependency_name>
+```
+
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via taylor@laravel.com. All security vulnerabilities will be promptly addressed.
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the Laravel documentation.
-
-## Code of Conduct
-
-To ensure that the Laravel community is welcoming to all, please review and abide by the Code of Conduct.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the MIT license.
 
 ## Contributors
 
 - **Marija Voloder** – Developer/Student
 - **Thi Thanh Truc Trinh** – Developer/Student
 - **Keshav** – Developer/Student
-- **Andreij Bachmann** – Academic Guidance
+- **Andrej Bachmann** – Academic Guidance
 

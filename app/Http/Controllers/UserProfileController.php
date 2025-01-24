@@ -234,19 +234,23 @@ class UserProfileController extends Controller
 
     }
 
-    /**
+     /**
      * Update the specified resource in storage.
      */
+
     public function update(Request $request, $id)
     {
-        $incomingFields = $request->validate([
-            'name' => ['nullable', 'string', 'max:255'],
+        \Log::info('Incoming request data:', $request->all());
+     \Log::info('Uploaded files:', $request->files->all());
+       
+     $incomingFields = $request->validate([
+           'name' => ['nullable', 'string', 'max:255'],
             'date_of_birth' => ['nullable', 'date'],
             'weight' => ['nullable', 'numeric'],
             'height' => ['nullable', 'numeric'],
             'gender' => ['nullable', 'in:male,female,other'],
             'fitness_goal' => ['nullable', 'in:maintenance,weight_loss,build_muscle'],
-            'weekly_exercise_frequency' => ['in:sedentary,highly_active,moderately_active,very_active,lightly_active'],
+            'weekly_exercise_frequency' => ['nullable','in:sedentary,highly_active,moderately_active,very_active,lightly_active'],
             'daily_goal_ml' => ['nullable', 'integer'],
             'daily_goal_calories' => ['nullable', 'integer'],
             'profile_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
