@@ -37,7 +37,7 @@ class UserProfileController extends Controller
             return response()->json(['message' => 'No user profiles found'], 404);
         }
     
-        $defaultImage = asset('storage/default_images/default.jpg'); 
+        $defaultImage = asset('default_images/default.png'); 
 
         $formattedProfiles = $userProfiles->map(function ($profile) use ($defaultImage) {
             $imageUrl = $profile->profile_image 
@@ -75,7 +75,7 @@ class UserProfileController extends Controller
     $dateOfBirth = $profile->date_of_birth ?? '1970-01-01';
     $age = \Carbon\Carbon::parse($dateOfBirth)->age;
 
-    $defaultImage = asset('default_images/default.jpg');
+    $defaultImage = asset('default_images/default.png');
     $imageUrl = $profile->profile_image 
         ? asset($profile->profile_image) 
         : $defaultImage;
@@ -144,7 +144,7 @@ class UserProfileController extends Controller
         $profileImage = $incomingFields['profile_image'] ?? null;
 
         if (!$profileImage) {
-            $profileImage = 'default_images/default.jpg'; 
+            $profileImage = 'default_images/default.png'; 
         } else {
             $profileImagePath = $request->file('profile_image')->store('profile_images', 'public');
         }
@@ -204,7 +204,7 @@ class UserProfileController extends Controller
         $profile = UserProfile::where('user_id', $userId)->firstOrFail();
 
 
-        $defaultImage = asset('storage/default_images/default.jpg'); 
+        $defaultImage = asset('default_images/default.png'); 
 
         $imageUrl = $profile->profile_image 
             ? asset($profile->profile_image) 
