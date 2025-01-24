@@ -8,6 +8,7 @@ use App\Models\UserStat;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserProfileController extends Controller
 {
@@ -236,7 +237,7 @@ class UserProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $incomingFields = $request->validate([
             'name' => ['nullable', 'string', 'max:255'],
@@ -248,23 +249,27 @@ class UserProfileController extends Controller
             'weekly_exercise_frequency' => ['in:sedentary,highly_active,moderately_active,very_active,lightly_active'],
             'daily_goal_ml' => ['nullable', 'integer'],
             'daily_goal_calories' => ['nullable', 'integer'],
-            'profile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048']
+            'profile_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
 
         $profile = UserProfile::findOrFail($id);
 
-        if ($profile->user_id !== Auth::id()) {
-            return response()->json(['message' => 'You cannot update another user\'s profile.'], 403);
-        }
+     
 
         if ($request->hasFile('profile_image')) {
+            \Log::info('Profile image uploaded: ' . $request->file('profile_image')->getClientOriginalName());
             $profileImagePath = $request->file('profile_image')->store('user_images', 'public');
-    
-            if ($profile->profile_image && $profile->profile_image !== 'default_images/default.png') {
-                \Storage::disk('public')->delete($profile->profile_image);
+      \Log::info('File stored at: ' . $profileImagePath);
+          if ($profile->profile_image && $profile->profile_image !== 'default_images/default.png') {
+          
+           \Storage::disk('public')->delete($profile->profile_image);
             }
     
             $incomingFields['profile_image'] = $profileImagePath;
+        }
+        else {
+            
+            \Log::info('No profile image file in the request.');
         }
 
         $profile->update($incomingFields);
